@@ -1,4 +1,4 @@
-import type { WitchGirl } from "@pixi/objects/WitchGirl";
+import type { WitchGirl } from "~pixi/objects/WitchGirl";
 
 export function walkGirlTo(
   girl: WitchGirl,

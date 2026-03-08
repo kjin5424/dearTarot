@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
-import { BaseScene } from "@pixi/scenes/BaseScene";
-import { ForestBackground } from "@pixi/objects/ForestBackground";
-import { WitchGirl } from "@pixi/objects/WitchGirl";
-import type { Camera } from "@pixi/Camera";
+import { BaseScene } from "~pixi/scenes/BaseScene";
+import { ForestBackground } from "~pixi/objects/ForestBackground";
+import { WitchGirl } from "~pixi/objects/WitchGirl";
+import type { Camera } from "~pixi/Camera";
 
 export class KarmaScene extends BaseScene {
   constructor(private camera: Camera) {

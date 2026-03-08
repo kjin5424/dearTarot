@@ -1,7 +1,7 @@
-import { BaseScene } from "@pixi/scenes/BaseScene";
-import { ForestBackground } from "@pixi/objects/ForestBackground";
-import { WitchGirl } from "@pixi/objects/WitchGirl";
-import type { Camera } from "@pixi/Camera";
+import { BaseScene } from "~pixi/scenes/BaseScene";
+import { ForestBackground } from "~pixi/objects/ForestBackground";
+import { WitchGirl } from "~pixi/objects/WitchGirl";
+import type { Camera } from "~pixi/Camera";
 
 export class QuestionInputScene extends BaseScene {
   constructor(private camera: Camera) {

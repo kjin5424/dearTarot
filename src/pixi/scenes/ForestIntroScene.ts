@@ -1,7 +1,7 @@
-import { BaseScene } from "@pixi/scenes/BaseScene";
-import { ForestBackground } from "@pixi/objects/ForestBackground";
-import { panCamera } from "@pixi/animations/cameraAnimation";
-import type { Camera } from "@pixi/Camera";
+import { BaseScene } from "~pixi/scenes/BaseScene";
+import { ForestBackground } from "~pixi/objects/ForestBackground";
+import { panCamera } from "~pixi/animations/cameraAnimation";
+import type { Camera } from "~pixi/Camera";
 import { useTarotStore } from "@stores/useTarotStore";
 
 function wait(ms: number) {

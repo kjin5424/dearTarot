@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { gsap } from "gsap";
-import { WitchGirl } from "@pixi/objects/WitchGirl";
+import { WitchGirl } from "~pixi/objects/WitchGirl";
 
 const GIRL_COUNT = 8;
 const RADIUS = 70;

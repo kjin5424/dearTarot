@@ -1,8 +1,8 @@
-import { BaseScene } from "@pixi/scenes/BaseScene";
-import { ForestBackground } from "@pixi/objects/ForestBackground";
-import { WitchCircle } from "@pixi/objects/WitchCircle";
-import { WitchGirl } from "@pixi/objects/WitchGirl";
-import type { Camera } from "@pixi/Camera";
+import { BaseScene } from "~pixi/scenes/BaseScene";
+import { ForestBackground } from "~pixi/objects/ForestBackground";
+import { WitchCircle } from "~pixi/objects/WitchCircle";
+import { WitchGirl } from "~pixi/objects/WitchGirl";
+import type { Camera } from "~pixi/Camera";
 
 export class SpreadQuizScene extends BaseScene {
   constructor(private camera: Camera) {

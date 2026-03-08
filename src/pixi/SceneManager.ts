@@ -1,8 +1,8 @@
 import * as PIXI from "pixi.js";
 import { watch, type Ref } from "vue";
 import type { SceneName } from "@types/index";
-import type { BaseScene } from "@pixi/scenes/BaseScene";
-import { Camera } from "@pixi/Camera";
+import type { BaseScene } from "~pixi/scenes/BaseScene";
+import { Camera } from "~pixi/Camera";
 
 type SceneFactory = () => BaseScene;
 

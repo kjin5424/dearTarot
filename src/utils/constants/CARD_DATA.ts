@@ -1,4 +1,5 @@
 // cards_ko.json, cards_en.json
+// 구버전, 단, 도입할 부분은 도입할 것.
 const CARD_DATA = {
   version: "1.0.0",
   last_updated: "2026-03-06",

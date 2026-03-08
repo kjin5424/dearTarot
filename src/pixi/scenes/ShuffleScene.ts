@@ -1,8 +1,8 @@
-import { BaseScene } from "@pixi/scenes/BaseScene";
-import { ForestBackground } from "@pixi/objects/ForestBackground";
-import { CardDeck } from "@pixi/objects/CardDeck";
-import { runShuffleSequence } from "@pixi/animations/shuffleAnimation";
-import type { Camera } from "@pixi/Camera";
+import { BaseScene } from "~pixi/scenes/BaseScene";
+import { ForestBackground } from "~pixi/objects/ForestBackground";
+import { CardDeck } from "~pixi/objects/CardDeck";
+import { runShuffleSequence } from "~pixi/animations/shuffleAnimation";
+import type { Camera } from "~pixi/Camera";
 import { useTarotStore } from "@stores/useTarotStore";
 
 function wait(ms: number) {
