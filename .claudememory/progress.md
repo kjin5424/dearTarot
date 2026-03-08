@@ -1,24 +1,31 @@
 # Progress (현재 진행 상황)
 
-## 현재 단계: Phase 0 — 문서 정리 및 기반 설계
+## 현재 단계: Phase 2 — 핵심 시스템 구현
 
 ### 완료 (2026-03-09)
 
-- [x] CLAUDE.md 워크플로우 전략 수립 (섹션 0~4)
+- [x] CLAUDE.md 워크플로우 전략 수립 (섹션 0~4, 5~7)
 - [x] .claudememory/ 컨텍스트 문서 작성 (productContext, projectBrief, systemPatterns, techContext)
 - [x] 컬러 테마 정의 (`_color-theme.scss` — 5개 그룹)
-- [x] CLAUDE.md 섹션 5(Design Principles), 6(Constraints), 7(Business Logic) 보충
 - [x] 상세 내러티브 플로우 문서화 (productContext.md)
 - [x] progress.md / todo.md / MILESTONES.md 생성
+- [x] Phase 1: pixi.js/gsap/howler/sass 설치 확인, @types/howler 추가
+- [x] Phase 1: vite.config.ts path alias 9개 + scss additionalData 설정
+- [x] Phase 1: tsconfig.app.json baseUrl/paths 등록
+- [x] Phase 1: main.ts Pinia 플러그인 등록
+- [x] Phase 1: App.vue canvas + vue-overlay 이중 레이어 구조
+- [x] CLAUDE.md 3-5 MILESTONES 작성 형식 규칙 추가 (최신순 삽입)
 
 ### 미완료 (다음 세션)
 
-- [ ] Phase 1: 의존성 설치 (pixi.js, gsap, howler, sass)
-- [ ] Phase 1: vite.config.ts 설정 (path alias, svgr)
-- [ ] Phase 1: tsconfig paths 등록
-- [ ] Phase 2: 핵심 시스템 구현 (SceneManager, Camera, BaseScene, PixiApp)
-- [ ] Phase 2: Pinia store (useTarotStore — currentScene 기반)
-- [ ] Phase 3: 씬 구현 (placeholder 에셋 사용)
+- [ ] Phase 2: `src/types/index.ts` — Scene, Card, Spread 타입 정의
+- [ ] Phase 2: `src/stores/useTarotStore.ts` — currentScene 등 앱 상태
+- [ ] Phase 2: `src/pixi/PixiApp.ts` — PIXI.Application 초기화
+- [ ] Phase 2: `src/pixi/scenes/BaseScene.ts` — 추상 씬 클래스
+- [ ] Phase 2: `src/pixi/SceneManager.ts` — 씬 전환 매니저
+- [ ] Phase 2: `src/pixi/Camera.ts` — GSAP 기반 카메라
+- [ ] Phase 2: `src/hooks/ui/usePixiCanvas.ts` — 캔버스 마운트 훅
+- [ ] Phase 2: `src/hooks/ui/useAudio.ts` — Howler.js 오디오 훅
 
 ## 핵심 결정 사항
 
