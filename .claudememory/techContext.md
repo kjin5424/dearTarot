@@ -1,424 +1,268 @@
-# Tech Context
+# techContext.md
 
-## 1. Tech Stack & Versions
+## 기술 스택
 
-### Runtime & Tooling
+### 프레임워크 / 런타임
+| 역할 | 기술 |
+|------|------|
+| UI 프레임워크 | Vue.js 3 (Composition API) |
+| 언어 | TypeScript |
+| 렌더러 | PixiJS v8 |
+| Vue-PixiJS 바인딩 | vue3-pixi (선택적) 또는 직접 통합 |
+| 상태 관리 | Pinia |
+| 빌드 도구 | Vite |
+| 씬 관리 | 직접 구현 (Vue store 기반) |
+| 카메라 | 직접 구현 (PixiJS Container offset) |
+| 오디오 | Howler.js (PixiJS에 오디오 없음) |
+| 애니메이션 | GSAP + PixiJS Ticker |
 
-| 항목            | 버전     |
-| --------------- | -------- |
-| Node.js         | v24.12.0 |
-| Package Manager | npm      |
-| TypeScript      | ^5.9.3   |
-| Vite            | ^7.3.1   |
+---
 
-### Core Dependencies
+## Phaser와의 핵심 차이
 
-| Package          | Version | 용도                               |
-| ---------------- | ------- | ---------------------------------- |
-| react            | ^19.2.3 | UI 라이브러리                      |
-| react-dom        | ^19.2.3 | DOM 렌더링                         |
-| react-router-dom | ^7.11.0 | SPA 라우팅                         |
-| axios            | ^1.13.2 | HTTP 클라이언트                    |
-| nanoid           | ^5.1.6  | 로컬 고유 ID 생성 (서버 없는 단계) |
-| react-modal      | ^3.16.3 | 접근성 모달                        |
+| 항목 | Phaser | PixiJS |
+|------|--------|--------|
+| 성격 | 게임 엔진 (all-in-one) | 렌더러 (렌더링만) |
+| 씬 매니저 | 내장 | 직접 구현 필요 |
+| 카메라 | 내장 | Container 이동으로 구현 |
+| 오디오 | 내장 | Howler.js 별도 사용 |
+| 물리엔진 | 내장 | 없음 (Matter.js 별도) |
+| Vue 통합 | EventBus 필요 | Vue 반응형과 직접 연결 가능 |
+| 주도권 | Phaser가 주도 | Vue가 주도 |
+| 러닝커브 | 높음 | 낮음 (렌더링 API만 학습) |
 
-### Dev Dependencies
+---
 
-| Package              | Version  | 용도                      |
-| -------------------- | -------- | ------------------------- |
-| @vitejs/plugin-react | ^5.1.4   | Vite React 플러그인       |
-| sass                 | ^1.97.3  | SCSS 컴파일러             |
-| vite-plugin-svgr     | ^4.5.0   | SVG → React 컴포넌트 변환 |
-| @types/react         | ^19.2.14 | React 타입 정의           |
+## 레이어 구조
 
-### 스크립트
+```
+┌──────────────────────────────────────────┐
+│          Vue.js (DOM Layer)              │
+│  입력창 / 모달 / AI패널 / 버튼 / 대화창   │
+├──────────────────────────────────────────┤
+│         PixiJS (Canvas Layer)            │
+│  배경 / 캐릭터 / 카드 / 파티클 / 이펙트   │
+└──────────────────────────────────────────┘
+```
 
-```sh
-npm run dev      # Vite 개발 서버 (HMR)
-npm run build    # 프로덕션 빌드
-npm run preview  # 빌드 결과 미리보기
+- PixiJS Application이 `<canvas>`를 소유
+- Vue는 canvas 위에 `position: absolute`로 HTML overlay
+- **Vue가 씬 상태를 소유** → PixiJS는 현재 씬 상태를 받아 렌더링만 수행
+- Phaser 버전과 달리 EventBus 없이 Vue의 반응형 상태를 PixiJS가 직접 구독 가능
+
+---
+
+## 통신 방식: Vue 반응형 직접 연동
+
+PixiJS 버전에서는 Phaser처럼 별도 EventBus가 필수가 아니다.
+Vue의 `watch` / `ref`를 PixiJS 렌더 루프에서 직접 참조할 수 있다.
+
+```typescript
+// pixi/PixiApp.ts 내부
+import { watch } from 'vue'
+import { useTarotStore } from '@/stores/useTarotStore'
+
+const store = useTarotStore()
+
+// Vue 상태 변화를 PixiJS가 직접 감지
+watch(() => store.currentScene, (newScene) => {
+  sceneManager.transitionTo(newScene)
+})
+```
+
+단, PixiJS → Vue 방향 알림은 여전히 EventBus 또는 store action 호출로 처리.
+
+---
+
+## 폴더 구조
+
+```
+src/
+├─ App.vue                        ← PixiJS 캔버스 마운트 + Vue UI overlay
+├─ main.ts
+├─ style.css
+│
+├─ pixi/                          ← PixiJS 전담 폴더 (game/ 대신 pixi/)
+│  ├─ PixiApp.ts                  ← PIXI.Application 인스턴스 생성 및 초기화
+│  ├─ SceneManager.ts             ← 씬 전환 직접 구현 (Phaser Scene 대체)
+│  ├─ Camera.ts                   ← Container 기반 카메라 이동 직접 구현
+│  │
+│  ├─ scenes/                     ← PixiJS 씬 클래스 (PIXI.Container 상속)
+│  │  ├─ BaseScene.ts             ← 모든 씬의 추상 베이스 클래스
+│  │  ├─ ForestIntroScene.ts
+│  │  ├─ WitchCircleScene.ts
+│  │  ├─ WitchApproachScene.ts
+│  │  ├─ ShuffleScene.ts
+│  │  ├─ DrawScene.ts
+│  │  └─ ReturnScene.ts
+│  │
+│  ├─ objects/                    ← 재사용 가능한 PixiJS 게임 오브젝트
+│  │  ├─ WitchGirl.ts             ← 소녀 스프라이트 클래스
+│  │  ├─ WitchCircle.ts           ← 원형 집회 그룹
+│  │  ├─ ForestBackground.ts      ← parallax 배경 레이어
+│  │  ├─ CardSprite.ts            ← 타로 카드 스프라이트
+│  │  └─ CardDeck.ts              ← 카드 덱 (셔플/펼치기)
+│  │
+│  ├─ animations/                 ← GSAP / PixiJS Ticker 애니메이션
+│  │  ├─ shuffleAnim.ts           ← 카드 셔플 애니메이션
+│  │  ├─ cameraAnim.ts            ← 카메라 이동 애니메이션
+│  │  └─ characterAnim.ts         ← 캐릭터 걷기/말하기 프레임 제어
+│  │
+│  └─ utils/
+│     ├─ pixiLoader.ts            ← 에셋 사전 로딩 관리
+│     └─ pixiHelpers.ts           ← PixiJS 유틸 함수 모음
+│
+├─ components/
+│  ├─ overlays/                   ← Vue UI 오버레이 (canvas 위 렌더링)
+│  │  ├─ QuestionOverlay.vue      ← 질문 입력창
+│  │  ├─ KarmaOverlay.vue         ← 카르마 정화 선택
+│  │  ├─ ReadingOverlay.vue       ← AI 해석 패널 (스트리밍)
+│  │  └─ EthicsModal.vue          ← 윤리 필터 모달
+│  │
+│  ├─ common/
+│  │  ├─ DialogBox.vue            ← 픽셀 말풍선 (Vue 컴포넌트)
+│  │  ├─ PixelButton.vue
+│  │  └─ LoadingSprite.vue
+│  │
+│  └─ tarot/
+│     ├─ SpreadLayout.vue         ← 스프레드 슬롯 배치 (Vue 렌더링)
+│     ├─ InsightPanel.vue         ← AI 해석 스트리밍 출력
+│     ├─ SpreadQuiz.vue           ← 스프레드 결정 질문 UI
+│     ├─ KarmaOptions.vue         ← 카르마 3가지 선택지
+│     └─ QuestionInput.vue        ← 고민 텍스트 입력창
+│
+├─ hooks/
+│  ├─ data/
+│  │  └─ useTarotLogic.ts         ← 핵심 비즈니스 로직
+│  ├─ ui/
+│  │  ├─ useAudio.ts              ← Howler.js 기반 오디오 훅
+│  │  ├─ useSceneTransition.ts    ← SceneManager 연결 훅
+│  │  └─ usePixiCanvas.ts         ← PixiApp 초기화 및 캔버스 마운트 훅
+│  └─ user/
+│     └─ useKarma.ts
+│
+├─ stores/
+│  ├─ useTarotStore.ts            ← currentScene 포함 앱 전체 상태
+│  └─ useUserStore.ts
+│
+├─ services/
+│  ├─ api/
+│  │  ├─ tarotApi.ts              ← Anthropic API 통신
+│  │  └─ karmaApi.ts
+│  └─ local/
+│     └─ localStorage.ts
+│
+├─ types/
+│  └─ tarot.ts
+│
+└─ utils/
+   ├─ constants/
+   │  ├─ tarotData.ts
+   │  └─ prompts.ts
+   └─ helpers/
+      └─ cardHelpers.ts
 ```
 
 ---
 
-## 2. ⚠️ 즉시 수정이 필요한 설정 문제 2건
+## PixiJS 핵심 설정
 
-### 문제 1: TypeScript strict 비활성화
+```typescript
+// pixi/PixiApp.ts
+import * as PIXI from 'pixi.js'
 
-`tsconfig.json`에 `"strict": false` → **반드시 `true`로 변경 필요.**
+export const app = new PIXI.Application()
 
-`strict: true`가 활성화하는 주요 검사:
+await app.init({
+  width: 480,
+  height: 270,
+  resolution: window.devicePixelRatio || 1,
+  autoDensity: true,
+  antialias: false,          // 픽셀아트는 반드시 false
+  backgroundAlpha: 0,        // 배경 투명 (Vue DOM이 보임)
+})
 
-- `strictNullChecks`: `null`/`undefined` 타입 오류 방지 (런타임 크래시 원인 1위 차단)
-- `noImplicitAny`: 암묵적 `any` 허용 차단
-- `strictFunctionTypes`: 콜백 함수 타입 불일치 방지
-
-> **Project→Episode→Page→Cut** 계층처럼 중첩이 깊을수록 타입 오류가 런타임까지 숨어든다. 지금 켜지 않으면 나중에 수십 개 오류를 한꺼번에 수정해야 한다.
-
-**수정 방법:**
-
-```json
-// tsconfig.json
-"strict": true
+// 전역 스케일 모드: nearest (픽셀아트 흐림 방지)
+PIXI.TextureSource.defaultOptions.scaleMode = 'nearest'
 ```
 
-### 문제 2: tsconfig.json에 paths 미등록 (IDE 인식 불가)
+---
 
-`vite.config.ts`는 런타임 별칭을 정의하지만, `tsconfig.json`에 `paths`가 없으면 **TypeScript 컴파일러와 IDE(VS Code)가 별칭을 인식하지 못해 빨간 줄 발생.**
+## 카메라 구현 (PixiJS 방식)
 
-**수정 방법 (vite.config.ts alias와 1:1 대응):**
+```typescript
+// pixi/Camera.ts
+// Phaser camera.pan() 대신 PIXI.Container의 y offset을 GSAP으로 이동
 
-```json
-// tsconfig.json compilerOptions에 추가
-"paths": {
-  "assets/*":     ["assets/*"],
-  "components/*": ["components/*"],
-  "contexts/*":   ["contexts/*"],
-  "hooks/*":      ["hooks/*"],
-  "services/*":   ["services/*"],
-  "types/*":      ["types/*"],
-  "utils/*":      ["utils/*"],
-  "Setting/*":    ["Setting/*"]
+import { gsap } from 'gsap'
+
+export class Camera {
+  private worldContainer: PIXI.Container  // 모든 씬이 이 안에 있음
+
+  moveTo(y: number, duration: number): Promise<void> {
+    return new Promise(resolve => {
+      gsap.to(this.worldContainer, {
+        y: -y,                 // 카메라가 내려가면 월드가 올라감
+        duration,
+        ease: 'power2.inOut',
+        onComplete: resolve,
+      })
+    })
+  }
 }
 ```
 
 ---
 
-## 3. Path Alias 현황
+## 오디오: Howler.js
 
-### vite.config.ts 등록 별칭
+```typescript
+// hooks/ui/useAudio.ts
+import { Howl } from 'howler'
 
-```ts
-alias: {
-  assets:     './src/assets',
-  components: './src/components',
-  contexts:   './src/contexts',
-  hooks:      './src/hooks',
-  services:   './src/services',
-  types:      './src/types',
-  utils:      './src/utils',
-  Setting:    './src/Setting',   // systemPatterns에 미등장 — 용도 확인 필요
+const sounds = {
+  forest:   new Howl({ src: ['/assets/sounds/forest-ambient.mp3'], loop: true }),
+  shuffle:  new Howl({ src: ['/assets/sounds/shuffle.mp3'] }),
+  cardflip: new Howl({ src: ['/assets/sounds/cardflip.mp3'] }),
+  magic:    new Howl({ src: ['/assets/sounds/magic.mp3'] }),
 }
-```
 
-### systemPatterns.md 디렉토리 vs Vite alias 대조
-
-| 디렉토리        | systemPatterns      | vite alias | tsconfig paths |
-| --------------- | ------------------- | ---------- | -------------- |
-| src/assets/     | ✅                  | ✅         | ❌ 미등록      |
-| src/components/ | ✅                  | ✅         | ❌ 미등록      |
-| src/contexts/   | ✅                  | ✅         | ❌ 미등록      |
-| src/hooks/      | ✅                  | ✅         | ❌ 미등록      |
-| src/services/   | ✅                  | ✅         | ❌ 미등록      |
-| src/types/      | ✅                  | ✅         | ❌ 미등록      |
-| src/utils/      | ✅                  | ✅         | ❌ 미등록      |
-| src/config/     | ✅ (axiosConfig.ts) | ❌ 미등록  | ❌ 미등록      |
-| src/locales/    | ✅ (i18n)           | ❌ 미등록  | ❌ 미등록      |
-| src/Setting/    | ❌ 언급 없음        | ✅         | ❌ 미등록      |
-
-> `src/config/`와 `src/locales/`는 systemPatterns 계획에 있으나 vite.config.ts에 미등록. 디렉토리 생성 시 alias 추가 필요.
-
-### ⚠️ vite-plugin-svgr 미등록
-
-`package.json`에 설치되어 있으나 `vite.config.ts`에 import 및 등록 누락.
-SVG를 React 컴포넌트로 사용 시 추가 필요:
-
-```ts
-// vite.config.ts
-import svgr from 'vite-plugin-svgr';
-plugins: [react(), svgr()],
+export function useAudio() {
+  const play = (key: keyof typeof sounds) => sounds[key].play()
+  const stop = (key: keyof typeof sounds) => sounds[key].stop()
+  const fadeIn = (key: keyof typeof sounds) => sounds[key].fade(0, 1, 1500)
+  return { play, stop, fadeIn }
+}
 ```
 
 ---
 
-## 4. Environment Variables (.env 전략)
-
-서버가 없는 현 단계에서도 파일 구조를 미리 잡아둔다.
-
-| 파일              | 용도                  | Git 추적             |
-| ----------------- | --------------------- | -------------------- |
-| `.env`            | 공개 기본값 (팀 공유) | ✅                   |
-| `.env.local`      | 로컬 전용 민감 정보   | ❌ (.gitignore 필수) |
-| `.env.production` | 프로덕션 빌드 주입    | ✅ (값 제외)         |
-
-**Vite 환경 변수 규칙:** 반드시 `VITE_` prefix 필요, 클라이언트 코드에서 `import.meta.env.VITE_*`로 접근.
-
-```sh
-# .env.local 예시 (현재 단계)
-VITE_APP_ENV=development
-VITE_API_BASE_URL=http://localhost:8080/api   # 서버 도입 후 활성화
-```
+## 외부 API
+- **Anthropic API** (`/v1/messages`): 윤리 필터링, 스트리밍 해석
+  - 모델: 미결정 (타로 상수 완성 후 결정)
+  - 호출 방식: 미결정 (백엔드 프록시 vs 클라이언트 직접)
+  - 현재: mock 데이터 사용
+  - 사용처: `filterQuestion()`, `getReading()`
+- **EmailJS** (`@emailjs/browser`): 리딩 결과 이메일 발송
+- **저장소**: localStorage (`services/local/localStorage.ts`)
 
 ---
 
-## 5. Data Normalization
+## 현재 구현 상태 (2026-03-09)
 
-### 설계 원칙
+### 설치된 패키지 (package.json)
+- vue 3, vue-router (미사용), pinia, axios
+- @emailjs/browser, jenesius-vue-modal
+- vite, typescript, vue-tsc, sass 미설치
 
-중첩 구조(nested) 대신 **ID 기반 평탄화(flat)** 로 상태 관리.
-특정 Cut 수정 시 Project 전체가 리렌더링되는 현상 방지.
+### 미설치 (구현 시 필요)
+- pixi.js, gsap, howler (코어 렌더링/애니메이션/오디오)
+- sass (SCSS 컴파일 - _color-theme.scss 사용 위해)
 
-### 핵심 인터페이스 (`src/types/entities.ts`) ✅ 확정
+### 구현된 코드
+- `src/assets/styles/_color-theme.scss` — 5개 컬러 그룹 정의 완료
+- 그 외 소스 코드 없음 (빈 상태)
 
-```ts
-interface BaseEntity {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Project extends BaseEntity {
-  bookshelfId: string;
-  title: string;
-  coverImageAssetId: string | null;
-  isFavorited: boolean;
-  permissions: Record<string, Permission>;
-  settings: ProjectSettings;
-  episodeOrder: string[];
-}
-
-type EpisodeStatus = "draft" | "inProgress" | "done"; // 예정 | 진행중 | 완료
-interface Episode extends BaseEntity {
-  projectId: string;
-  title: string;
-  thumbnailUrl: string | null;
-  status: EpisodeStatus;
-  deadline: string | null;
-  permissions: Record<string, Permission>;
-  settings: EpisodeSettings | null;
-  pageOrder: string[];
-}
-
-interface Page extends BaseEntity {
-  episodeId: string;
-  pageType: "single" | "spread";
-  side: "left" | "right" | null;
-  cutOrder: string[];
-  scriptSnippetOrder: string[];
-}
-
-interface Cut extends BaseEntity {
-  pageId: string;
-  frame: CutFrame;
-  assetId: string | null;
-}
-
-// Memo: Project/Episode/Page/Cut 단독+상세 메모 통합
-// order: Lexosort (DETAIL), 'a0' 고정 (SINGLE)
-// emoji: EPISODE SINGLE, CUT SINGLE 전용
-// parentId: null = CUT SINGLE 미배정 상태
-interface Memo extends BaseEntity {
-  parentId: string | null;
-  parentType: "PROJECT" | "EPISODE" | "PAGE" | "CUT";
-  role: "SINGLE" | "DETAIL";
-  content: string;
-  order: string;
-  tags: string[];
-  emoji: string | null;
-}
-
-// ScriptSnippet = cutDetailMemo: 컷에 배정 가능한 대사/지문
-// cutId: null = 미배정 (isAssigned boolean 폐기, cutId===null로 판단)
-// type/speakerId: 보류 — 캐릭터 시스템 확정 전 미활성화
-interface ScriptSnippet extends BaseEntity {
-  pageId: string;
-  cutId: string | null;
-  content: string;
-  type: "dialog" | "narration" | "sfx" | "action";
-  speakerId: string | null;
-  order: string;
-}
-
-interface CutFrame {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-  vertices?: [number, number][]; // 비정형 다각형 컷 (선택)
-}
-```
-
-### 정규화 스토어 구조 (`src/types/store.ts`) ✅ 확정
-
-```ts
-interface NormalizedStore {
-  bookshelves: Record<string, Bookshelf>;
-  projects: Record<string, Project>;
-  episodes: Record<string, Episode>;
-  pages: Record<string, Page>;
-  cuts: Record<string, Cut>;
-  memos: Record<string, Memo>; // ← 추가
-  scriptSnippets: Record<string, ScriptSnippet>;
-  assets: Record<string, Asset>;
-}
-```
-
-### Settings 상속 로직 (Episode > Project > User > Default)
-
-```ts
-const resolveSettings = (
-  episode: Episode,
-  project: Project,
-): ResolvedSettings => ({
-  ...DEFAULT_SETTINGS,
-  ...project.settings,
-  ...(episode.settings ?? {}), // null이면 스프레드 무시
-});
-```
-
----
-
-## 6. Coordinate System (B4 Inner Frame 기준)
-
-### 규격 상수 (`src/utils/b4Layout.ts`)
-
-```ts
-export const B4_SPEC = {
-  BLEED: { w: 324, h: 238 }, // 제판선 (전체 캔버스), CSS: aspect-ratio: 324/238
-  TRIM: { w: 312, h: 226 }, // 재단선 — 참조용 수치만 보존, 가이드라인 오버레이 미표시
-  INNER: { w: 270, h: 180 }, // 내곽선 — 모든 컷 배치 기준
-  BLEED_MM: 6,
-  MARGIN: { top: 21, bottom: 21, gutter: 12, outer: 23 }, // mm
-} as const;
-```
-
-### CutFrame 타입 — Inner Frame 기준 % 좌표
-
-```ts
-interface CutFrame {
-  x: number; // Inner Frame 좌측 기준 % (0~100)
-  y: number; // Inner Frame 상단 기준 % (0~100)
-  w: number; // Inner Frame 너비 기준 % (0~100)
-  h: number; // Inner Frame 높이 기준 % (0~100)
-}
-// 전면 컷: { x:0, y:0, w:100, h:100 }
-// 좌상단 1/4: { x:0, y:0, w:50, h:50 }
-```
-
-### 유틸리티 함수 (`src/utils/b4Layout.ts`)
-
-```ts
-// % 좌표 → px 변환 (렌더링 시점에만 호출)
-export const frameToPixels = (
-  frame: CutFrame,
-  containerPx: { w: number; h: number },
-) => ({
-  x: (frame.x / 100) * containerPx.w,
-  y: (frame.y / 100) * containerPx.h,
-  w: (frame.w / 100) * containerPx.w,
-  h: (frame.h / 100) * containerPx.h,
-});
-
-// Inner Frame의 캔버스 내 실제 offset 계산
-export const calcInnerFrameOffset = (canvasPx: { w: number; h: number }) => {
-  const sx = canvasPx.w / B4_SPEC.BLEED.w;
-  const sy = canvasPx.h / B4_SPEC.BLEED.h;
-  return {
-    top: B4_SPEC.MARGIN.top * sy,
-    left: B4_SPEC.MARGIN.gutter * sx,
-    w: B4_SPEC.INNER.w * sx,
-    h: B4_SPEC.INNER.h * sy,
-  };
-};
-
-// 개발 모드 가이드라인 표시 여부
-export const SHOW_GUIDELINES = import.meta.env.DEV;
-```
-
-### CSS 캔버스 비율 유지
-
-```scss
-.canvas-b4 {
-  aspect-ratio: 324 / 238;
-  width: 100%;
-  max-width: 800px; // 편집 뷰 최대 너비
-}
-```
-
-가이드라인 색상: **내곽선** (파란색 — 컷 미분할 시 / 검정색 — 컷 분할 후), **제판선** (파란색). 재단선 오버레이 미표시.
-
----
-
-## 7. State Management
-
-### Context + useReducer 액션 타입
-
-```ts
-// src/contexts/StoreContext.tsx
-type Action =
-  // Cut
-  | { type: "ADD_CUT"; payload: { pageId: string; frame: CutFrame } }
-  | { type: "MOVE_CUT"; payload: { cutId: string; newFrame: CutFrame } }
-  | { type: "DELETE_CUT"; payload: { cutId: string } }
-  // Script
-  | { type: "ASSIGN_SCRIPT"; payload: { cutId: string; snippetId: string } }
-  | { type: "UNASSIGN_SCRIPT"; payload: { cutId: string } }
-  // Ordering
-  | { type: "REORDER_CUTS"; payload: { pageId: string; newCutOrder: string[] } }
-  | {
-      type: "REORDER_PAGES";
-      payload: { episodeId: string; newPageOrder: string[] };
-    }
-  | {
-      type: "REORDER_EPISODES";
-      payload: { projectId: string; newEpisodeOrder: string[] };
-    }
-  // Sync
-  | { type: "LOAD_STORE"; payload: NormalizedStore };
-```
-
-### Context 분리 (성능 최적화)
-
-단일 Context에 모든 상태를 넣지 않는다.
-
-```
-StoreContext    → NormalizedStore 데이터 (entities)
-DispatchContext → dispatch 함수만 (데이터 변경 시만 리렌더)
-UIContext       → 선택 상태, 편집 모드 등 UI 전용 상태
-```
-
----
-
-## 8. Optimistic Updates & Persistence
-
-### Offline-First 전략 (서버 없는 현 단계)
-
-```
-[User Action]
-     ↓
-[dispatch(action)] ← 즉시 UI 반영 (낙관적 업데이트)
-     ↓
-[storeReducer] → 새 state 계산
-     ↓
-[IndexedDB 저장] ← 비동기 백그라운드 (Debounce 500ms)
-     ↓ (서버 도입 후)
-[API POST/PATCH] ← 실패 시 롤백
-```
-
-### 예정 유틸리티 (`src/services/persistence.ts`)
-
-```ts
-export const saveToLocal = async (store: NormalizedStore): Promise<void> => {
-  // idb 라이브러리 또는 직접 IndexedDB API 사용 예정
-};
-
-export const debouncedSave = debounce(saveToLocal, 500);
-```
-
----
-
-## 9. 미도입 라이브러리 (향후 추가 예정)
-
-| 라이브러리      | 용도                               | 시점                |
-| --------------- | ---------------------------------- | ------------------- |
-| `zod`           | 서버 API 응답 런타임 검증          | 서버 연동 전        |
-| `@dnd-kit/core` | ScriptSnippet → Cut 드래그 앤 드롭 | Cut 편집 구현 시    |
-| `idb`           | IndexedDB wrapper                  | 로컬 저장소 구현 시 |
-
----
-
-## 10. Constraints
-
-- **IndexedDB:** 탭 간 공유 불가. 멀티 탭 편집 시 BroadcastChannel API 검토.
-- **이미지 에셋:** 현재 단계 `URL.createObjectURL()` 로컬 프리뷰. DB에는 assetId/URL 문자열만 저장.
-- **순서 보장:** `episodeOrder`, `pageOrder`, `cutOrder` 배열로 관리. 중간 삽입 빈도가 높아지면 Lexosort 전환 검토.
+### 에셋 상태
+- 픽셀아트 스프라이트시트 없음 (소녀, 숲, 카드 전부 미완성)
+- placeholder 색상 박스/도형으로 시작 예정
