@@ -8,9 +8,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { usePixiCanvas } from '@hooks/ui/usePixiCanvas'
 
-const canvasRef = ref<HTMLCanvasElement | null>(null)
+const { canvasRef } = usePixiCanvas()
 </script>
 
 <style lang="scss">
