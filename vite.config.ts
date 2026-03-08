@@ -14,7 +14,7 @@ export default defineConfig({
       "@services": fileURLToPath(new URL("./src/services", import.meta.url)),
       "@types": fileURLToPath(new URL("./src/types", import.meta.url)),
       "@utils": fileURLToPath(new URL("./src/utils", import.meta.url)),
-      "@pixi": fileURLToPath(new URL("./src/pixi", import.meta.url)),
+      "~pixi": fileURLToPath(new URL("./src/pixi", import.meta.url)),
       "@stores": fileURLToPath(new URL("./src/stores", import.meta.url)),
       "@assets": fileURLToPath(new URL("./src/assets", import.meta.url)),
     },

@@ -11,7 +11,7 @@
       "@services/*": ["src/services/*"],
       "@types/*": ["src/types/*"],
       "@utils/*": ["src/utils/*"],
-      "@pixi/*": ["src/pixi/*"],
+      "~pixi/*": ["src/pixi/*"],
       "@stores/*": ["src/stores/*"],
       "@assets/*": ["src/assets/*"]
     },

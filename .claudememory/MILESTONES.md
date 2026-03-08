@@ -1,5 +1,11 @@
 # MILESTONES
 
+## 2026-03-09 (Phase 5 준비: 파일 정리 + 타로 상수 전수 검토)
+
+- 불필요 파일 10개 삭제 + Phase 5용 stub 파일 8개에 주석 가이드 작성 (cardHelpers/tarotApi/karmaApi/localStorage/prompts/pixiHelpers/pixiLoader/useSceneTransition)
+- 타로 상수 11개 파일 전수 검토 → CRITICAL 2건(SEMENTIC_TAG cardId 불일치, EMOTION_VECTOR ID 체계 불일치), HIGH 6건, MEDIUM 5건 발견 → research.md에 기록
+- HISTORY.md 생성하여 Phase 0~4 완료 항목 아카이빙, todo.md를 Phase 5~7 구조로 재편
+
 ## 2026-03-09 (Phase 4: Vue Overlay 구현 완료)
 
 - DialogBox(타이핑/클릭스킵) + SpreadAsk(2단계 대화분기) + KarmaOptions + InsightPanel(페이지네이션) + EthicsModal 구현
