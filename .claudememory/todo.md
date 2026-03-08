@@ -1,40 +1,57 @@
 # TODO (다음 작업 목록)
 
-## Phase 1: 프로젝트 기반 설정 (✅완료)
+## Phase 5: 통합 & 데이터 연결 (🔥현재)
 
-- [x] `npm install pixi.js gsap howler sass`
-- [x] vite.config.ts: path alias 추가 (components, hooks, services, types, utils, pixi, stores, assets)
-- [x] vite.config.ts: sass preprocessor 설정
-- [x] tsconfig.app.json: paths 등록 (vite alias와 1:1 대응)
-- [x] main.ts: Pinia 플러그인 등록
-- [x] App.vue: 기본 구조 작성 (PixiJS 캔버스 + Vue overlay 레이어)
+### 5-A. 카드 헬퍼 구현 (cardHelpers.ts)
+- [ ] shuffleArray — Fisher-Yates 셔플
+- [ ] drawRandomCards — 스프레드별 카드 뽑기 + 역방향 30%
+- [ ] getCardById — ID로 카드 조회
+- [ ] getPositionLabel — 스프레드 위치명 반환
+- [ ] DrawScene.ts에서 cardHelpers 사용하도록 연결
 
-## Phase 2: 핵심 시스템 구현 (✅완료)
+### 5-B. Mock 해석 고도화 (tarotApi.ts → getMockInterpretation)
+- [ ] TAROT_MEANINGS + REVERSED_MEANINGS 데이터 기반 mock 해석 생성
+- [ ] InsightPanel.vue의 하드코딩된 mock을 tarotApi.getMockInterpretation()으로 교체
+- [ ] position(과거/현재/미래 등) 맥락 반영
 
-- [x] `src/types/index.ts` — Scene, Card, Spread 등 타입 정의
-- [x] `src/stores/useTarotStore.ts` — currentScene, drawnCards, question 등 상태
-- [x] `src/pixi/PixiApp.ts` — PIXI.Application 초기화
-- [x] `src/pixi/scenes/BaseScene.ts` — 추상 씬 클래스
-- [x] `src/pixi/SceneManager.ts` — currentScene watch → Container 교체
-- [x] `src/pixi/Camera.ts` — worldContainer y offset + GSAP
-- [x] `src/hooks/ui/usePixiCanvas.ts` — 캔버스 마운트 훅
-- [x] `src/hooks/ui/useAudio.ts` — Howler.js 오디오 훅
+### 5-C. 로컬 저장소 (localStorage.ts)
+- [ ] saveSession / getRecentSessions 구현
+- [ ] clearOldSessions (30일 초과 자동 삭제)
+- [ ] 카르마 일기 저장/조회 (saveDiaryEntry / getDiaryEntries)
 
-## Phase 3: 씬 구현 (placeholder) (✅완료)
+### 5-D. 카르마 처리 (karmaApi.ts)
+- [ ] processKarma — 옵션별 분기 처리
+- [ ] hasCompletedKarma — 오늘 완료 여부
+- [ ] KarmaOptions.vue에서 karmaApi 호출 연결
 
-- [x] ForestIntroScene — 배경 + 카메라 이동
-- [x] WitchCircleScene — 8명 소녀 원형 배치 + 회전
-- [x] WitchApproachScene — 소녀 walkTo + DialogBox
-- [x] ShuffleScene — 카드 셔플 애니메이션
-- [x] DrawScene — 카드 선택 인터랙션
-- [x] ReturnScene — 카메라 복귀 + 손흔들기
+### 5-E. 씬 전환 훅 (useSceneTransition.ts)
+- [ ] transitionTo 함수 + isTransitioning 상태
+- [ ] App.vue에서 store.goTo() → transitionTo()로 교체
+- [ ] Vue overlay 페이드 트랜지션 CSS 적용
 
-## Phase 4: Vue Overlay 구현 (✅완료)
+### 5-F. Pixi 유틸리티 (pixiHelpers.ts / pixiLoader.ts)
+- [ ] createRect / createCircle / centerObject 헬퍼
+- [ ] fadeIn / fadeOut / pulseEffect GSAP 래퍼
+- [ ] pixiLoader — 에셋 로딩 구조 (에셋 확보 후 사용)
 
-- [x] DialogBox.vue — 타이핑 효과, 클릭 스킵, done emit
-- [x] QuestionInput.vue — textarea + 5자 이상 검증 + submit emit
-- [x] SpreadAsk.vue — 대화 분기 2단계 (ONE_CARD / THREE_CARD / CELTIC_CROSS)
-- [x] KarmaOptions.vue — 3가지 선택 + confirm emit
-- [x] InsightPanel.vue — mock 해석 + 카드 페이지네이션 + done emit
-- [x] EthicsModal.vue — 차단 메시지 + 대안 제시 + Transition
-- [x] App.vue — currentScene 기반 오버레이 분기 (전체 씬 연결)
+## Phase 6: AI 해석 연동 (대기)
+
+- [ ] prompts.ts — SYSTEM_PROMPT + buildUserPrompt 작성
+- [ ] tarotApi.ts — requestInterpretation 실제 API 호출 구현
+- [ ] 프록시 서버 or Edge Function 결정 (API 키 보호)
+- [ ] InsightPanel.vue에서 실제 AI 해석으로 교체
+
+## Phase 7: 에셋 & 폴리시 (대기)
+
+- [ ] 픽셀아트 스프라이트시트 제작 (소녀, 숲, 카드)
+- [ ] pixiLoader.ts로 에셋 프리로딩
+- [ ] placeholder → 실제 에셋 교체
+- [ ] 오디오 파일 추가 (forest-ambient, shuffle, cardflip, magic)
+- [ ] SpreadLayout.vue — 켈틱크로스 시각적 배치
+- [ ] Loading.vue — 에셋 로딩 화면
+
+---
+
+## 완료 아카이브
+
+### Phase 1~4 (✅완료) → HISTORY.md 참조
