@@ -1,9 +1,9 @@
-import { BaseScene } from "@pixi/scenes/BaseScene";
-import { ForestBackground } from "@pixi/objects/ForestBackground";
-import { WitchGirl } from "@pixi/objects/WitchGirl";
-import { panCamera } from "@pixi/animations/cameraAnimation";
+import { BaseScene } from "~pixi/scenes/BaseScene";
+import { ForestBackground } from "~pixi/objects/ForestBackground";
+import { WitchGirl } from "~pixi/objects/WitchGirl";
+import { panCamera } from "~pixi/animations/cameraAnimation";
 import { gsap } from "gsap";
-import type { Camera } from "@pixi/Camera";
+import type { Camera } from "~pixi/Camera";
 import { useTarotStore } from "@stores/useTarotStore";
 
 function wait(ms: number) {

@@ -69,3 +69,15 @@ export type CardContextMeaning = {
     spiritual?: ContextMeaning;
   };
 };
+
+type InterpretationLogic = "invert" | "weaken";
+
+interface ReversedLogic {
+  love: InterpretationLogic;
+  career: InterpretationLogic;
+  finance: InterpretationLogic;
+  health: InterpretationLogic;
+  advice: InterpretationLogic;
+  spiritual: InterpretationLogic;
+  personal: InterpretationLogic;
+}

@@ -1,8 +1,8 @@
-import { BaseScene } from "@pixi/scenes/BaseScene";
-import { ForestBackground } from "@pixi/objects/ForestBackground";
-import { CardDeck } from "@pixi/objects/CardDeck";
-import type { CardSprite } from "@pixi/objects/CardSprite";
-import type { Camera } from "@pixi/Camera";
+import { BaseScene } from "~pixi/scenes/BaseScene";
+import { ForestBackground } from "~pixi/objects/ForestBackground";
+import { CardDeck } from "~pixi/objects/CardDeck";
+import type { CardSprite } from "~pixi/objects/CardSprite";
+import type { Camera } from "~pixi/Camera";
 import { useTarotStore } from "@stores/useTarotStore";
 import type { DrawnCard } from "@types/index";
 

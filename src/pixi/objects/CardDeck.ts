@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { gsap } from "gsap";
-import { CardSprite } from "@pixi/objects/CardSprite";
+import { CardSprite } from "~pixi/objects/CardSprite";
 
 const DECK_SIZE = 78;
 
