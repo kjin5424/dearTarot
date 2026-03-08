@@ -1,5 +1,11 @@
 # MILESTONES
 
+## 2026-03-09 (Phase 3: 씬 구현 완료 — placeholder)
+
+- ForestBackground/WitchGirl/WitchCircle/CardSprite/CardDeck 5개 오브젝트 + 3개 애니메이션 헬퍼 구현 (PIXI v8 Graphics, GSAP 기반)
+- 10개 씬 전체 구현 완료: ForestIntro(카메라 pan) → WitchCircle(회전) → WitchApproach(walkTo) → 정적 4씬 → Shuffle(셔플) → Draw(카드 클릭) → Return(카메라 복귀)
+- usePixiCanvas.ts에 10개 씬 factory 등록 완료 — SceneManager 씬 전환 파이프라인 동작 가능 상태
+
 ## 2026-03-09 (Phase 2: 핵심 시스템 구현 완료)
 
 - SceneName/SpreadType/KarmaOption/DrawnCard 타입 정의 + useTarotStore(Pinia) currentScene 기반 씬 전환 상태 관리 체계 구축

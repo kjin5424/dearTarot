@@ -1,6 +1,6 @@
 # Progress (현재 진행 상황)
 
-## 현재 단계: Phase 3 — 씬 구현 (placeholder)
+## 현재 단계: Phase 4 — Vue Overlay 구현
 
 ### 완료 (2026-03-09)
 
@@ -26,14 +26,18 @@
 - [x] Phase 2: `src/hooks/ui/useAudio.ts` — Howler.js (이미 완성)
 - [x] Phase 2: `src/App.vue` — usePixiCanvas 훅 통합
 
-### 미완료 (다음 세션)
+- [x] Phase 3: Objects — ForestBackground / WitchGirl / WitchCircle / CardSprite / CardDeck
+- [x] Phase 3: Animations — cameraAnimation / characterAnimation / shuffleAnimation
+- [x] Phase 3: ForestIntroScene — 배경 + 카메라 이동 → auto goTo(WITCH_CIRCLE)
+- [x] Phase 3: WitchCircleScene — 8명 원형 회전 → auto goTo(WITCH_APPROACH)
+- [x] Phase 3: WitchApproachScene — walkTo 애니메이션 → Vue 대기
+- [x] Phase 3: QuestionInputScene / SpreadQuizScene / KarmaScene / ReadingScene — 정적 씬 (Vue 주도)
+- [x] Phase 3: ShuffleScene — 카드 셔플 × 3 → auto goTo(DRAW)
+- [x] Phase 3: DrawScene — 카드 fan + 클릭 인터랙션 → store.setDrawnCards + goTo(READING)
+- [x] Phase 3: ReturnScene — 손흔들기 + 카메라 복귀 → store.reset + goTo(FOREST_INTRO)
+- [x] Phase 3: usePixiCanvas.ts — 10개 씬 전체 register 완료
 
-- [ ] Phase 3: ForestIntroScene — 배경 + 카메라 이동
-- [ ] Phase 3: WitchCircleScene — 8명 소녀 원형 배치 + 회전
-- [ ] Phase 3: WitchApproachScene — 소녀 walkTo + DialogBox
-- [ ] Phase 3: ShuffleScene — 카드 셔플 애니메이션
-- [ ] Phase 3: DrawScene — 카드 선택 인터랙션
-- [ ] Phase 3: ReturnScene — 카메라 복귀 + 손흔들기
+### 미완료 (다음 세션 — Phase 4)
 
 ## 핵심 결정 사항
 
