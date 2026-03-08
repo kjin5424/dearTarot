@@ -37,7 +37,15 @@
 - [x] Phase 3: ReturnScene — 손흔들기 + 카메라 복귀 → store.reset + goTo(FOREST_INTRO)
 - [x] Phase 3: usePixiCanvas.ts — 10개 씬 전체 register 완료
 
-### 미완료 (다음 세션 — Phase 4)
+- [x] Phase 4: DialogBox.vue — 타이핑 효과 RPG 대화창 (클릭 스킵, done emit)
+- [x] Phase 4: QuestionInput.vue — 고민 입력 textarea + 검증
+- [x] Phase 4: SpreadAsk.vue — 2단계 대화 분기로 스프레드 결정
+- [x] Phase 4: KarmaOptions.vue — 카르마 3가지 선택지 (DIARY/DONATION/AD)
+- [x] Phase 4: InsightPanel.vue — mock AI 해석 + 카드 페이지네이션
+- [x] Phase 4: EthicsModal.vue — 차단 메시지 + 대안 제시
+- [x] Phase 4: App.vue — currentScene 기반 씬별 오버레이 분기 완성
+
+### 미완료 (다음 세션)
 
 ## 핵심 결정 사항
 

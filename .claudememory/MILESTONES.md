@@ -1,5 +1,11 @@
 # MILESTONES
 
+## 2026-03-09 (Phase 4: Vue Overlay 구현 완료)
+
+- DialogBox(타이핑/클릭스킵) + SpreadAsk(2단계 대화분기) + KarmaOptions + InsightPanel(페이지네이션) + EthicsModal 구현
+- App.vue를 currentScene 기반 완전 분기 구조로 교체 — 10개 씬의 Vue 오버레이 연결 완성
+- 윤리 필터: BLOCKED_KEYWORDS 인라인 검사 → EthicsModal로 차단(대안 제시), 통과 시 store.goTo('SPREAD_QUIZ')
+
 ## 2026-03-09 (Phase 3: 씬 구현 완료 — placeholder)
 
 - ForestBackground/WitchGirl/WitchCircle/CardSprite/CardDeck 5개 오브젝트 + 3개 애니메이션 헬퍼 구현 (PIXI v8 Graphics, GSAP 기반)
