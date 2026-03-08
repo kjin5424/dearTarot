@@ -8,6 +8,7 @@ Always follow the instructions in this file as your top priority.
 - **0-2. Memory Bank:** 모든 컨텍스트는 `.claudememory/` 폴더 내 파일을 참조한다.
   - 작업을 시작할 때 반드시 `progress.md`를 읽어 맥락을 파악할 것.
   - 세션 종료 시 반드시 `todo.md`, `progress.md`, `MILESTONES.md`를 최신순 정렬로 날짜와 함께 최신화할 것.
+  - `todo.md` 최신화 작업 시 `### 2. Implementation & Archive Policy` 참고할 것.
 - **0-3. Optimization:** 50턴 이상 대화 또는 컨텍스트 경고 시 다음과 같은 절차를 실행한다.
   - 이 프로젝트에서 `/cleanup-context`라고 하면 현재 컨텍스트를 요약하고 불필요한 파일을 메모리에서 내려라.
   - 핵심 성과와 다음 할 일을 `progress.md`에 백업한다.
@@ -25,7 +26,7 @@ Always follow the instructions in this file as your top priority.
 - **2-1. Atomic Tasks:** 한 번의 응답으로 처리 가능한 수준으로 단계를 쪼개어 `.claudememory/todo.md`에 기록한다.
 - **2-2. Statelessness:** 새로운 채팅 세션에서 `todo.md`만 읽어도 즉시 다음 단계를 이어갈 수 있도록 구체적으로 기술한다.
 - **2-3. Soft Reset Strategy:** `npm run memory-reset` 전, 현재 성과를 `HISTORY.md`로 백업하여 기록의 연속성을 유지한다.
-- **2-3. Task Archiving:** `todo.md`의 완료 항목이 **15개**를 초과하거나 파일 크기가 **2KB** 초과 시 `HISTORY.md`로 이동.
+- **2-3. Task Archiving:** `todo.md`의 완료 항목이 **15개**를 초과하거나 파일 크기가 **2KB** 초과 시 `HISTORY.md`로 이동할 것.
 - **2-4. Versioned Logs:** `HISTORY.md`가 **50KB**를 초과하면 `HISTORY_vN.md`로 넘버링 아카이빙.
 - **2-5. Milestone Update:** 세션 종료 전 핵심 결정 사항 3줄을 `MILESTONES.md`에 날짜와 함께 기록.
 
