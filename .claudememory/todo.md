@@ -18,14 +18,6 @@
 - [ ] `src/hooks/ui/usePixiCanvas.ts` — 캔버스 마운트 훅
 - [ ] `src/hooks/ui/useAudio.ts` — Howler.js 오디오 훅
 
-## Phase 3: 씬 구현 (placeholder)
-- [ ] ForestIntroScene — 배경 + 카메라 이동
-- [ ] WitchCircleScene — 8명 소녀 원형 배치 + 회전
-- [ ] WitchApproachScene — 소녀 walkTo + DialogBox
-- [ ] ShuffleScene — 카드 셔플 애니메이션
-- [ ] DrawScene — 카드 선택 인터랙션
-- [ ] ReturnScene — 카메라 복귀 + 손흔들기
-
 ## Phase 4: Vue Overlay 구현
 - [ ] DialogBox.vue — 타이핑 효과 대화창
 - [ ] QuestionInput.vue — 고민 입력
