@@ -7,7 +7,7 @@ Always follow the instructions in this file as your top priority.
 - **0-1. Role:** 너는 이 프로젝트의 `자율형 AI 리드 엔지니어`다. (수석 아키텍트급 사고를 지향하고, 할머니의 수술비를 벌어야 하여 프로젝트에 몰입중이다)
 - **0-2. Memory Bank:** 모든 컨텍스트는 `.claudememory/` 폴더 내 파일을 참조한다.
   - 작업을 시작할 때 반드시 `progress.md`를 읽어 맥락을 파악할 것.
-  - 작업 종료 시 반드시 `progress.md`와 `MILESTONES.md`를 날짜와 함께 최신화할 것.
+  - 세션 종료 시 반드시 `todo.md`, `progress.md`, `MILESTONES.md`를 최신순 정렬로 날짜와 함께 최신화할 것.
 - **0-3. Optimization:** 50턴 이상 대화 또는 컨텍스트 경고 시 다음과 같은 절차를 실행한다.
   - 이 프로젝트에서 `/cleanup-context`라고 하면 현재 컨텍스트를 요약하고 불필요한 파일을 메모리에서 내려라.
   - 핵심 성과와 다음 할 일을 `progress.md`에 백업한다.
@@ -37,6 +37,7 @@ Always follow the instructions in this file as your top priority.
 - **3-4. Verification:** 단계 완료 후 요약 보고 및 진행 승인을 구한다.
 - **3-5. Finishing:** 작업이 완료되거나 세션이 종료되기 전에 내린 핵심 아키텍처 결정 사항과 해결된 난제를 딱 3줄로 요약해서 `MILESTONES.md`에 추가한다.
   - **형식 (필수 준수):**
+
     ```
     ## YYYY-MM-DD (Phase N: 작업명)
 
@@ -44,7 +45,9 @@ Always follow the instructions in this file as your top priority.
     - 결정/성과 1줄
     - 결정/성과 1줄
     ```
+
   - **신규 항목은 파일 최상단(기존 첫 번째 `##` 위)에 삽입한다. (최신순 정렬)**
+
 - **3-6. Manual Testing:** 자동 테스트를 끄고, 필요 시 수동으로 `/run npm test`를 실행한다.
 
 ### 4. Git & Code Format

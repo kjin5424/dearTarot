@@ -1,5 +1,11 @@
 # MILESTONES
 
+## 2026-03-09 (Phase 2: 핵심 시스템 구현 완료)
+
+- SceneName/SpreadType/KarmaOption/DrawnCard 타입 정의 + useTarotStore(Pinia) currentScene 기반 씬 전환 상태 관리 체계 구축
+- PixiApp(initPixiApp 함수화) / BaseScene(추상클래스) / SceneManager(watch+Container교체) / Camera(GSAP worldContainer) 4개 Pixi 핵심 클래스 완성
+- usePixiCanvas 훅으로 캔버스 마운트→PixiApp 초기화→SceneManager 연결 파이프라인 완성, App.vue에 통합
+
 ## 2026-03-09 (Phase 1: 프로젝트 기반 설정 완료)
 
 - pixi.js/gsap/howler/sass 설치 확인 + @types/howler devDep 추가로 TypeScript 타입 지원 확보
