@@ -1,6 +1,8 @@
 import type { DrawnCard } from "@types/index";
 import { TAROT_MEANINGS } from "@utils/constants/tarot/TAROT_MEANINGS";
 import { MAJOR_REVERSED_LOGIC } from "@utils/constants/tarot/REVERSED_MEANINGS";
+import { buildSystemPrompt } from "@utils/constants/interpretation/PROMPT";
+import { generateText } from "./geminiClient";
 
 const POSITION_LABEL: Record<string, string> = {
   answer: "이 질문의 핵심",
@@ -34,6 +36,43 @@ const POSITION_LABEL: Record<string, string> = {
   external_factor: "외부 압력",
   resolution: "해소 방향",
 };
+
+interface GeminiInterpretationResponse {
+  cardInterpretations: { position: string; lines: string[] }[];
+  synthesis: string;
+  actionSteps: string[];
+}
+
+function buildCacheKey(question: string, cards: DrawnCard[]): string {
+  const cardSig = cards
+    .map((c) => `${c.card.id}-${c.isReversed ? "r" : "u"}-${c.position}`)
+    .join("|");
+  return `tarot_interp_${btoa(encodeURIComponent(question + cardSig)).slice(0, 40)}`;
+}
+
+function loadFromCache(key: string): GeminiInterpretationResponse | null {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const { data, expiresAt } = JSON.parse(raw);
+    if (Date.now() > expiresAt) {
+      localStorage.removeItem(key);
+      return null;
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function saveToCache(key: string, data: GeminiInterpretationResponse): void {
+  try {
+    const expiresAt = Date.now() + 1000 * 60 * 60 * 24 * 7; // 7일
+    localStorage.setItem(key, JSON.stringify({ data, expiresAt }));
+  } catch {
+    // 저장 실패는 무시
+  }
+}
 
 export function getMockInterpretation(card: DrawnCard): string[] {
   const meaning = TAROT_MEANINGS.find((m) => m.id === card.card.id);
@@ -70,13 +109,62 @@ export function getMockInterpretation(card: DrawnCard): string[] {
   return [
     `${posLabel}에 ${dir}${card.card.nameKr} 카드가 놓였군요.`,
     line2,
-    meaning.advice[0],
+    meaning.advice[0] ?? "지금 이 순간, 이 카드가 건네는 말을 천천히 들어보세요.",
   ];
 }
 
+function buildUserPrompt(question: string, cards: DrawnCard[]): string {
+  const cardLines = cards
+    .map((c) => {
+      const pos = POSITION_LABEL[c.position] ?? c.position;
+      const dir = c.isReversed ? "(역방향)" : "(정방향)";
+      return `- [${pos}] ${c.card.nameKr} ${dir}`;
+    })
+    .join("\n");
+
+  return `질문: ${question}
+
+카드 배치:
+${cardLines}
+
+응답 형식 (JSON, 반드시 준수):
+{
+  "cardInterpretations": [
+    { "position": "포지션명", "lines": ["문장1", "문장2", "문장3"] }
+  ],
+  "synthesis": "전체 흐름을 아우르는 2~3문장 종합 해석",
+  "actionSteps": ["실천 조언1", "실천 조언2", "실천 조언3"]
+}
+
+조건:
+- 각 카드 해석은 3문장 이내
+- 단정하지 말 것 ("~일 것입니다" 금지, "~처럼 보여요" 권장)
+- 한국어로 작성
+- 숲속 마녀의 따뜻하고 신비로운 어조`;
+}
+
 export async function requestInterpretation(
-  _question: string,
+  question: string,
   drawnCards: DrawnCard[],
 ): Promise<string[][]> {
-  return drawnCards.map((card) => getMockInterpretation(card));
+  const cacheKey = buildCacheKey(question, drawnCards);
+  const cached = loadFromCache(cacheKey);
+
+  if (cached) {
+    return cached.cardInterpretations.map((c) => c.lines);
+  }
+
+  try {
+    const systemPrompt = buildSystemPrompt({}, "personal");
+    const userPrompt = buildUserPrompt(question, drawnCards);
+    const raw = await generateText(systemPrompt, userPrompt);
+
+    const parsed: GeminiInterpretationResponse = JSON.parse(raw);
+    saveToCache(cacheKey, parsed);
+
+    return parsed.cardInterpretations.map((c) => c.lines);
+  } catch (err) {
+    console.error("[tarotApi] Gemini 호출 실패, mock 사용:", err);
+    return drawnCards.map((card) => getMockInterpretation(card));
+  }
 }
