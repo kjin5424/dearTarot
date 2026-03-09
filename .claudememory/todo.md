@@ -31,9 +31,8 @@
 - [ ] 같은 숫자 조합 (예: 5가 3장 = 극심한 갈등)
 - [ ] Major + Minor 크로스 조합
 
-### 5-1-H. MEDIUM: CARD_DATA.ts vs TAROT_CARDS.ts 역할 정리
-- [ ] 현황: TAROT_CARDS.ts = 78장 기본 메타 (다른 상수가 import), CARD_DATA.ts = 확장 스키마 + 샘플 1장(Fool)
-- [ ] 결정: TAROT_CARDS.ts를 정본으로 유지, CARD_DATA.ts는 확장 스키마 인터페이스만 보존하거나 삭제
+### ~~5-1-H. MEDIUM: CARD_DATA.ts vs TAROT_CARDS.ts 역할 정리~~
+- [x] ✅ CARD_DATA const(샘플 1장) 제거, 인터페이스(CardDataItem/CardDataDeck/CardCategory/CardType)만 보존 — Phase 7에서 활용 예정
 
 ### ~~5-1-I. LOW: CONTEXT_TAGS.ts 한글 키 통일~~
 - [x] ✅ priority / themeBias / emotionBias / energyBias 로 통일 완료
