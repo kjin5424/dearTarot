@@ -1,21 +1,46 @@
-// === PixiJS 유틸리티 함수 ===
+import * as PIXI from "pixi.js";
+import { gsap } from "gsap";
 
-// === createRect(width, height, color): PIXI.Graphics ===
-// 단색 사각형 생성 (placeholder용)
+const STAGE_WIDTH = 480;
+const STAGE_HEIGHT = 270;
 
-// === createCircle(radius, color): PIXI.Graphics ===
-// 단색 원 생성 (placeholder용)
+export function createRect(width: number, height: number, color: number): PIXI.Graphics {
+  const g = new PIXI.Graphics();
+  g.rect(0, 0, width, height).fill(color);
+  return g;
+}
 
-// === centerObject(obj: PIXI.Container, stageWidth = 480, stageHeight = 270): void ===
-// obj.x = (stageWidth - obj.width) / 2
-// obj.y = (stageHeight - obj.height) / 2
+export function createCircle(radius: number, color: number): PIXI.Graphics {
+  const g = new PIXI.Graphics();
+  g.circle(0, 0, radius).fill(color);
+  return g;
+}
 
-// === fadeIn(obj: PIXI.Container, duration = 0.5): Promise<void> ===
-// gsap.to(obj, { alpha: 1, duration })
+export function centerObject(
+  obj: PIXI.Container,
+  stageWidth = STAGE_WIDTH,
+  stageHeight = STAGE_HEIGHT,
+): void {
+  obj.x = (stageWidth - obj.width) / 2;
+  obj.y = (stageHeight - obj.height) / 2;
+}
 
-// === fadeOut(obj: PIXI.Container, duration = 0.5): Promise<void> ===
-// gsap.to(obj, { alpha: 0, duration })
+export function fadeIn(obj: PIXI.Container, duration = 0.5): Promise<void> {
+  return new Promise((resolve) => {
+    gsap.to(obj, { alpha: 1, duration, onComplete: resolve });
+  });
+}
 
-// === pulseEffect(obj: PIXI.Container, scale = 1.1, duration = 0.8): gsap.core.Tween ===
-// gsap.to(obj.scale, { x: scale, y: scale, yoyo: true, repeat: -1, duration })
-// 카드 선택 힌트 등에 사용
+export function fadeOut(obj: PIXI.Container, duration = 0.5): Promise<void> {
+  return new Promise((resolve) => {
+    gsap.to(obj, { alpha: 0, duration, onComplete: resolve });
+  });
+}
+
+export function pulseEffect(
+  obj: PIXI.Container,
+  scale = 1.1,
+  duration = 0.8,
+): gsap.core.Tween {
+  return gsap.to(obj.scale, { x: scale, y: scale, yoyo: true, repeat: -1, duration, ease: "sine.inOut" });
+}
