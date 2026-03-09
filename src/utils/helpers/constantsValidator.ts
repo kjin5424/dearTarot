@@ -1,29 +1,32 @@
 ﻿/**
  * 상수 무결성 자동 검증 함수를 정의합니다.
  */
-import { CARD_COMBINATION_RULES } from "./CARD_COMBINATION_RULE";
-import { COLOR_PALETTE_ANALYSIS } from "./COLOR_PALETTE_ANALYSIS";
-import { CONSTANTS_VALIDATION_RULES, VALIDATION_REPORT_LEVEL } from "./CONSTANTS_VALIDATION_RULES";
-import { CONTEXT_TAGS } from "./CONTEXT_TAGS";
-import { EMOTION_VECTOR_BY_CARD_ID } from "./EMOTION_VECTOR";
+import { CARD_COMBINATION_RULES } from "../constants/scoring/CARD_COMBINATION_RULE";
+import { COLOR_PALETTE_ANALYSIS } from "../constants/visual/COLOR_PALETTE_ANALYSIS";
+import {
+  CONSTANTS_VALIDATION_RULES,
+  VALIDATION_REPORT_LEVEL,
+} from "../constants/CONSTANTS_VALIDATION_RULES";
+import { CONTEXT_TAGS } from "../constants/scoring/CONTEXT_TAGS";
+import { EMOTION_VECTOR_BY_CARD_ID } from "../constants/tarot/EMOTION_VECTOR";
 import {
   buildHealingAffirmationKey,
   HEALING_AFFIRMATIONS,
-} from "./HEALING_AFFIRMATIONS";
-import { GAZE_DIRECTION_RULES } from "./GAZE_DIRECTION_RULES";
-import { INTERPRETATION_QUALITY_BENCHMARKS } from "./INTERPRETATION_QUALITY_BENCHMARKS";
-import { SPREAD_POSITION_WEIGHTS } from "./POSITION_WEIGHT";
-import { SPREAD_POSITION_MEANINGS } from "./SPREAD_POSITION_MEANING";
-import { SPREAD_DEFINITIONS } from "./SPREAD_TYPES";
+} from "../constants/interpretation/HEALING_AFFIRMATIONS";
+import { GAZE_DIRECTION_RULES } from "../constants/visual/GAZE_DIRECTION_RULES";
+import { INTERPRETATION_QUALITY_BENCHMARKS } from "../constants/interpretation/INTERPRETATION_QUALITY_BENCHMARKS";
+import { SPREAD_POSITION_WEIGHTS } from "../constants/scoring/POSITION_WEIGHT";
+import { SPREAD_POSITION_MEANINGS } from "../constants/spread/SPREAD_POSITION_MEANING";
+import { SPREAD_DEFINITIONS } from "../constants/spread/SPREAD_TYPES";
 import {
   SPATIAL_PSYCHOLOGY_RULES,
   type SpatialZone,
-} from "./SPATIAL_PSYCHOLOGY_RULES";
-import { SYMBOL_COORDINATES } from "./SYMBOL_COORDINATES";
-import { TAG_COMBINATION_RULES } from "./TAG_COMBINATION_RULES";
-import { TAROT_CARDS } from "./TAROT_CARDS";
-import { TAROT_CONTEXT_MEANINGS } from "./TAROT_CONTEXT_MEANINGS";
-import { TAROT_MEANINGS } from "./TAROT_MEANINGS";
+} from "../constants/visual/SPATIAL_PSYCHOLOGY_RULES";
+import { SYMBOL_COORDINATES } from "../constants/visual/SYMBOL_COORDINATES";
+import { TAG_COMBINATION_RULES } from "../constants/tarot/TAG_COMBINATION_RULES";
+import { TAROT_CARDS } from "../constants/tarot/TAROT_CARDS";
+import { TAROT_CONTEXT_MEANINGS } from "../constants/tarot/TAROT_CONTEXT_MEANINGS";
+import { TAROT_MEANINGS } from "../constants/tarot/TAROT_MEANINGS";
 
 type ValidationItem = {
   level: (typeof VALIDATION_REPORT_LEVEL)[keyof typeof VALIDATION_REPORT_LEVEL];
@@ -77,40 +80,76 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
   const allPrimary = [...primaryCardIds, ...meaningIds, ...contextMeaningIds];
   for (const id of allPrimary) {
     if (!Number.isInteger(id)) {
-      addError(errors, "CARD_ID_NOT_INTEGER", `정수 ID가 아닌 값이 있습니다: ${id}`);
+      addError(
+        errors,
+        "CARD_ID_NOT_INTEGER",
+        `정수 ID가 아닌 값이 있습니다: ${id}`,
+      );
       continue;
     }
     if (id < cardId.min || id > cardId.max) {
-      addError(errors, "CARD_ID_OUT_OF_RANGE", `허용 범위(${cardId.min}~${cardId.max})를 벗어난 ID: ${id}`);
+      addError(
+        errors,
+        "CARD_ID_OUT_OF_RANGE",
+        `허용 범위(${cardId.min}~${cardId.max})를 벗어난 ID: ${id}`,
+      );
     }
   }
 
   const tarotCardDuplicates = findDuplicates(primaryCardIds);
   if (tarotCardDuplicates.length) {
-    addError(errors, "CARD_ID_DUPLICATE", `TAROT_CARDS 중복 ID: ${tarotCardDuplicates.join(", ")}`);
+    addError(
+      errors,
+      "CARD_ID_DUPLICATE",
+      `TAROT_CARDS 중복 ID: ${tarotCardDuplicates.join(", ")}`,
+    );
   }
 
-  const meaningMissing = primaryCardIds.filter((id) => !meaningIds.includes(id));
+  const meaningMissing = primaryCardIds.filter(
+    (id) => !meaningIds.includes(id),
+  );
   if (meaningMissing.length) {
-    addError(errors, "MEANING_ID_MISSING", `기본 의미 누락 카드 ID: ${meaningMissing.join(", ")}`);
+    addError(
+      errors,
+      "MEANING_ID_MISSING",
+      `기본 의미 누락 카드 ID: ${meaningMissing.join(", ")}`,
+    );
   }
 
-  const contextMissing = primaryCardIds.filter((id) => !contextMeaningIds.includes(id));
+  const contextMissing = primaryCardIds.filter(
+    (id) => !contextMeaningIds.includes(id),
+  );
   if (contextMissing.length) {
-    addError(errors, "CONTEXT_MEANING_ID_MISSING", `컨텍스트 의미 누락 카드 ID: ${contextMissing.join(", ")}`);
+    addError(
+      errors,
+      "CONTEXT_MEANING_ID_MISSING",
+      `컨텍스트 의미 누락 카드 ID: ${contextMissing.join(", ")}`,
+    );
   }
 
-  const emotionOutOfRange = emotionIds.filter((id) => id < cardId.min || id > cardId.max);
+  const emotionOutOfRange = emotionIds.filter(
+    (id) => id < cardId.min || id > cardId.max,
+  );
   if (emotionOutOfRange.length) {
-    addError(errors, "EMOTION_ID_OUT_OF_RANGE", `감정 벡터 카드 ID 범위 오류: ${emotionOutOfRange.join(", ")}`);
+    addError(
+      errors,
+      "EMOTION_ID_OUT_OF_RANGE",
+      `감정 벡터 카드 ID 범위 오류: ${emotionOutOfRange.join(", ")}`,
+    );
   }
 
-  const requiredContexts = new Set(CONSTANTS_VALIDATION_RULES.contextKey.canonical);
+  const requiredContexts = new Set(
+    CONSTANTS_VALIDATION_RULES.contextKey.canonical,
+  );
   for (const item of TAROT_CONTEXT_MEANINGS) {
     const keys = new Set(Object.keys(item.contexts ?? {}));
     for (const required of requiredContexts) {
       if (!keys.has(required)) {
-        addError(errors, "CONTEXT_KEY_MISSING", `카드 ${item.cardId}에 '${required}' 컨텍스트가 없습니다.`);
+        addError(
+          errors,
+          "CONTEXT_KEY_MISSING",
+          `카드 ${item.cardId}에 '${required}' 컨텍스트가 없습니다.`,
+        );
       }
     }
   }
@@ -119,10 +158,18 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
     const key = tag.context;
     if (isCanonicalContext(key)) continue;
     if (isAliasContext(key)) {
-      addWarning(warnings, "CONTEXT_ALIAS_USED", `CONTEXT_TAGS에 alias 컨텍스트 사용: ${key}`);
+      addWarning(
+        warnings,
+        "CONTEXT_ALIAS_USED",
+        `CONTEXT_TAGS에 alias 컨텍스트 사용: ${key}`,
+      );
       continue;
     }
-    addError(errors, "CONTEXT_KEY_INVALID", `CONTEXT_TAGS의 유효하지 않은 컨텍스트: ${key}`);
+    addError(
+      errors,
+      "CONTEXT_KEY_INVALID",
+      `CONTEXT_TAGS의 유효하지 않은 컨텍스트: ${key}`,
+    );
   }
 
   for (const ruleItem of TAG_COMBINATION_RULES as Array<Record<string, any>>) {
@@ -154,7 +201,9 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
   }
 
   const cardRuleIds = CARD_COMBINATION_RULES.map((item) => item.ruleId);
-  const duplicateCardRuleIds = cardRuleIds.filter((id, idx) => cardRuleIds.indexOf(id) !== idx);
+  const duplicateCardRuleIds = cardRuleIds.filter(
+    (id, idx) => cardRuleIds.indexOf(id) !== idx,
+  );
   if (duplicateCardRuleIds.length) {
     addError(
       errors,
@@ -192,15 +241,35 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
   }
 
   for (const spread of SPREAD_DEFINITIONS) {
-    const meanings = SPREAD_POSITION_MEANINGS[spread.spreadId as keyof typeof SPREAD_POSITION_MEANINGS] ?? [];
-    const weights = SPREAD_POSITION_WEIGHTS[spread.spreadId as keyof typeof SPREAD_POSITION_WEIGHTS] ?? [];
+    const meanings =
+      SPREAD_POSITION_MEANINGS[
+        spread.spreadId as keyof typeof SPREAD_POSITION_MEANINGS
+      ] ?? [];
+    const weights =
+      SPREAD_POSITION_WEIGHTS[
+        spread.spreadId as keyof typeof SPREAD_POSITION_WEIGHTS
+      ] ?? [];
 
-    if (CONSTANTS_VALIDATION_RULES.spread.requirePositionMeaning && meanings.length === 0) {
-      addError(errors, "SPREAD_MEANING_MISSING", `스프레드(${spread.spreadId}) 포지션 의미가 없습니다.`);
+    if (
+      CONSTANTS_VALIDATION_RULES.spread.requirePositionMeaning &&
+      meanings.length === 0
+    ) {
+      addError(
+        errors,
+        "SPREAD_MEANING_MISSING",
+        `스프레드(${spread.spreadId}) 포지션 의미가 없습니다.`,
+      );
     }
 
-    if (CONSTANTS_VALIDATION_RULES.spread.requirePositionWeight && weights.length === 0) {
-      addError(errors, "SPREAD_WEIGHT_MISSING", `스프레드(${spread.spreadId}) 포지션 가중치가 없습니다.`);
+    if (
+      CONSTANTS_VALIDATION_RULES.spread.requirePositionWeight &&
+      weights.length === 0
+    ) {
+      addError(
+        errors,
+        "SPREAD_WEIGHT_MISSING",
+        `스프레드(${spread.spreadId}) 포지션 가중치가 없습니다.`,
+      );
     }
 
     if (CONSTANTS_VALIDATION_RULES.spread.cardCountMustMatchPositions) {
@@ -236,7 +305,10 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
       );
     }
 
-    if ((meaning.advice?.length ?? 0) < INTERPRETATION_QUALITY_BENCHMARKS.cardMeaning.minAdviceLines) {
+    if (
+      (meaning.advice?.length ?? 0) <
+      INTERPRETATION_QUALITY_BENCHMARKS.cardMeaning.minAdviceLines
+    ) {
       addWarning(
         warnings,
         "MEANING_ADVICE_LOW",
@@ -261,7 +333,8 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
       if (
         points.some(
           (value) =>
-            value < CONSTANTS_VALIDATION_RULES.symbolCoordinates.normalizedMin ||
+            value <
+              CONSTANTS_VALIDATION_RULES.symbolCoordinates.normalizedMin ||
             value > CONSTANTS_VALIDATION_RULES.symbolCoordinates.normalizedMax,
         )
       ) {
@@ -324,9 +397,10 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
   }
 
   const spatialZones = Object.keys(SPATIAL_PSYCHOLOGY_RULES.zones).map(Number);
-  const missingZones = CONSTANTS_VALIDATION_RULES.spatialPsychology.requiredZones.filter(
-    (zone) => !spatialZones.includes(zone),
-  );
+  const missingZones =
+    CONSTANTS_VALIDATION_RULES.spatialPsychology.requiredZones.filter(
+      (zone) => !spatialZones.includes(zone),
+    );
   if (missingZones.length) {
     addError(
       errors,
@@ -347,10 +421,16 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
     }
   }
 
-  const canonicalContexts =
-    CONSTANTS_VALIDATION_RULES.contextKey.canonical as unknown as Array<
-      "love" | "career" | "finance" | "health" | "spiritual" | "personal" | "advice"
-    >;
+  const canonicalContexts = CONSTANTS_VALIDATION_RULES.contextKey
+    .canonical as unknown as Array<
+    | "love"
+    | "career"
+    | "finance"
+    | "health"
+    | "spiritual"
+    | "personal"
+    | "advice"
+  >;
 
   for (const cardIdValue of primaryCardIds) {
     for (const polarity of CONSTANTS_VALIDATION_RULES.healingAffirmation
@@ -383,4 +463,3 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
     isValid: errors.length === 0,
   };
 };
-
