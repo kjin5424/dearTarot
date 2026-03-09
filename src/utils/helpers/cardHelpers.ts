@@ -1,21 +1,48 @@
-// import type { TarotCard, DrawnCard, SpreadType } from "~types/index";
-// import { TAROT_CARDS } from "~utils/constants/TAROT_CARDS";
-// import { SPREAD_TYPES } from "~utils/constants/SPREAD_TYPES";
+import type { TarotCard, DrawnCard, SpreadType } from "@types/index";
+import { TAROT_CARDS } from "@utils/constants/tarot/TAROT_CARDS";
+import { SPREAD_DEFINITIONS } from "@utils/constants/spread/SPREAD_TYPES";
+import { SPREAD_POSITION_MEANINGS } from "@utils/constants/spread/SPREAD_POSITION_MEANING";
 
-// === shuffleArray<T>(arr: T[]): T[] ===
-// Fisher-Yates 셔플 (원본 변경 없이 복사본 반환)
+const SPREAD_ID_MAP: Record<SpreadType, string> = {
+  ONE_CARD: "one_card",
+  THREE_CARD: "three_card",
+  FOUR_CARD: "four_card",
+  FIVE_CARD: "five_card",
+  CELTIC_CROSS: "celtic_cross",
+  RELATIONSHIP_SPREAD: "relationship_spread",
+  HORSESHOE_SPREAD: "horseshoe_spread",
+  MAGIC_SEVEN: "magic_seven",
+};
 
-// === drawRandomCards(spreadType: SpreadType): DrawnCard[] ===
-// 1. SPREAD_TYPES[spreadType].count 로 뽑을 카드 수 결정
-// 2. TAROT_CARDS 배열(78장)을 shuffleArray로 셔플
-// 3. 앞에서 count장 slice
-// 4. 각 카드에 대해:
-//    - isReversed: Math.random() < 0.3 (30% 역방향)
-//    - position: SPREAD_TYPES[spreadType].positions[i]
-// 5. DrawnCard[] 반환
+export function shuffleArray<T>(arr: T[]): T[] {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
 
-// === getCardById(id: number): TarotCard | undefined ===
-// TAROT_CARDS.find(c => c.id === id)
+export function drawRandomCards(spreadType: SpreadType): DrawnCard[] {
+  const spreadId = SPREAD_ID_MAP[spreadType];
+  const def = SPREAD_DEFINITIONS.find((d) => d.spreadId === spreadId);
+  const count = def?.cardCount ?? 1;
+  const positions = SPREAD_POSITION_MEANINGS[spreadId as keyof typeof SPREAD_POSITION_MEANINGS] ?? [];
 
-// === getPositionLabel(spreadType: SpreadType, index: number): string ===
-// SPREAD_TYPES[spreadType].positions[index] 반환
+  const shuffled = shuffleArray(TAROT_CARDS as TarotCard[]);
+  return shuffled.slice(0, count).map((card, i) => ({
+    card,
+    position: positions[i]?.role ?? `position-${i + 1}`,
+    isReversed: Math.random() < 0.5,
+  }));
+}
+
+export function getCardById(id: number): TarotCard | undefined {
+  return (TAROT_CARDS as TarotCard[]).find((c) => c.id === id);
+}
+
+export function getPositionLabel(spreadType: SpreadType, index: number): string {
+  const spreadId = SPREAD_ID_MAP[spreadType];
+  const positions = SPREAD_POSITION_MEANINGS[spreadId as keyof typeof SPREAD_POSITION_MEANINGS] ?? [];
+  return positions[index]?.role ?? `position-${index + 1}`;
+}

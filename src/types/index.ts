@@ -10,7 +10,15 @@ export type SceneName =
   | "READING"
   | "RETURN";
 
-export type SpreadType = "ONE_CARD" | "THREE_CARD" | "CELTIC_CROSS";
+export type SpreadType =
+  | "ONE_CARD"
+  | "THREE_CARD"
+  | "FOUR_CARD"
+  | "FIVE_CARD"
+  | "CELTIC_CROSS"
+  | "RELATIONSHIP_SPREAD"
+  | "HORSESHOE_SPREAD"
+  | "MAGIC_SEVEN";
 
 export type KarmaOption = "DIARY" | "DONATION" | "AD";
 
