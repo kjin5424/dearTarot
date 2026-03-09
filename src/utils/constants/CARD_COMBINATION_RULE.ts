@@ -1,3 +1,6 @@
+﻿/**
+ * 카드 조합(페어/패턴) 규칙과 의미 보정치를 정의합니다.
+ */
 export const CARD_COMBINATION_RULES = [
   {
     ruleId: "r001",
@@ -2681,3 +2684,5 @@ export const CARD_COMBINATION_RULES = [
     aiModifier: { destiny: 0.99 },
   },
 ];
+
+

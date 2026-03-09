@@ -1,5 +1,16 @@
 # HISTORY (완료 작업 아카이브)
 
+## Phase 5 정리 — 삭제된 파일 (2026-03-09)
+
+- src/views/\*.vue (5개) — router 기반 페이지, 씬 전환 방식으로 미사용
+- src/components/overlays/KarmaOverlay.vue — KarmaOptions.vue로 대체
+- src/components/overlays/ReadingOverlay.vue — InsightPanel.vue로 대체
+- src/components/tarot/Card.ts — 미사용
+- src/stores/useUserStore.ts — 빈 파일
+- src/config/axiosConfig.ts — 빈 파일
+- src/utils/constants/CONTEXT_INTERPRETATION_LAYER.ts — TAROT_CONTEXT_MEANINGS.ts로 통합
+- src/components/common/Button.vue, Loading.vue — 빈 파일
+
 ## Phase 4: Vue Overlay 구현 (✅ 2026-03-09)
 
 - [x] DialogBox.vue — 타이핑 효과(40ms/char), 클릭 스킵, done emit, ▼ 프롬프트
@@ -50,14 +61,3 @@
 - [x] 컬러 테마 정의 (`_color-theme.scss` — 5그룹)
 - [x] 상세 내러티브 플로우 문서화 (productContext.md)
 - [x] progress.md / todo.md / MILESTONES.md 생성
-
-## Phase 5 정리 — 삭제된 파일 (2026-03-09)
-
-- src/views/*.vue (5개) — router 기반 페이지, 씬 전환 방식으로 미사용
-- src/components/overlays/KarmaOverlay.vue — KarmaOptions.vue로 대체
-- src/components/overlays/ReadingOverlay.vue — InsightPanel.vue로 대체
-- src/components/tarot/Card.ts — 미사용
-- src/stores/useUserStore.ts — 빈 파일
-- src/config/axiosConfig.ts — 빈 파일
-- src/utils/constants/CONTEXT_INTERPRETATION_LAYER.ts — TAROT_CONTEXT_MEANINGS.ts로 통합
-- src/components/common/Button.vue, Loading.vue — 빈 파일
