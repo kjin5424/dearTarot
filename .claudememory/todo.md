@@ -47,32 +47,14 @@
 - [x] ✅ CONSTANTS_VALIDATOR → src/utils/helpers/constantsValidator.ts
 - [x] ✅ 배럴 진입점: src/types/tarot.ts, 모든 내부 import 경로 수정 완료
 
-## Phase 5-2: 통합 & 데이터 연결
+## ~~Phase 5-2: 통합 & 데이터 연결~~ (✅완료 2026-03-09)
 
-### 5-2-A. 카드 헬퍼 구현 (cardHelpers.ts)
-- [ ] shuffleArray, drawRandomCards, getCardById, getPositionLabel
-- [ ] DrawScene.ts에서 cardHelpers 사용하도록 연결
-
-### 5-2-B. Mock 해석 고도화 (tarotApi.ts → getMockInterpretation)
-- [ ] TAROT_MEANINGS + REVERSED_MEANINGS 데이터 기반 mock 해석 생성
-- [ ] InsightPanel.vue의 하드코딩된 mock을 tarotApi.getMockInterpretation()으로 교체
-
-### 5-2-C. 로컬 저장소 (localStorage.ts)
-- [ ] saveSession / getRecentSessions / clearOldSessions (30일 초과 삭제)
-- [ ] 카르마 일기 저장/조회 (saveDiaryEntry / getDiaryEntries)
-
-### 5-2-D. 카르마 처리 (karmaApi.ts)
-- [ ] processKarma — 옵션별 분기 (DIARY/DONATION/AD)
-- [ ] hasCompletedKarma — 오늘 완료 여부
-- [ ] 기부 링크: GreaterGood / Brother Click for the Earth
-
-### 5-2-E. 씬 전환 훅 (useSceneTransition.ts)
-- [ ] transitionTo + isTransitioning 상태
-- [ ] App.vue에서 store.goTo() → transitionTo()로 교체
-
-### 5-2-F. Pixi 유틸리티 (pixiHelpers.ts / pixiLoader.ts)
-- [ ] createRect / createCircle / centerObject / fadeIn / fadeOut / pulseEffect
-- [ ] pixiLoader — 에셋 로딩 구조
+- [x] 5-2-A: cardHelpers.ts (shuffleArray, drawRandomCards, getCardById, getPositionLabel)
+- [x] 5-2-B: tarotApi.ts getMockInterpretation + InsightPanel 연결
+- [x] 5-2-C: localStorage.ts (세션/일기 저장소)
+- [x] 5-2-D: karmaApi.ts (DIARY/DONATION/AD 분기)
+- [x] 5-2-E: useSceneTransition.ts + App.vue 연결
+- [x] 5-2-F: pixiHelpers.ts + pixiLoader.ts
 
 ## Phase 6: AI 해석 연동 (대기)
 
