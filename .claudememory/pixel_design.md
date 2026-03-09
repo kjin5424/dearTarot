@@ -24,46 +24,46 @@
 
 ## 색상 팔레트 (엄격히 이 색상만 사용, 다른 색 절대 NO)
 
-$Shadow-group-1-hex: #1a1026;
-$Shadow-group-2-hex: #220d36;
-$Shadow-group-3-hex: #2b144a;
-$Shadow-group-4-hex: #351d63;
-$Shadow-group-5-hex: #3e287d;
+$Shadow-group-1-hex: #1a1026;\
+$Shadow-group-2-hex: #220d36;\
+$Shadow-group-3-hex: #2b144a;\
+$Shadow-group-4-hex: #351d63;\
+$Shadow-group-5-hex: #3e287d;\
 
-$Accent-witch-magic-1-hex: #7240a8;
-$Accent-witch-magic-2-hex: #a65cd4;
-$Accent-witch-magic-3-hex: #ca70da;
-$Accent-witch-magic-4-hex: #eca1f0;
-$Accent-witch-magic-5-hex: #e5ccea;
-(→ 포인트 라이트/달빛/마법 빛용)
+$Accent-witch-magic-1-hex: #7240a8;\
+$Accent-witch-magic-2-hex: #a65cd4;\
+$Accent-witch-magic-3-hex: #ca70da;\
+$Accent-witch-magic-4-hex: #eca1f0;\
+$Accent-witch-magic-5-hex: #e5ccea;\
+(→ 포인트 라이트/달빛/마법 빛용)\
 
-$Ground-Soil-1-hex: #1a1026;
-$Ground-Soil-2-hex: #26163a;
-$Ground-Soil-3-hex: #372254;
-$Ground-Soil-4-hex: #4b2e6e;
-$Ground-Soil-5-hex: #62418a;
+$Ground-Soil-1-hex: #1a1026;\
+$Ground-Soil-2-hex: #26163a;\
+$Ground-Soil-3-hex: #372254;\
+$Ground-Soil-4-hex: #4b2e6e;\
+$Ground-Soil-5-hex: #62418a;\
 
-$Fog-Atmosphere-1-hex: #3a3c5c;
-$Fog-Atmosphere-2-hex: #51557d;
-$Fog-Atmosphere-3-hex: #6e7299;
-$Fog-Atmosphere-4-hex: #8a9cbc;
-$Fog-Atmosphere-5-hex: #aab7d0;
-$Fog-Atmosphere-6-hex: #c1e2e8;
-(→ 안개·먼 거리·하늘 일부)
+$Fog-Atmosphere-1-hex: #3a3c5c;\
+$Fog-Atmosphere-2-hex: #51557d;\
+$Fog-Atmosphere-3-hex: #6e7299;\
+$Fog-Atmosphere-4-hex: #8a9cbc;\
+$Fog-Atmosphere-5-hex: #aab7d0;\
+$Fog-Atmosphere-6-hex: #c1e2e8;\
+(→ 안개·먼 거리·하늘 일부)\
 
-$Fog-Atmosphere-1-rgba: rgba(58, 60, 92, 1);
-$Fog-Atmosphere-2-rgba: rgba(81, 85, 125, 1);
-$Fog-Atmosphere-3-rgba: rgba(110, 114, 153, 1);
-$Fog-Atmosphere-4-rgba: rgba(138, 156, 188, 1);
-$Fog-Atmosphere-5-rgba: rgba(170, 183, 208, 1);
-$Fog-Atmosphere-6-rgba: rgba(193, 226, 232, 1);
+$Fog-Atmosphere-1-rgba: rgba(58, 60, 92, 1);\
+$Fog-Atmosphere-2-rgba: rgba(81, 85, 125, 1);\
+$Fog-Atmosphere-3-rgba: rgba(110, 114, 153, 1);\
+$Fog-Atmosphere-4-rgba: rgba(138, 156, 188, 1);\
+$Fog-Atmosphere-5-rgba: rgba(170, 183, 208, 1);\
+$Fog-Atmosphere-6-rgba: rgba(193, 226, 232, 1);\
 
-$Tree-Vegetation-group-1-hex: #2e1b46;
-$Tree-Vegetation-group-2-hex: #3b255e;
-$Tree-Vegetation-group-3-hex: #4e4fa6;
-$Tree-Vegetation-group-4-hex: #6b5cc6;
-$Tree-Vegetation-group-5-hex: #8a7ae0;
-$Tree-Vegetation-group-6-hex: #a49bf3;
+$Tree-Vegetation-group-1-hex: #2e1b46;\
+$Tree-Vegetation-group-2-hex: #3b255e;\
+$Tree-Vegetation-group-3-hex: #4e4fa6;\
+$Tree-Vegetation-group-4-hex: #6b5cc6;\
+$Tree-Vegetation-group-5-hex: #8a7ae0;\
+$Tree-Vegetation-group-6-hex: #a49bf3;\
 
 - 전체적으로 채도 낮고 명도 매우 낮음, 퍼플/바이올렛/검정 중심의 극단적 어둠 팔레트
 - **포인트 라이트(달빛, 마법 빛 등)**는 Accent 계열의 가장 밝은 쪽(#eca1f0, #e5ccea)으로 아주 드물고 작게만 사용 (작은 반짝임, 작은 반사 정도)
@@ -72,7 +72,7 @@ $Tree-Vegetation-group-6-hex: #a49bf3;
 
 ## 픽셀 스타일 & 기술
 
-- 중저~중간 해상도 (240~480p 느낌)
+- 중저 ~ 중간 해상도 (240~480p 느낌)
 - **dithering** 적극 사용 → 거칠고 텍스처감 강하게, 부드러운 그라데이션 피함
 - 안티앨리어싱 거의 없거나 최소 → raw하고 레트로 게임 느낌
 - 배경 요소들은 **리얼리스틱**한 묘사 추구 (형태, 질감, 구성에서 사실적·현실적인 느낌을 최대한 살림)
@@ -81,7 +81,8 @@ $Tree-Vegetation-group-6-hex: #a49bf3;
 ---
 
 ## 필요한 픽셀 아트 오브젝트 종류
-> 타일셋처럼 **개별적으로 분리된 형태**, 조합해서 배경 구성 가능
+
+타일셋처럼 **개별적으로 분리된 형태**, 조합해서 배경 구성 가능
 
 - 다양한 종류의 나무
   - 주로 마녀와 어울리는 침엽수 중심
@@ -111,8 +112,7 @@ $Tree-Vegetation-group-6-hex: #a49bf3;
   – Accent 밝은 색으로 아주 작은 포인트 라이트
 - 이끼, 낙엽 더미, 뿌리, 거미줄, 작은 안개 패치 등 추가 자연 디테일
 
-> 이 오브젝트들은 첨부한 인벤토리 이미지처럼 각각 개별 스프라이트로 분리되어 있어야 하고,
-> 탑다운 시점에서 자연스럽게 타일처럼 붙여서 배경을 만들 수 있을 정도로 일관된 스타일 & 크기감이어야 함.
+이 오브젝트들은 첨부한 인벤토리 이미지처럼 각각 개별 스프라이트로 분리되어 있어야 하고, \탑다운 시점에서 자연스럽게 타일처럼 붙여서 배경을 만들 수 있을 정도로 일관된 스타일 & 크기감이어야 함.
 
 ---
 
