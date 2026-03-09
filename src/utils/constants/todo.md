@@ -60,6 +60,36 @@
 - `index.ts`: 신규 상수 export 추가
 - `interpretation.md`: 해석 순서 표/영향 설명 업데이트
 
+## 리서치 기반 추가 반영 (전문화)
+1. 감정 벡터 중립 보정
+- 파일: `EMOTION_VECTOR.ts`
+- 반영: High Priestess(2), Hierophant(5), Hermit(9), Justice(11) valence를 중립 해석 방향으로 조정
+
+2. Wands 수트 톤 보정
+- 파일: `SUIT_INFO.ts`
+- 반영: `coreTheme`를 `passion_vision_creation`으로 정교화, 코칭 렌즈를 의도-에너지 정렬 중심으로 수정
+
+3. One Card 스프레드 의미 보정
+- 파일: `SPREAD_TYPES.ts`
+- 반영: 단일 카드 스프레드 용도를 결과 단정형이 아닌 메시지/현재 에너지 점검 중심으로 조정
+
+4. Tower 역방향 정책 보정
+- 파일: `REVERSED_MEANINGS.ts`
+- 반영: personal 컨텍스트를 `invert` -> `weaken`으로 완화
+
+5. 카드 한국어명 전문화
+- 파일: `TAROT_CARDS.ts`
+- 반영: 메이저 아르카나 `nameKr`를 표준 한국어 명칭 배열로 분리
+
+6. 그리드 해석 문구 전문화
+- 파일: `GRID_INTERPRETATIONS.ts`
+- 반영: 1~9 전 셀을 한국어 전문 문구로 정제
+
+7. 품질 기준 상수 신설 + validator 연동
+- 파일: `INTERPRETATION_QUALITY_BENCHMARKS.ts`
+- 파일: `CONSTANTS_VALIDATOR.ts`
+- 반영: 키워드/조언 최소치, 룰 개수 기준 등 품질 기준 기반 경고 체계 추가
+
 ## 다음 개선 후보
 1. `SYMBOL_COORDINATES`를 카드 이미지 실제 객체 검출 데이터와 동기화
 2. `HEALING_AFFIRMATIONS`를 사용자 프로필 톤(직설/부드러움)에 맞춰 다중 버전화

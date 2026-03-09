@@ -1,6 +1,46 @@
 # 👽수정함 (2026-03-09)
 
-# 수정된 내용
+## 주요 반영:
+
+1. 리서치 권고 직접 반영
+
+- 감정 벡터 중립 보정: EMOTION_VECTOR.ts
+  - High Priestess(2), Hierophant(5), Hermit(9), Justice(11) valence 조정
+- Wands 해석 톤 정제: SUIT_INFO.ts
+  - coreTheme/coachingLens를 의도-에너지 정렬 중심으로 수정
+- One Card 스프레드 의미 보정: SPREAD_TYPES.ts
+  - 결과 단정형에서 “핵심 메시지/현재 에너지 점검” 중심으로 조정
+- Tower 역방향 완화: REVERSED_MEANINGS.ts
+  - personal을 invert -> weaken으로 조정
+- 메이저 한국어명 정제: TAROT_CARDS.ts
+  - nameKr 표준 한국어명 배열 반영(예: The Fool → 바보)
+- 9그리드 문구 전문화(한국어): GRID_INTERPRETATIONS.ts
+
+2. 새 파일 추가(전문화)
+
+- INTERPRETATION_QUALITY_BENCHMARKS.ts
+  - 의미 품질/룰 수/커버리지 기준선 정의
+
+3. 검증기 고도화
+
+- CONSTANTS_VALIDATOR.ts
+  - 위 품질 기준 연동
+  - 키워드/advice 최소치, 룰 개수 최소치 경고 추가
+
+4. export 및 문서 갱신
+
+- 배럴 export 반영: index.ts
+- 해석 문서 업데이트: interpretation.md
+- TODO 업데이트: todo.md
+
+## 참고:
+
+- 요청하신 경로 제한을 지켜 src/utils/constants/ 외부 파일은 수정하지 않았습니다.
+- 별도 타입체크/테스트 실행은 하지 않았습니다.
+
+# 👽수정함 (2026-03-09)
+
+## 수정된 내용
 
 - semantic tag ID 정규화 + 오탈자 호환 alias 추가
   - SEMENTIC_TAG.ts
@@ -23,7 +63,7 @@
   - QUESTION_TYPE_INFERENCE_RULES의 타입들과 맞지 않던 complex_life_problem/general_problem 제거
   - timeline/advice/problem_solving/outcome_prediction/emotional_clarity/life_direction/...와 일치하도록 재정의
 
-# 참고
+## 참고
 
 - INTERPRETATION_CONTEXT_SCHEMA.ts
 - canonical context + alias map + normalizeInterpretationContext 추가

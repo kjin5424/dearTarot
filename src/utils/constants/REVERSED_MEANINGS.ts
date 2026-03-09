@@ -170,7 +170,7 @@ export const MAJOR_REVERSED_LOGIC = [
     health: "weaken",
     advice: "invert",
     spiritual: "invert",
-    personal: "invert",
+    personal: "weaken",
   },
   {
     cardId: 17,
@@ -283,7 +283,7 @@ export const CARD_REVERSED_OVERRIDE = {
     love: "invert",
     career: "invert",
     finance: "invert",
-    personal: "invert",
+    personal: "weaken",
     spiritual: "invert",
   }, // Tower
   18: {
