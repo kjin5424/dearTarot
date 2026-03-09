@@ -1,5 +1,11 @@
 # MILESTONES
 
+## 2026-03-09 (Opus 전수 검토: haiku 작업 검증 + API 전략 수립)
+
+- haiku 작업 전수 검토: 5-1-B/C/E 완료 확인, 5-1-A CRITICAL(파일명/원본ID) 미처리 + SEMENTIG_TAG T→G 추가 오타 발견, CONTEXT_TAGS 한글 키 비일관성 신규 발견
+- todo.md/progress.md 정확도 보정: 완료 항목 분리(5-1-B/C/E), 미완료 재정의(5-1-A/D/F/G/H/I), 품질 이슈(5-1-D/F)를 Phase 6 이후로 분류
+- api-strategy.md 신규 생성: example.md 분석 → API 플랫폼 6개 비교, AI 접목 3단계(프롬프트→RAG→파인튜닝), 이미지 소스(metabismuth RWS), 카르마 기부 링크 정리
+
 ## 2026-03-09 (메모리 정리 및 Phase 5-1 계획 수립)
 
 - research.md 내용 분석 완료: CRITICAL 3건(파일명 오타, ID 체계 2건), HIGH 4건, MEDIUM 3건 미반영 이슈 발견 → todo.md에 Phase 5-1로 신규 추가

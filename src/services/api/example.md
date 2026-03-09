@@ -144,3 +144,81 @@ RAG(검색 증강 생성) 병행: 모든 지식을 모델에 학습시키려 하
 코딩이나 복잡한 논리 구현이 목적이라면: DeepSeek R1 또는 Llama 4
 
 가벼운 서비스나 저비용 운영이 중요하다면: Gemma 3 또는 Mistral Small
+
+---
+
+👽: 카르마 옵션 중 기부
+
+**1. 다양한 분야를 한 번에 'GreaterGood 네트워크' :**
+
+- 매일 사이트에 접속해 'Click Here to Give - it's FREE' 버튼을 누르기만 하면 되는 사이트입니다.
+- 특징: 매일 1회 참여 가능하며, 다양한 후원 분야가 있습니다.
+- 링크:
+  - https://greatergood.com/?ctg-cause=people-pets-planet
+  - https://greatergood.com/?ctg-cause=breast-cancer-research
+  - https://greatergood.com/?ctg-cause=alzheimers-research
+  - https://greatergood.com/?ctg-cause=literacy-education
+  - https://greatergood.com/?ctg-cause=autism-therapies
+  - https://greatergood.com/?ctg-cause=veteran-meals-care
+  - https://greatergood.com/?ctg-cause=hunger-poverty-relief
+  - https://greatergood.com/?ctg-cause=diabetes-research
+
+**2. 환경 보호: Brother 'Click for the Earth' :**
+
+- 유명 프린터 기업 Brother에서 운영하는 환경 보전 클릭 캠페인입니다.
+- 작동 원리: 지원하고 싶은 환경 프로젝트(열대우림 재생, 사막화 방지 등)를 선택하고 클릭하면, Brother 측에서 클릭당 **1엔(약 10원)**을 해당 프로젝트에 대신 기부합니다.
+- 특징: 매일 1회 참여 가능하며, 현재 어느 정도 기부되었는지 포인트로 투명하게 보여줍니다.
+- 링크: https://sdgsstory.global.brother/e/click-donation/
+
+---
+
+👽: 이미지는 다음 깃허브 주소를 사용
+
+- **https://github.com/krates98/tarotcardapi.git :**
+- README.md
+  Free Tarot Card API with Images Welcome to the ultimate Tarot Card API, available for free!
+
+🌟 Features:
+
+Random Card Selector: Our API can randomly select a Tarot card, offering a unique experience every time. Full Card Listing: Access a comprehensive list of all Tarot cards in our collection. High-Quality Images: Each Tarot card comes with a beautifully designed, high-resolution image. Ease of Use: Designed with simplicity in mind, our API is user-friendly and easy to integrate. Free to Fork and Use: Open to all, you can fork this repository and use our API in your projects without any cost.
+
+🔮 Ideal for:
+
+Tarot reading websites and apps Spiritual and astrological content creators Personal projects exploring divination and Tarot Educational purposes in learning APIs or Tarot card meanings
+
+💡 Getting Started:
+
+Clone or Fork the Repository: Get started by cloning or forking this repository. Explore the Documentation: Our clear and concise documentation makes integration a breeze. Implement in Your Project: Use our API to add Tarot card functionalities to your application or website.
+
+🤝 Contribute:
+
+Suggestions, improvements, and pull requests are welcome. Let's make this the best Tarot Card API out there! Embrace the mystical and enhance your projects with our Free Tarot Card API!
+
+Feel free to modify this description to better fit your project's unique features and functionality.
+
+Endpoints
+
+Use endpoints /cards/onecard of picking a single random card & use /cards for all cards
+
+- **https://github.com/metabismuth/tarot-json.git :**
+- README.md
+
+Tarot dataset
+A json dataset of tarot cards, and corresponding scans of the RWS deck.
+
+tarot-images.json includes references to the scans, tarot.json does not.
+
+The cards
+If you just want the scans for the cards, they're available as a release.
+
+The cards are acquired from data.totl.net via wget:
+
+$ wget -r -np -nH --cut-dirs=3 -R index.html* -R *r.jpg -R \*h.jpg http://data.totl.net/tarot-rwcs-images/
+This command excludes cards in horizontal, reversed, and horizontal reversed positions.
+
+The cards are all 350x600px, and are 7.37MB total.
+
+Copyright and license
+The Rider-Waite-Smith deck is public domain in the US, but not currently in the EU.
+
+## This project is available as open source under the terms of the MIT License.
