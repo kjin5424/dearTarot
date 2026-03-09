@@ -20,7 +20,7 @@ export * from "./INTERPRETATION_HOOK";
 export * from "./INTERPRETATION_QUALITY_BENCHMARKS";
 export * from "./PERSONALIZED_INTERPRETATION_PROFILE";
 export * from "./POSITION_WEIGHT";
-export * from "./prompts";
+export * from "./PROMPT";
 export * from "./QUESTION_TYPE_INFERENCE_RULES";
 export * from "./QUESTION_TYPE_MERGE_RULES";
 export * from "./REVERSED_MEANINGS";

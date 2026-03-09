@@ -1,16 +1,25 @@
 ﻿/**
  * 상수 조합 기반 실제 타로 해석 엔진 함수를 정의합니다.
  */
-import { AI_INTERPRETATION_ENGINE_CONFIG, AI_INTERPRETATION_WEIGHT } from "./AI_INTERPRETATION_PIPELINE";
+import {
+  AI_INTERPRETATION_ENGINE_CONFIG,
+  AI_INTERPRETATION_WEIGHT,
+} from "./AI_INTERPRETATION_PIPELINE";
 import { CARD_COMBINATION_RULES } from "./CARD_COMBINATION_RULE";
 import { getColorPaletteAnalysis } from "./COLOR_PALETTE_ANALYSIS";
 import { CONTEXT_TAGS } from "./CONTEXT_TAGS";
 import { EMOTION_VECTOR_BY_CARD_ID } from "./EMOTION_VECTOR";
 import { resolveGazeFlow } from "./GAZE_DIRECTION_RULES";
-import { getHealingAffirmation, type HealingPolarity } from "./HEALING_AFFIRMATIONS";
+import {
+  getHealingAffirmation,
+  type HealingPolarity,
+} from "./HEALING_AFFIRMATIONS";
 import { INTERPRETATION_CONFLICT_RULES } from "./INTERPRETATION_CONFLICT_RULES";
-import { normalizeInterpretationContext, type CanonicalInterpretationContext } from "./INTERPRETATION_CONTEXT_SCHEMA";
-import { buildSystemPrompt } from "./prompts";
+import {
+  normalizeInterpretationContext,
+  type CanonicalInterpretationContext,
+} from "./INTERPRETATION_CONTEXT_SCHEMA";
+import { buildSystemPrompt } from "./PROMPT";
 import type { PersonalizedInterpretationProfile } from "./PERSONALIZED_INTERPRETATION_PROFILE";
 import {
   MAJOR_REVERSED_LOGIC,
@@ -21,7 +30,10 @@ import { SCORING_STRUCTURE } from "./SCORING_STRUCTURE";
 import { SEMANTIC_TAGS } from "./SEMENTIC_TAG";
 import { SPREAD_POSITION_WEIGHTS } from "./POSITION_WEIGHT";
 import { SPREAD_POSITION_MEANINGS } from "./SPREAD_POSITION_MEANING";
-import { positionToSpatialZone, resolveSpatialPsychology } from "./SPATIAL_PSYCHOLOGY_RULES";
+import {
+  positionToSpatialZone,
+  resolveSpatialPsychology,
+} from "./SPATIAL_PSYCHOLOGY_RULES";
 import { getSymbolCoordinatesByCardId } from "./SYMBOL_COORDINATES";
 import { TAG_COMBINATION_RULES } from "./TAG_COMBINATION_RULES";
 import { TAROT_CARDS } from "./TAROT_CARDS";
@@ -99,7 +111,8 @@ const clamp = (value: number, min: number, max: number): number =>
   Math.max(min, Math.min(max, value));
 
 const normalizeScore = (raw: number): number => {
-  const { minRaw, maxRaw, clampMin, clampMax } = SCORING_STRUCTURE.normalization;
+  const { minRaw, maxRaw, clampMin, clampMax } =
+    SCORING_STRUCTURE.normalization;
   const normalized = (raw - minRaw) / (maxRaw - minRaw);
   return clamp(normalized, clampMin, clampMax);
 };
@@ -108,7 +121,9 @@ const resolvePositionRole = (
   spreadId: keyof typeof SPREAD_POSITION_MEANINGS,
   position: number,
 ): { role: string; coreMeaning: string } => {
-  const found = SPREAD_POSITION_MEANINGS[spreadId]?.find((item) => item.position === position);
+  const found = SPREAD_POSITION_MEANINGS[spreadId]?.find(
+    (item) => item.position === position,
+  );
   if (!found) {
     return {
       role: `position_${position}`,
@@ -122,7 +137,9 @@ const resolvePositionWeight = (
   spreadId: keyof typeof SPREAD_POSITION_MEANINGS,
   position: number,
 ): number => {
-  const found = SPREAD_POSITION_WEIGHTS[spreadId]?.find((item) => item.position === position);
+  const found = SPREAD_POSITION_WEIGHTS[spreadId]?.find(
+    (item) => item.position === position,
+  );
   return found?.weight ?? 1;
 };
 
@@ -131,7 +148,12 @@ const getReversedPolicy = (
   suit: string | null,
   context: CanonicalInterpretationContext,
 ): "invert" | "weaken" | null => {
-  const override = (CARD_REVERSED_OVERRIDE as Record<number, Partial<Record<CanonicalInterpretationContext, "invert" | "weaken">>>)[cardId];
+  const override = (
+    CARD_REVERSED_OVERRIDE as Record<
+      number,
+      Partial<Record<CanonicalInterpretationContext, "invert" | "weaken">>
+    >
+  )[cardId];
   if (override?.[context]) return override[context] ?? null;
 
   if (cardId <= 21) {
@@ -145,7 +167,9 @@ const getReversedPolicy = (
   return MINOR_REVERSED_PATTERN[key]?.[context] ?? null;
 };
 
-const reversedFactorFromPolicy = (policy: "invert" | "weaken" | null): number => {
+const reversedFactorFromPolicy = (
+  policy: "invert" | "weaken" | null,
+): number => {
   if (policy === "invert") return -0.9;
   if (policy === "weaken") return 0.7;
   return 1;
@@ -154,11 +178,13 @@ const reversedFactorFromPolicy = (policy: "invert" | "weaken" | null): number =>
 const contextCompatibility = (
   themes: string[],
   emotions: string[],
-  contextBias: {
-    themeBias?: Record<string, number>;
-    emotionBias?: Record<string, number>;
-    weight?: number;
-  } | undefined,
+  contextBias:
+    | {
+        themeBias?: Record<string, number>;
+        emotionBias?: Record<string, number>;
+        weight?: number;
+      }
+    | undefined,
 ): number => {
   if (!contextBias) return 0;
 
@@ -171,7 +197,8 @@ const contextCompatibility = (
     0,
   );
 
-  const normalized = (themeScore + emotionScore) / Math.max(1, themes.length + emotions.length);
+  const normalized =
+    (themeScore + emotionScore) / Math.max(1, themes.length + emotions.length);
   return normalized * (contextBias.weight ?? 1);
 };
 
@@ -197,8 +224,12 @@ export const interpretTarotReading = (
     const cardMeta = TAROT_CARDS.find((c) => c.id === draw.cardId);
     const basic = TAROT_MEANINGS.find((m) => m.id === draw.cardId);
     const semantic = SEMANTIC_TAGS.find((s) => s.cardId === draw.cardId);
-    const contextBlock = TAROT_CONTEXT_MEANINGS.find((c) => c.cardId === draw.cardId)?.contexts?.[normalizedContext];
-    const emotion = EMOTION_VECTOR_BY_CARD_ID.find((v) => v.cardId === draw.cardId);
+    const contextBlock = TAROT_CONTEXT_MEANINGS.find(
+      (c) => c.cardId === draw.cardId,
+    )?.contexts?.[normalizedContext];
+    const emotion = EMOTION_VECTOR_BY_CARD_ID.find(
+      (v) => v.cardId === draw.cardId,
+    );
 
     const { role } = resolvePositionRole(input.spreadId, draw.position);
     const positionWeight = resolvePositionWeight(input.spreadId, draw.position);
@@ -212,21 +243,41 @@ export const interpretTarotReading = (
     for (const theme of themes) aggregateThemes.add(theme);
     for (const e of emotions) aggregateEmotions.add(e);
 
-    const baseMeaningScore = (polaritySignal * SCORING_STRUCTURE.baseWeights.basicMeaning) * AI_INTERPRETATION_WEIGHT.basic_meaning;
-    const contextMeaningScore = ((contextBlock?.themes?.length ?? 0) * 0.08) * SCORING_STRUCTURE.baseWeights.contextMeaning;
-    const semanticScore = ((themes.length + emotions.length) * 0.05) * SCORING_STRUCTURE.baseWeights.semanticTag;
-    const contextBiasScore = contextCompatibility(themes, emotions, contextBias) * SCORING_STRUCTURE.baseWeights.contextBias;
+    const baseMeaningScore =
+      polaritySignal *
+      SCORING_STRUCTURE.baseWeights.basicMeaning *
+      AI_INTERPRETATION_WEIGHT.basic_meaning;
+    const contextMeaningScore =
+      (contextBlock?.themes?.length ?? 0) *
+      0.08 *
+      SCORING_STRUCTURE.baseWeights.contextMeaning;
+    const semanticScore =
+      (themes.length + emotions.length) *
+      0.05 *
+      SCORING_STRUCTURE.baseWeights.semanticTag;
+    const contextBiasScore =
+      contextCompatibility(themes, emotions, contextBias) *
+      SCORING_STRUCTURE.baseWeights.contextBias;
 
     const reversedPolicy = draw.reversed
-      ? getReversedPolicy(draw.cardId, cardMeta?.suit ?? null, normalizedContext)
+      ? getReversedPolicy(
+          draw.cardId,
+          cardMeta?.suit ?? null,
+          normalizedContext,
+        )
       : null;
     const reversedFactor = draw.reversed
       ? reversedFactorFromPolicy(reversedPolicy)
       : 1;
 
-    const positionScore = positionWeight * SCORING_STRUCTURE.baseWeights.spreadPosition;
+    const positionScore =
+      positionWeight * SCORING_STRUCTURE.baseWeights.spreadPosition;
     const cardRawScore =
-      (baseMeaningScore + contextMeaningScore + semanticScore + contextBiasScore + positionScore) *
+      (baseMeaningScore +
+        contextMeaningScore +
+        semanticScore +
+        contextBiasScore +
+        positionScore) *
       reversedFactor;
 
     if (emotion) {
@@ -263,7 +314,11 @@ export const interpretTarotReading = (
     const contexts = (rule.contexts ?? []) as string[];
     if (!tags?.length) continue;
     if (!tags.every((tag) => allTags.has(tag))) continue;
-    if (contexts.length && !contexts.includes(normalizedContext) && !(normalizedContext === "finance" && contexts.includes("money"))) {
+    if (
+      contexts.length &&
+      !contexts.includes(normalizedContext) &&
+      !(normalizedContext === "finance" && contexts.includes("money"))
+    ) {
       continue;
     }
 
@@ -297,8 +352,11 @@ export const interpretTarotReading = (
       aiModifier.stability,
     ].filter((v) => typeof v === "number") as number[];
 
-    const negativeSignal = [aiModifier.risk, aiModifier.loss, aiModifier.uncertainty]
-      .filter((v) => typeof v === "number") as number[];
+    const negativeSignal = [
+      aiModifier.risk,
+      aiModifier.loss,
+      aiModifier.uncertainty,
+    ].filter((v) => typeof v === "number") as number[];
 
     if (positiveSignal.length) ruleBonus += Math.max(...positiveSignal) * 0.08;
     if (negativeSignal.length) ruleBonus -= Math.max(...negativeSignal) * 0.08;
@@ -308,45 +366,61 @@ export const interpretTarotReading = (
     }
   }
 
-  const emotionSummaryBase = emotionWeightTotal > 0
-    ? {
-        valence: emotionAcc.valence / emotionWeightTotal,
-        arousal: emotionAcc.arousal / emotionWeightTotal,
-        dominance: emotionAcc.dominance / emotionWeightTotal,
-      }
-    : { valence: 0, arousal: 0, dominance: 0 };
+  const emotionSummaryBase =
+    emotionWeightTotal > 0
+      ? {
+          valence: emotionAcc.valence / emotionWeightTotal,
+          arousal: emotionAcc.arousal / emotionWeightTotal,
+          dominance: emotionAcc.dominance / emotionWeightTotal,
+        }
+      : { valence: 0, arousal: 0, dominance: 0 };
 
-  const emotionShiftAmount = Object.values(emotionShift).reduce((acc, value) => acc + value, 0);
-  const maxShift = AI_INTERPRETATION_ENGINE_CONFIG.emotionBlend.maxShiftPerEmotion;
+  const emotionShiftAmount = Object.values(emotionShift).reduce(
+    (acc, value) => acc + value,
+    0,
+  );
+  const maxShift =
+    AI_INTERPRETATION_ENGINE_CONFIG.emotionBlend.maxShiftPerEmotion;
 
   const emotionSummary: EmotionSummary = {
     valence: clamp(
-      emotionSummaryBase.valence + clamp(emotionShiftAmount * 0.1, -maxShift, maxShift),
+      emotionSummaryBase.valence +
+        clamp(emotionShiftAmount * 0.1, -maxShift, maxShift),
       AI_INTERPRETATION_ENGINE_CONFIG.emotionBlend.clampMin,
       AI_INTERPRETATION_ENGINE_CONFIG.emotionBlend.clampMax,
     ),
     arousal: clamp(
-      emotionSummaryBase.arousal + clamp(emotionShiftAmount * 0.06, -maxShift, maxShift),
+      emotionSummaryBase.arousal +
+        clamp(emotionShiftAmount * 0.06, -maxShift, maxShift),
       AI_INTERPRETATION_ENGINE_CONFIG.emotionBlend.clampMin,
       AI_INTERPRETATION_ENGINE_CONFIG.emotionBlend.clampMax,
     ),
     dominance: clamp(
-      emotionSummaryBase.dominance + clamp(emotionShiftAmount * 0.04, -maxShift, maxShift),
+      emotionSummaryBase.dominance +
+        clamp(emotionShiftAmount * 0.04, -maxShift, maxShift),
       AI_INTERPRETATION_ENGINE_CONFIG.emotionBlend.clampMin,
       AI_INTERPRETATION_ENGINE_CONFIG.emotionBlend.clampMax,
     ),
   };
 
   const conflictResolutionSummary: string[] = [];
-  for (const rule of INTERPRETATION_CONFLICT_RULES as Array<Record<string, any>>) {
+  for (const rule of INTERPRETATION_CONFLICT_RULES as Array<
+    Record<string, any>
+  >) {
     const positives = new Set(rule.condition?.positivePositions ?? []);
     const negatives = new Set(rule.condition?.negativePositions ?? []);
 
-    const positiveHit = cardInterpretations.some((item) => positives.has(item.role) && item.score >= 0.58);
-    const negativeHit = cardInterpretations.some((item) => negatives.has(item.role) && item.score < 0.45);
+    const positiveHit = cardInterpretations.some(
+      (item) => positives.has(item.role) && item.score >= 0.58,
+    );
+    const negativeHit = cardInterpretations.some(
+      (item) => negatives.has(item.role) && item.score < 0.45,
+    );
 
     if (positiveHit && negativeHit) {
-      conflictResolutionSummary.push(`${rule.ruleId}: ${rule.resolution?.strategy}`);
+      conflictResolutionSummary.push(
+        `${rule.ruleId}: ${rule.resolution?.strategy}`,
+      );
       ruleBonus += 0.03;
     }
   }
@@ -358,7 +432,8 @@ export const interpretTarotReading = (
   );
 
   const meanCardScore =
-    cardInterpretations.reduce((acc, card) => acc + card.score, 0) / Math.max(1, cardInterpretations.length);
+    cardInterpretations.reduce((acc, card) => acc + card.score, 0) /
+    Math.max(1, cardInterpretations.length);
   const confidenceValue = clamp(meanCardScore + cappedRuleBonus, 0, 1);
 
   const confidenceBand =
@@ -368,7 +443,9 @@ export const interpretTarotReading = (
         ? "medium"
         : "low";
 
-  const sortedCards = [...cardInterpretations].sort((a, b) => b.score - a.score);
+  const sortedCards = [...cardInterpretations].sort(
+    (a, b) => b.score - a.score,
+  );
   const actionPlan = [
     sortedCards[0]?.advice?.[0],
     sortedCards[1]?.advice?.[0],
@@ -389,7 +466,11 @@ export const interpretTarotReading = (
     .slice(0, 3)
     .map((item) => `${item.symbol}(${item.keyword})`);
   const gaze = resolveGazeFlow(topCardId, normalizedContext);
-  const color = getColorPaletteAnalysis(topCardId, normalizedContext, topPolarity);
+  const color = getColorPaletteAnalysis(
+    topCardId,
+    normalizedContext,
+    topPolarity,
+  );
   const spatialZone = positionToSpatialZone(topCard?.position ?? 5);
   const spatial = resolveSpatialPsychology(spatialZone);
 
@@ -436,4 +517,3 @@ export const interpretTarotReading = (
     },
   };
 };
-

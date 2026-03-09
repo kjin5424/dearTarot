@@ -1,5 +1,28 @@
 # HISTORY (완료 작업 아카이브)
 
+## 타로 상수 리서치 결과 (2026-03-09)
+
+**상수 데이터 검토 범위:**
+- 40개 타로 해석 상수 파일 분석
+- CRITICAL/HIGH/MEDIUM/LOW 이슈 분류 (총 15개)
+- 반영 완료: 감정 벡터 보정, One Card 스프레드, 시각 심리 3개(좌표/시선/색채), 확언/공간 2개 파일
+
+**미반영 CRITICAL 이슈:**
+1. SEMENTIC_TAG.ts → SEMANTIC_TAG.ts 파일명 오타 미수정
+2. EMOTION_VECTOR.ts Minor Arcana 자체 ID 0-55 (전역 22-77로 통일 필요)
+3. SPREAD_TYPES.ts 5개 스프레드 중 2-3개만 정의됨
+
+**미반영 HIGH 이슈:**
+1. TAROT_CONTEXT_MEANINGS.ts cardId 0-63에 finance/personal/health 미완성
+2. GRID_INTERPRETATIONS.ts 6개 셀 미정의 (3/9만 완성)
+3. TAROT_MEANINGS.ts Minor 56장 키워드 부족 (1-2개에서 3-4개로 확대 필요)
+4. CARD_COMBINATION_RULE.ts Minor 조합 규칙 없음
+
+**아카이브 파일:** `interpretation.md` (40개 상수 흐름 정렬), `todo.md` (완료 항목 정리)
+- src/utils/constants/ 내의 md 파일들은 참고용 가이드로 보존 권장
+
+---
+
 ## Phase 5 정리 — 삭제된 파일 (2026-03-09)
 
 - src/views/\*.vue (5개) — router 기반 페이지, 씬 전환 방식으로 미사용
