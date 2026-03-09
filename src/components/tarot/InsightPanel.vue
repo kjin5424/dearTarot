@@ -13,7 +13,7 @@
       </div>
       <div class="insight-text">
         <DialogBox
-          :lines="getMockLines(current)"
+          :lines="getMockInterpretation(current)"
           speaker="숲의 목소리"
           :speed="30"
           @done="onLineDone"
@@ -33,6 +33,7 @@
 import { ref, computed } from 'vue'
 import type { DrawnCard, SpreadType } from '@types/index'
 import DialogBox from '@components/common/DialogBox.vue'
+import { getMockInterpretation } from '@services/api/tarotApi'
 
 const props = defineProps<{
   drawnCards: DrawnCard[]
@@ -52,19 +53,15 @@ const spreadLabel = computed(() => {
   const map: Record<SpreadType, string> = {
     ONE_CARD: '원카드',
     THREE_CARD: '쓰리카드',
+    FOUR_CARD: '포카드',
+    FIVE_CARD: '파이브카드',
     CELTIC_CROSS: '켈틱 크로스',
+    RELATIONSHIP_SPREAD: '관계 스프레드',
+    HORSESHOE_SPREAD: '말굽 스프레드',
+    MAGIC_SEVEN: '매직 세븐',
   }
   return map[props.spreadType]
 })
-
-function getMockLines(card: DrawnCard): string[] {
-  const dir = card.isReversed ? '역방향으로 놓인 ' : ''
-  return [
-    `${dir}${card.card.nameKr} 카드가 이 자리에 있군요.`,
-    `이 카드는 예언이 아니에요. 숲을 빠져나가기 위한 하나의 조언으로 받아들여 주세요.`,
-    `지금 이 순간, 이 카드가 당신에게 건네는 말을 천천히 들어보세요.`,
-  ]
-}
 
 function onLineDone() {
   isTypingActive.value = false
