@@ -35,9 +35,8 @@
 - [ ] 현황: TAROT_CARDS.ts = 78장 기본 메타 (다른 상수가 import), CARD_DATA.ts = 확장 스키마 + 샘플 1장(Fool)
 - [ ] 결정: TAROT_CARDS.ts를 정본으로 유지, CARD_DATA.ts는 확장 스키마 인터페이스만 보존하거나 삭제
 
-### 5-1-I. LOW: CONTEXT_TAGS.ts 한글 키 통일
-- [ ] `우선순위` → `priority`, `theme편향` → `themeBias`, `emotion편향` → `emotionBias`, `energy편향` → `energyBias`
-- [ ] 다른 모든 상수 파일은 영어 키 사용 중이므로 일관성 맞춤
+### ~~5-1-I. LOW: CONTEXT_TAGS.ts 한글 키 통일~~
+- [x] ✅ priority / themeBias / emotionBias / energyBias 로 통일 완료
 
 ### 5-1-J. OPTIONAL: 데이터 검증
 - [ ] CONSTANTS_VALIDATOR로 ID 범위/중복/누락 검증
