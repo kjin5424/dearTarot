@@ -1,18 +1,63 @@
-// import type { KarmaOption } from "~types/index";
+import type { KarmaOption } from "@types/index";
+import { saveDiaryEntry } from "@services/local/localStorage";
 
-// === 카르마 교환 처리 ===
-// 현재 백엔드 없음 → localStorage 기반으로 우선 구현
+const KARMA_PREFIX = "karma_";
 
-// === processKarma(option: KarmaOption): Promise<void> ===
-// 1. switch(option):
-//    - "DIARY": 감사 일기 입력 UI 트리거 플래그 반환
-//    - "DONATION": 외부 후원 링크 window.open (URL은 import.meta.env.VITE_DONATION_URL)
-//    - "AD": 광고 시청 완료 플래그 저장 (실제 광고 연동 전 mock)
-// 2. 카르마 완료 기록을 localStorage에 저장
-// 3. 완료 후 resolve
+const DONATION_URLS = [
+  "https://greatergood.com",
+  "https://brotherclick.com",
+];
 
-// === hasCompletedKarma(): boolean ===
-// localStorage에서 오늘 날짜 기준 카르마 완료 여부 확인
+interface KarmaRecord {
+  date: string;
+  option: KarmaOption;
+  completedAt: string;
+}
 
-// === getKarmaHistory(): { date: string, option: KarmaOption }[] ===
-// localStorage에서 전체 카르마 이력 조회
+function todayKey(): string {
+  return `${KARMA_PREFIX}${new Date().toISOString().slice(0, 10)}`;
+}
+
+export async function processKarma(option: KarmaOption, diaryText?: string): Promise<void> {
+  switch (option) {
+    case "DIARY":
+      saveDiaryEntry(diaryText ?? "");
+      break;
+
+    case "DONATION": {
+      const url = import.meta.env.VITE_DONATION_URL ?? DONATION_URLS[0];
+      window.open(url, "_blank", "noopener,noreferrer");
+      break;
+    }
+
+    case "AD":
+      await new Promise<void>((r) => setTimeout(r, 1500));
+      break;
+  }
+
+  const record: KarmaRecord = {
+    date: new Date().toISOString().slice(0, 10),
+    option,
+    completedAt: new Date().toISOString(),
+  };
+  localStorage.setItem(todayKey(), JSON.stringify(record));
+}
+
+export function hasCompletedKarma(): boolean {
+  return localStorage.getItem(todayKey()) !== null;
+}
+
+export function getKarmaHistory(): { date: string; option: KarmaOption }[] {
+  const results: { date: string; option: KarmaOption }[] = [];
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key?.startsWith(KARMA_PREFIX)) continue;
+    const raw = localStorage.getItem(key);
+    if (!raw) continue;
+    const record = JSON.parse(raw) as KarmaRecord;
+    results.push({ date: record.date, option: record.option });
+  }
+
+  return results.sort((a, b) => b.date.localeCompare(a.date));
+}
