@@ -58,3 +58,36 @@
 - DeepSeek V3 / R1
 - Qwen 3 / 2.5
 - Gemma 3 / 2
+
+## 5. 파인튜닝 전략 (Ollama + vLLM 자체 모델 구축)
+
+### 플랫폼별 출력 학습 허용 여부 (ToS 기준)
+| 플랫폼 | 출력으로 학습 허용? | 비고 |
+|--------|------------------|------|
+| Google Gemini | ❌ 금지 | ToS 4.2: competing model 학습 명시 금지 |
+| OpenAI | ❌ 금지 | ToS 2(c): 동일 조항 |
+| Anthropic (Claude) | ❌ 금지 | 동일 |
+| **Mistral API** | ✅ 허용 | ToS에 명시적 금지 없음 |
+| **Groq** | ✅ 허용 | 오픈소스 모델 서빙, 제한 없음 |
+| **Together.ai** | ✅ 허용 | 파인튜닝 파이프라인 자체 제공 |
+| Ollama (로컬) | ✅ 완전 허용 | 로컬 실행 → ToS 무관 |
+| HuggingFace Inference | ✅ 허용 | 오픈 모델만 해당 |
+
+### dearTarot 권장 파인튜닝 로드맵
+```
+1단계 (Phase 6, 지금): Gemini Flash — 프로토타입 & UX 검증
+2단계 (데이터 수집):   Together.ai 또는 Mistral API로 타로 해석 대량 생성
+                       → 출력을 학습 데이터로 사용 (ToS OK)
+3단계 (파인튜닝):      LoRA/QLoRA로 Qwen 2.5-7B 또는 Llama 3.2 미세조정
+4단계 (서빙):          Ollama (로컬 개발) / vLLM (프로덕션 서버)
+```
+
+### Together.ai를 추천하는 이유
+- Llama 3.2 / Qwen 2.5 직접 호환 (OpenAI SDK 호환 API)
+- 파인튜닝 → 모델 배포 파이프라인 일체형
+- 출력으로 자기 모델 학습 허용
+
+### 핵심 원칙
+- Gemini/Claude/OpenAI 출력은 학습 데이터로 절대 사용하지 않는다
+- 학습 데이터는 Together.ai/Groq/Mistral 또는 직접 작성한 타로 해석으로 구성
+- Gemini는 초기 검증 전용, 장기 목표는 완전 자체 모델
