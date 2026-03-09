@@ -26,6 +26,31 @@ const MAJOR_NAMES = [
   "The World",
 ] as const;
 
+const MAJOR_NAMES_KR = [
+  "바보",
+  "마법사",
+  "여사제",
+  "여황제",
+  "황제",
+  "교황",
+  "연인",
+  "전차",
+  "힘",
+  "은둔자",
+  "운명의 수레바퀴",
+  "정의",
+  "매달린 사람",
+  "죽음",
+  "절제",
+  "악마",
+  "탑",
+  "별",
+  "달",
+  "태양",
+  "심판",
+  "세계",
+] as const;
+
 const MINOR_RANKS = [
   "Ace",
   "Two",
@@ -51,7 +76,7 @@ export const TAROT_CARDS = [
   ...MAJOR_NAMES.map((name, id) => ({
     id,
     name,
-    nameKr: name,
+    nameKr: MAJOR_NAMES_KR[id] ?? name,
     arcana: "Major" as const,
     suit: null,
     rank: null,

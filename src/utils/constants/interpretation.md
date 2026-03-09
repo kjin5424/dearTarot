@@ -39,10 +39,11 @@
 | 33 | `INTERPRETATION_ENGINE_BLUEPRINT.ts` | 엔진 단계 청사진/출력 계약 |
 | 34 | `AI_INTERPRETATION_PIPELINE.ts` | 단계 순서/가중치/엔진 설정 |
 | 35 | `INTERPRETATION_ENGINE.ts` | 실제 해석 엔진 함수 구현 |
-| 36 | `CONSTANTS_VALIDATION_RULES.ts` | 상수 검증 규칙(범위/형식/무결성) |
-| 37 | `CONSTANTS_VALIDATOR.ts` | 자동 검증 함수 구현 |
-| 38 | `SHUFFLE_TYPES.ts` | 셔플 방식 메타데이터 |
-| 39 | `index.ts` | constants 배럴 export 진입점 |
+| 36 | `INTERPRETATION_QUALITY_BENCHMARKS.ts` | 데이터 품질 최소 기준(전문성 기준선) |
+| 37 | `CONSTANTS_VALIDATION_RULES.ts` | 상수 검증 규칙(범위/형식/무결성) |
+| 38 | `CONSTANTS_VALIDATOR.ts` | 자동 검증 함수 구현 |
+| 39 | `SHUFFLE_TYPES.ts` | 셔플 방식 메타데이터 |
+| 40 | `index.ts` | constants 배럴 export 진입점 |
 
 ## 실제 해석 실행 순서 요약
 1. 입력 정규화: 컨텍스트/질문 유형/스프레드/포지션을 정규화합니다.
@@ -56,6 +57,7 @@
 ## 엔진/검증 함수
 - 엔진 함수: `interpretTarotReading(input)` (`INTERPRETATION_ENGINE.ts`)
 - 검증 함수: `validateTarotConstants()` (`CONSTANTS_VALIDATOR.ts`)
+- 품질 기준: `INTERPRETATION_QUALITY_BENCHMARKS` (`INTERPRETATION_QUALITY_BENCHMARKS.ts`)
 
 ## 이번 추가 항목의 직접 영향
 - 엔진 결과에 `healingAffirmation`, `visualPsychology`, `trace.visualTrace`가 추가됩니다.

@@ -4,10 +4,10 @@
 export const SUIT_INFO = {
   Wands: {
     element: "Fire",
-    coreTheme: "will_action_growth",
+    coreTheme: "passion_vision_creation",
     lifeBias: { career: 0.1, personal: 0.08, spiritual: 0.03 },
     shadowPattern: ["impulsiveness", "burnout", "ego_drive"],
-    coachingLens: "focus_direction_before_speed",
+    coachingLens: "clarify_intention_then_channel_energy",
   },
   Cups: {
     element: "Water",

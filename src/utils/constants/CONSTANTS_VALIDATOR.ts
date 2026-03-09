@@ -11,6 +11,7 @@ import {
   HEALING_AFFIRMATIONS,
 } from "./HEALING_AFFIRMATIONS";
 import { GAZE_DIRECTION_RULES } from "./GAZE_DIRECTION_RULES";
+import { INTERPRETATION_QUALITY_BENCHMARKS } from "./INTERPRETATION_QUALITY_BENCHMARKS";
 import { SPREAD_POSITION_WEIGHTS } from "./POSITION_WEIGHT";
 import { SPREAD_POSITION_MEANINGS } from "./SPREAD_POSITION_MEANING";
 import { SPREAD_DEFINITIONS } from "./SPREAD_TYPES";
@@ -220,6 +221,30 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
     }
   }
 
+  for (const meaning of TAROT_MEANINGS) {
+    const card = TAROT_CARDS.find((c) => c.id === meaning.id);
+    const minKeywords =
+      card?.arcana === "Major"
+        ? INTERPRETATION_QUALITY_BENCHMARKS.cardMeaning.minCoreKeywordsMajor
+        : INTERPRETATION_QUALITY_BENCHMARKS.cardMeaning.minCoreKeywordsMinor;
+
+    if ((meaning.core_keywords?.length ?? 0) < minKeywords) {
+      addWarning(
+        warnings,
+        "MEANING_KEYWORD_LOW",
+        `카드 ${meaning.id} core_keywords 개수가 권장치(${minKeywords})보다 작습니다.`,
+      );
+    }
+
+    if ((meaning.advice?.length ?? 0) < INTERPRETATION_QUALITY_BENCHMARKS.cardMeaning.minAdviceLines) {
+      addWarning(
+        warnings,
+        "MEANING_ADVICE_LOW",
+        `카드 ${meaning.id} advice 라인이 부족합니다.`,
+      );
+    }
+  }
+
   for (const cardIdValue of primaryCardIds) {
     const symbols = SYMBOL_COORDINATES[cardIdValue];
     if (!symbols?.length) {
@@ -257,6 +282,28 @@ export const validateTarotConstants = (): TarotConstantsValidationReport => {
         );
       }
     }
+  }
+
+  if (
+    TAG_COMBINATION_RULES.length <
+    INTERPRETATION_QUALITY_BENCHMARKS.rules.minTagCombinationRules
+  ) {
+    addWarning(
+      warnings,
+      "TAG_RULE_COUNT_LOW",
+      `태그 조합 룰 수(${TAG_COMBINATION_RULES.length})가 권장치(${INTERPRETATION_QUALITY_BENCHMARKS.rules.minTagCombinationRules})보다 작습니다.`,
+    );
+  }
+
+  if (
+    CARD_COMBINATION_RULES.length <
+    INTERPRETATION_QUALITY_BENCHMARKS.rules.minCardCombinationRules
+  ) {
+    addWarning(
+      warnings,
+      "CARD_RULE_COUNT_LOW",
+      `카드 조합 룰 수(${CARD_COMBINATION_RULES.length})가 권장치(${INTERPRETATION_QUALITY_BENCHMARKS.rules.minCardCombinationRules})보다 작습니다.`,
+    );
   }
 
   for (const cardIdValue of primaryCardIds) {

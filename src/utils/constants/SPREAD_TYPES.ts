@@ -8,9 +8,17 @@ export const SPREAD_DEFINITIONS = [
     cardCount: 1,
     difficulty: "basic",
 
-    useCases: ["yes_no_question", "quick_answer", "daily_guidance"],
+    useCases: [
+      "core_message_check",
+      "current_energy_scan",
+      "daily_guidance",
+    ],
 
-    questionPatterns: ["yes_or_no", "simple_decision", "single_focus_question"],
+    questionPatterns: [
+      "single_focus_question",
+      "current_state_check",
+      "simple_decision",
+    ],
 
     recommendedContexts: [
       "love",
