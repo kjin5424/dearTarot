@@ -56,12 +56,18 @@
 - [x] 5-2-E: useSceneTransition.ts + App.vue 연결
 - [x] 5-2-F: pixiHelpers.ts + pixiLoader.ts
 
-## Phase 6: AI 해석 연동 (대기)
+## ~~Phase 6: AI 해석 연동~~ (✅완료 2026-03-09)
 
-- [ ] 타로 상수 품질 보강 (5-1-D, 5-1-F의 AI 생성 해석)
-- [ ] tarotApi.ts — requestInterpretation 실제 API 호출
-- [ ] 프록시 서버 or Edge Function (API 키 보호) → api-strategy.md 참조
-- [ ] 캐싱 전략: 동일 카드 조합 해석 DB 저장
+- [x] `@google/generative-ai` 설치 + `.env` VITE_GOOGLE_API_KEY, `.gitignore` 추가
+- [x] `geminiClient.ts` — Gemini Flash 클라이언트 래퍼 (키 없으면 null graceful)
+- [x] `tarotApi.ts` — requestInterpretation 실제 Gemini API 호출 + 7일 캐싱 + mock fallback
+- [ ] 프록시 서버 or Edge Function (API 키 보호) → Phase 후반
+
+## Phase 6 이후: 품질 보강 (대기)
+
+- [ ] **5-1-D**: TAROT_CONTEXT_MEANINGS 카드별 고유 해석 AI 생성
+- [ ] **5-1-F**: TAROT_MEANINGS Minor 키워드 light/shadow 보강
+- [ ] **5-1-G**: CARD_COMBINATION_RULE Minor 조합 규칙 추가
 
 ## Phase 7: 에셋 & 폴리시 (대기)
 

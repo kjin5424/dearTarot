@@ -1,5 +1,17 @@
 # MILESTONES
 
+## 2026-03-09 (Phase 6: Gemini AI 해석 연동 완료)
+
+- `@google/generative-ai` 설치 + `.env` VITE_GOOGLE_API_KEY 세팅, `.gitignore`에 .env 추가
+- `geminiClient.ts`: Gemini Flash 클라이언트 래퍼, API 키 없으면 null (warn만 출력)
+- `tarotApi.ts`: requestInterpretation → Gemini 실제 호출 + 7일 캐싱 + mock fallback 자동 복귀
+
+## 2026-03-09 (Phase 6: 파인튜닝 전략 + API ToS 정리)
+
+- Gemini/Claude/OpenAI 출력은 학습 데이터 금지 (ToS), Together.ai/Groq/Mistral은 허용 확인
+- dearTarot 로드맵: Gemini(프로토타입) → Together.ai 데이터 수집 → LoRA 파인튜닝 → Ollama/vLLM 서빙
+- api-strategy.md 섹션 5 신규 추가: 플랫폼별 ToS 비교표 + 권장 파인튜닝 로드맵 기록
+
 ## 2026-03-09 (Phase 5-2: 통합 & 데이터 연결 완료)
 
 - SpreadType 3→8개 확장, cardHelpers/tarotApi/localStorage/karmaApi 6개 서비스 파일 구현 완료

@@ -53,11 +53,18 @@
 - DrawScene.ts: SPREAD_COUNTS 제거 → SPREAD_DEFINITIONS 단일 진실 공급원 사용
 - InsightPanel.vue: spreadLabel map 8개 완비, getMockInterpretation 연결
 
+### Phase 6: AI 해석 연동 — 완료 (2026-03-09)
+
+- [x] `@google/generative-ai` 설치 + `.env` / `.gitignore` 세팅
+- [x] `geminiClient.ts`: Gemini Flash 래퍼, 키 없으면 null graceful
+- [x] `tarotApi.ts`: requestInterpretation 실제 API 호출 + 7일 캐싱 + mock fallback
+- [x] `api-strategy.md` 섹션 5: 파인튜닝 ToS 비교 + 로드맵 기록
+
 ### 다음 할 일
 
-- [ ] **Phase 6**: AI 해석 연동 (tarotApi requestInterpretation 실제 API 호출)
-- [ ] **Phase 6 이후**: 5-1-D, 5-1-F, 5-1-G 품질 보강
+- [ ] **Phase 6 이후**: 5-1-D, 5-1-F, 5-1-G 타로 상수 품질 보강 (AI 생성)
 - [ ] **Phase 7**: 에셋 확보 및 pixiLoader ASSET_MANIFEST 실제 경로 교체
+- [ ] **Phase 후반**: API 키 보호 프록시 서버 or Edge Function 도입
 
 ## 핵심 결정 사항
 
