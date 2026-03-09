@@ -1,7 +1,7 @@
 ﻿/**
  * 카드별 컨텍스트 해석 블록을 정의합니다.
  */
-import { SEMANTIC_TAGS } from "./SEMENTIC_TAG";
+import { SEMANTIC_TAGS } from "./SEMANTIC_TAG";
 import { TAROT_CARDS } from "./TAROT_CARDS";
 
 const makeContextBlock = (
@@ -41,4 +41,3 @@ export const TAROT_CONTEXT_MEANINGS = TAROT_CARDS.map((card) => {
     },
   };
 });
-

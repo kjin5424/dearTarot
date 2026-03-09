@@ -1,10 +1,14 @@
 ﻿/**
  * 카드별 기본 해석 데이터셋을 정의합니다.
  */
-import { SEMANTIC_TAGS } from "./SEMENTIC_TAG";
+import { SEMANTIC_TAGS } from "./SEMANTIC_TAG";
 import { TAROT_CARDS } from "./TAROT_CARDS";
 
-const DEFAULT_CONTEXT_LINE = (cardName: string, area: string, polarity: number) =>
+const DEFAULT_CONTEXT_LINE = (
+  cardName: string,
+  area: string,
+  polarity: number,
+) =>
   polarity >= 0.5
     ? `${cardName} suggests constructive movement in ${area}.`
     : `${cardName} highlights caution and unresolved tension in ${area}.`;
@@ -12,7 +16,12 @@ const DEFAULT_CONTEXT_LINE = (cardName: string, area: string, polarity: number) 
 export const TAROT_MEANINGS = TAROT_CARDS.map((card) => {
   const semantic = SEMANTIC_TAGS.find((s) => s.cardId === card.id);
   const polarity = semantic?.polarity ?? 0.5;
-  const core = semantic?.themes?.slice(0, 4) ?? ["awareness", "choice", "movement", "integration"];
+  const core = semantic?.themes?.slice(0, 4) ?? [
+    "awareness",
+    "choice",
+    "movement",
+    "integration",
+  ];
   const emotions = semantic?.emotions ?? [];
 
   return {
@@ -35,4 +44,3 @@ export const TAROT_MEANINGS = TAROT_CARDS.map((card) => {
     ],
   };
 });
-

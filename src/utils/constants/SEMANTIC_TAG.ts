@@ -1,7 +1,7 @@
 ﻿/**
  * 카드별 의미 태그 코퍼스와 정규화 export를 정의합니다.
  */
-export const SEMENTIG_TAG = [
+export const SEMANTIC_TAGS = [
   // 메이저 아르카나
   {
     cardId: 0,
@@ -819,7 +819,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.8,
   },
   {
-    cardId: 64,
+    cardId: 36,
     name: "Ace of Cups",
     themes: [
       "new_emotion",
@@ -840,7 +840,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.9,
   },
   {
-    cardId: 65,
+    cardId: 37,
     name: "Two of Cups",
     themes: ["union", "partnership", "mutual_attraction", "connection"],
     emotions: ["affection", "trust"],
@@ -856,7 +856,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.9,
   },
   {
-    cardId: 66,
+    cardId: 38,
     name: "Three of Cups",
     themes: ["celebration", "friendship", "community", "shared_joy"],
     emotions: ["happiness", "excitement"],
@@ -872,7 +872,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.85,
   },
   {
-    cardId: 67,
+    cardId: 39,
     name: "Four of Cups",
     themes: ["apathy", "emotional_block", "dissatisfaction", "introspection"],
     emotions: ["boredom", "detachment"],
@@ -888,7 +888,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.3,
   },
   {
-    cardId: 68,
+    cardId: 40,
     name: "Five of Cups",
     themes: ["loss", "regret", "grief", "emotional_setback"],
     emotions: ["sadness", "disappointment"],
@@ -904,7 +904,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.2,
   },
   {
-    cardId: 69,
+    cardId: 41,
     name: "Six of Cups",
     themes: ["nostalgia", "memory", "childhood", "kindness"],
     emotions: ["warmth", "sentimentality"],
@@ -920,7 +920,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.75,
   },
   {
-    cardId: 70,
+    cardId: 42,
     name: "Seven of Cups",
     themes: ["illusion", "choices", "fantasy", "confusion"],
     emotions: ["confusion", "temptation"],
@@ -936,7 +936,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.4,
   },
   {
-    cardId: 71,
+    cardId: 43,
     name: "Eight of Cups",
     themes: ["withdrawal", "leaving", "search_for_meaning", "transition"],
     emotions: ["disappointment", "determination"],
@@ -952,7 +952,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.4,
   },
   {
-    cardId: 72,
+    cardId: 44,
     name: "Nine of Cups",
     themes: ["satisfaction", "wish_fulfillment", "pleasure", "contentment"],
     emotions: ["joy", "satisfaction"],
@@ -968,7 +968,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.9,
   },
   {
-    cardId: 73,
+    cardId: 45,
     name: "Ten of Cups",
     themes: [
       "emotional_fulfillment",
@@ -989,7 +989,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.95,
   },
   {
-    cardId: 74,
+    cardId: 46,
     name: "Page of Cups",
     themes: ["emotional_message", "creativity", "sensitivity", "curiosity"],
     emotions: ["wonder", "affection"],
@@ -1005,7 +1005,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.75,
   },
   {
-    cardId: 75,
+    cardId: 47,
     name: "Knight of Cups",
     themes: ["romance", "idealism", "emotional_pursuit", "charm"],
     emotions: ["passion", "romance"],
@@ -1021,7 +1021,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.8,
   },
   {
-    cardId: 76,
+    cardId: 48,
     name: "Queen of Cups",
     themes: ["empathy", "emotional_intelligence", "care", "intuition"],
     emotions: ["compassion", "calm"],
@@ -1037,7 +1037,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.9,
   },
   {
-    cardId: 77,
+    cardId: 49,
     name: "King of Cups",
     themes: ["emotional_balance", "wisdom", "control", "compassion"],
     emotions: ["calm", "stability"],
@@ -1054,7 +1054,7 @@ export const SEMENTIG_TAG = [
   },
   // 펜타클
   {
-    cardId: 78,
+    cardId: 64,
     name: "Ace of Pentacles",
     themes: [
       "new_opportunity",
@@ -1075,7 +1075,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.9,
   },
   {
-    cardId: 79,
+    cardId: 65,
     name: "Two of Pentacles",
     themes: ["balance", "adaptation", "priorities", "time_management"],
     emotions: ["stress", "flexibility"],
@@ -1091,7 +1091,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.6,
   },
   {
-    cardId: 80,
+    cardId: 66,
     name: "Three of Pentacles",
     themes: ["teamwork", "collaboration", "skill_development", "craftsmanship"],
     emotions: ["motivation", "focus"],
@@ -1107,7 +1107,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.8,
   },
   {
-    cardId: 81,
+    cardId: 67,
     name: "Four of Pentacles",
     themes: ["control", "security", "conservation", "possessiveness"],
     emotions: ["fear", "caution"],
@@ -1123,7 +1123,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.4,
   },
   {
-    cardId: 82,
+    cardId: 68,
     name: "Five of Pentacles",
     themes: ["poverty", "hardship", "loss", "isolation"],
     emotions: ["anxiety", "despair"],
@@ -1139,7 +1139,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.1,
   },
   {
-    cardId: 83,
+    cardId: 69,
     name: "Six of Pentacles",
     themes: ["generosity", "sharing", "charity", "financial_balance"],
     emotions: ["gratitude", "kindness"],
@@ -1155,7 +1155,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.8,
   },
   {
-    cardId: 84,
+    cardId: 70,
     name: "Seven of Pentacles",
     themes: ["evaluation", "long_term_growth", "patience", "investment"],
     emotions: ["patience", "reflection"],
@@ -1171,7 +1171,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.6,
   },
   {
-    cardId: 85,
+    cardId: 71,
     name: "Eight of Pentacles",
     themes: ["dedication", "skill_building", "hard_work", "practice"],
     emotions: ["focus", "determination"],
@@ -1187,7 +1187,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.8,
   },
   {
-    cardId: 86,
+    cardId: 72,
     name: "Nine of Pentacles",
     themes: ["independence", "luxury", "self_sufficiency", "reward"],
     emotions: ["satisfaction", "confidence"],
@@ -1203,7 +1203,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.9,
   },
   {
-    cardId: 87,
+    cardId: 73,
     name: "Ten of Pentacles",
     themes: ["wealth", "legacy", "family_security", "long_term_success"],
     emotions: ["security", "fulfillment"],
@@ -1219,7 +1219,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.95,
   },
   {
-    cardId: 88,
+    cardId: 74,
     name: "Page of Pentacles",
     themes: ["learning", "new_skill", "practical_growth", "curiosity"],
     emotions: ["curiosity", "motivation"],
@@ -1235,7 +1235,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.7,
   },
   {
-    cardId: 89,
+    cardId: 75,
     name: "Knight of Pentacles",
     themes: ["discipline", "routine", "reliability", "steady_progress"],
     emotions: ["focus", "patience"],
@@ -1251,7 +1251,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.8,
   },
   {
-    cardId: 90,
+    cardId: 76,
     name: "Queen of Pentacles",
     themes: ["care", "practicality", "security", "nurturing"],
     emotions: ["warmth", "stability"],
@@ -1267,7 +1267,7 @@ export const SEMENTIG_TAG = [
     polarity: 0.9,
   },
   {
-    cardId: 91,
+    cardId: 77,
     name: "King of Pentacles",
     themes: ["wealth_mastery", "stability", "leadership", "financial_success"],
     emotions: ["confidence", "security"],
@@ -1283,26 +1283,3 @@ export const SEMENTIG_TAG = [
     polarity: 0.95,
   },
 ];
-
-// 하위 호환을 위해 레거시 export를 유지하고 정규화 별칭을 제공합니다.
-const normalizeSemanticCardId = (legacyCardId: number): number => {
-  // 레거시 파일은 컵(64~77), 펜타클(78~91) ID가 밀려 있어 정규화가 필요합니다.
-  if (legacyCardId >= 78) return legacyCardId - 14; // 78~91 -> 64~77
-  if (legacyCardId >= 64 && legacyCardId <= 77) return legacyCardId - 28; // 64~77 -> 36~49
-  return legacyCardId;
-};
-
-export const SEMANTIC_TAGS = SEMENTIG_TAG.map((entry) => ({
-  ...entry,
-  cardId: normalizeSemanticCardId(entry.cardId),
-  legacyCardId: entry.cardId,
-}));
-
-// 자주 발생하는 오타 호환 별칭을 함께 제공합니다.
-export const SEMENTIC_TAG = SEMANTIC_TAGS;
-export const SEMANTIC_TAG = SEMANTIC_TAGS;
-
-
-
-
-
