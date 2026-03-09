@@ -1,5 +1,32 @@
 # HISTORY (완료 작업 아카이브)
 
+## Opus 전수 검토 — haiku 작업 검증 (2026-03-09)
+
+**검토 범위:** src/utils/constants/ 38개 .ts 파일 + src/services/api/example.md
+
+**haiku가 완료한 것 (검증 통과):**
+- EMOTION_VECTOR.ts: `toGlobalCardId` + `EMOTION_VECTOR_BY_CARD_ID` — Minor 0-55 → 전역 22-77 변환 ✓
+- SPREAD_TYPES.ts: 8개 스프레드(one_card~magic_seven) 메타데이터 완성 ✓
+- SPREAD_POSITION_MEANING.ts: 8개 스프레드 포지션 역할/coreMeaning 완성 ✓
+- GRID_INTERPRETATIONS.ts: 9개 셀(좌상단~우하단) label/role/meaning/focus 완성 ✓
+- TAROT_CONTEXT_MEANINGS.ts: 동적 생성 78장 × 7컨텍스트 구조 ✓ (품질은 템플릿)
+- TAROT_MEANINGS.ts: 동적 생성 78장 core/light/shadow/context 구조 ✓ (품질은 복사)
+- SEMENTIC_TAG.ts: normalizeSemanticCardId + SEMANTIC_TAGS/SEMANTIC_TAG export 호환 ✓
+
+**haiku가 미처리/미흡:**
+- SEMENTIC_TAG.ts 파일명 미변경 (SEMANTIC_TAG.ts로 rename 필요)
+- 원본 `SEMENTIG_TAG` export (T→G 추가 오타 발견)
+- 원본 Cups(64-77)/Pentacles(78-91) cardId 미수정 (normalizer로 런타임 변환만)
+- CARD_COMBINATION_RULE.ts Minor 조합 규칙 없음 (Major만 200+개)
+- CARD_DATA.ts 샘플 1장(Fool)만 — TAROT_CARDS.ts(78장)와 역할 중복
+- CONTEXT_TAGS.ts 한글 키 (우선순위/theme편향/emotion편향/energy편향) 비일관성
+
+**신규 정리:**
+- api-strategy.md 생성: API 플랫폼 비교, AI 접목 전략, 이미지 소스, 카르마 기부 링크
+- example.md 핵심 내용: OpenAI SDK 호환, JSON 출력 강제, 캐싱 전략, 하이브리드 비용 모델
+
+---
+
 ## 타로 상수 리서치 결과 (2026-03-09)
 
 **상수 데이터 검토 범위:**
