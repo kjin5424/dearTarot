@@ -1,36 +1,154 @@
-// 타로 배열 방식
-export const SPREAD_TYPES = {
-  ONE_CARD: {
+﻿/**
+ * 스프레드 메타데이터(카드 수/난이도/사용 맥락)를 정의합니다.
+ */
+export const SPREAD_DEFINITIONS = [
+  {
+    spreadId: "one_card",
     name: "One Card",
-    description: "Yes or No, 빠른 답변이 필요할 때",
-    count: 1,
-    positions: ["결과/조언"],
-  },
-  THREE_CARD: {
-    name: "Three Card",
-    description: "과거, 현재, 미래 및 관계 해석",
-    count: 3,
-    positions: ["과거(원인)", "현재(상황)", "미래(결과)"],
-  },
-  FOUR_CARD: {},
-  FIVE_CARD: {},
-  CELTIC_CROSS: {
-    name: "켈틱 크로스",
-    count: 10,
-    positions: [
-      "현재상황",
-      "장애물",
-      "무의식",
-      "과거",
-      "의식/목표",
-      "가까운 미래",
-      "자기자신",
-      "주변환경",
-      "희망/공포",
-      "최종결과",
+    cardCount: 1,
+    difficulty: "basic",
+
+    useCases: ["yes_no_question", "quick_answer", "daily_guidance"],
+
+    questionPatterns: ["yes_or_no", "simple_decision", "single_focus_question"],
+
+    recommendedContexts: [
+      "love",
+      "career",
+      "finance",
+      "health",
+      "personal",
+      "advice",
+      "spiritual",
     ],
   },
-  RELATIONSHIP: {},
-  HORSESHOE: {},
-  MAGIC_SEVEN: {},
-};
+
+  {
+    spreadId: "three_card",
+    name: "Three Card",
+    cardCount: 3,
+    difficulty: "basic",
+
+    useCases: [
+      "past_present_future",
+      "cause_action_result",
+      "relationship_understanding",
+      "decision_support",
+      "emotional_clarity",
+    ],
+
+    questionPatterns: [
+      "timeline_question",
+      "relationship_question",
+      "choice_question",
+      "situation_analysis",
+    ],
+
+    recommendedContexts: ["love", "career", "finance", "personal"],
+  },
+
+  {
+    spreadId: "four_card",
+    name: "Four Card",
+    cardCount: 4,
+    difficulty: "intermediate",
+
+    useCases: ["problem_solving", "quick_diagnosis"],
+
+    questionPatterns: ["urgent_problem", "situation_breakdown"],
+
+    recommendedContexts: ["career", "finance", "personal", "health"],
+  },
+
+  {
+    spreadId: "five_card",
+    name: "Five Card",
+    cardCount: 5,
+    difficulty: "intermediate",
+
+    useCases: ["detailed_problem_analysis", "multi_factor_situation"],
+
+    questionPatterns: ["complex_problem", "deep_analysis_needed"],
+
+    recommendedContexts: ["career", "finance", "personal", "health", "love"],
+  },
+
+  {
+    spreadId: "celtic_cross",
+    name: "Celtic Cross",
+    cardCount: 10,
+    difficulty: "advanced",
+
+    useCases: [
+      "life_direction",
+      "complex_situation_analysis",
+      "deep_psychological_reading",
+    ],
+
+    questionPatterns: [
+      "major_life_question",
+      "long_term_problem",
+      "deep_self_analysis",
+    ],
+
+    recommendedContexts: ["career", "love", "spiritual", "personal"],
+  },
+
+  {
+    spreadId: "relationship_spread",
+    name: "Relationship Spread",
+    cardCount: 6,
+    difficulty: "intermediate",
+
+    useCases: [
+      "romantic_relationship",
+      "human_relationship",
+      "family_relationship",
+      "work_relationship",
+    ],
+
+    questionPatterns: [
+      "relationship_question",
+      "emotion_analysis",
+      "mutual_feelings",
+    ],
+
+    recommendedContexts: ["love", "personal", "career"],
+  },
+
+  {
+    spreadId: "horseshoe_spread",
+    name: "Horseshoe Spread",
+    cardCount: 7,
+    difficulty: "intermediate",
+
+    useCases: [
+      "broad_question",
+      "non_relationship_problem",
+      "situation_overview",
+    ],
+
+    questionPatterns: ["wide_scope_question", "problem_overview"],
+
+    recommendedContexts: ["career", "finance", "personal", "advice"],
+  },
+
+  {
+    spreadId: "magic_seven",
+    name: "Magic Seven",
+    cardCount: 7,
+    difficulty: "advanced",
+
+    useCases: [
+      "current_problem_detection",
+      "future_obstacles",
+      "problem_intervention",
+    ],
+
+    questionPatterns: ["problem_diagnosis", "future_risk_analysis"],
+
+    recommendedContexts: ["career", "finance", "personal", "spiritual"],
+  },
+];
+
+

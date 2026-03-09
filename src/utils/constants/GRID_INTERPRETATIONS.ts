@@ -1,26 +1,61 @@
-// |----------|----------|----------|
-// | Cell 1   | Cell 2   | Cell 3   |
-// |----------|----------|----------|
-// | Cell 4   | Cell 5   | Cell 6   |
-// |----------|----------|----------|
-// | Cell 7   | Cell 8   | Cell 9   |
-// |----------|----------|----------|
-
+﻿/**
+ * 그리드 리딩에서 쓰는 위치별 해석 힌트를 정의합니다.
+ */
 export const GRID_INTERPRETATIONS = {
-  8: {
-    label: "Bottom (Root)",
-    meaning: "과거, 근본적인 무의식",
-    traits: ["불안정", "의존적 경향", "새로운 경험 회피"],
+  1: {
+    label: "Upper Left",
+    role: "past_mindset",
+    meaning: "Earlier assumptions that shaped the current question.",
+    focus: ["bias", "old_story", "inherited_pattern"],
+  },
+  2: {
+    label: "Upper Center",
+    role: "aspiration",
+    meaning: "What the querent consciously wants right now.",
+    focus: ["goal", "wish", "ideal_outcome"],
+  },
+  3: {
+    label: "Upper Right",
+    role: "future_signal",
+    meaning: "Likely short-term direction if current momentum continues.",
+    focus: ["trend", "timing", "emerging_factor"],
+  },
+  4: {
+    label: "Middle Left",
+    role: "external_influence",
+    meaning: "People or systems shaping the situation from outside.",
+    focus: ["environment", "pressure", "support"],
   },
   5: {
     label: "Center",
-    meaning: "현재의 자기 자신",
-    traits: ["주체적", "역동적", "집착 시 경직됨"],
+    role: "core_state",
+    meaning: "The heart of the matter and present emotional center.",
+    focus: ["truth", "primary_conflict", "current_energy"],
   },
-  2: {
-    label: "Top",
-    meaning: "이상향 및 목표",
-    traits: ["높은 포부", "공상적 만족"],
+  6: {
+    label: "Middle Right",
+    role: "decision_gate",
+    meaning: "The next practical choice that changes trajectory.",
+    focus: ["option", "tradeoff", "commitment"],
   },
-  // 1, 3, 4, 6, 7, 9번 셀도 동일한 방식으로 정의
-};
+  7: {
+    label: "Lower Left",
+    role: "root_pattern",
+    meaning: "Deep pattern from fear, memory, or unresolved need.",
+    focus: ["shadow", "attachment", "origin"],
+  },
+  8: {
+    label: "Lower Center",
+    role: "integration",
+    meaning: "What must be accepted and integrated to move forward.",
+    focus: ["acceptance", "boundary", "self_responsibility"],
+  },
+  9: {
+    label: "Lower Right",
+    role: "action_result",
+    meaning: "Most probable outcome after aligned action.",
+    focus: ["result", "stability", "next_chapter"],
+  },
+} as const;
+
+

@@ -1,24 +1,85 @@
-// === AI 해석용 프롬프트 템플릿 ===
+﻿/**
+ * 시스템/유저 프롬프트 템플릿과 프로필 주입 빌더를 정의합니다.
+ */
+import {
+  CONTEXT_SPECIFIC_TONE_GUIDE,
+  DEFAULT_PERSONALIZED_PROFILE,
+  type PersonalizedInterpretationProfile,
+} from "./PERSONALIZED_INTERPRETATION_PROFILE";
+import { normalizeInterpretationContext } from "./INTERPRETATION_CONTEXT_SCHEMA";
 
-// === SYSTEM_PROMPT: string ===
-// export const SYSTEM_PROMPT = `...`
-// 1. 역할: "당신은 어두운 숲 속 달빛 아래의 타로 리더입니다"
-// 2. 톤: 부드럽고 시적인 한국어. 단정짓지 않는다
-// 3. 핵심 규칙:
-//    - "예언이 아니라 숲을 빠져나가기 위한 조언"
-//    - 카드 그림/상징 중심으로 서술
-//    - 역방향 카드는 "막힘" 또는 "내면화"로 해석
-//    - 절대 "~할 것이다" 같은 확정 표현 금지
-// 4. 출력 형식:
-//    - 카드별 2~3문장 해석
-//    - 마지막에 종합 조언 1문단
-//    - 총 300자 이내
+export const SYSTEM_PROMPT_BASE = `
+You are an empathetic tarot interpreter.
+Use evidence from cards, positions, context meanings, and rule-based signals.
+Never claim absolute certainty about the future.
+Never provide medical diagnosis or guaranteed financial outcomes.
+Always provide practical next actions.
+`.trim();
 
-// === buildUserPrompt(question: string, cards: DrawnCard[], spreadType: SpreadType): string ===
-// 1. "질문: {question}"
-// 2. "스프레드: {spreadType} ({count}장)"
-// 3. 각 카드:
-//    - "위치: {position}"
-//    - "카드: {nameKr} ({name})"
-//    - "방향: 정방향/역방향"
-// 4. "위 카드들을 기반으로 조언해주세요."
+export const SYSTEM_PROMPT_STYLE_RULES = {
+  toneGuide: {
+    gentle: "Warm and validating, avoid pressure language.",
+    balanced: "Empathetic but concrete with clear reasoning.",
+    direct: "Concise and clear with explicit action priorities.",
+    coach: "Motivational and action-oriented with checkpoints.",
+    spiritual: "Reflective and symbolic while staying practical.",
+  },
+  confidenceLanguage: {
+    high: "Use confident but non-absolute language.",
+    medium: "Use probabilistic language and offer options.",
+    low: "Use exploratory language and ask clarification cues.",
+  },
+} as const;
+
+export const USER_PROMPT_TEMPLATE = `
+Question: {question}
+Context: {context}
+Spread: {spreadId}
+Cards:
+{cardLines}
+
+Interpretation requirements:
+1) card-by-card reading
+2) synthesis by spread positions
+3) key opportunities and risks
+4) 1 to 3 practical action steps
+5) short closing reflection
+`.trim();
+
+export const TRACE_PROMPT_TEMPLATE = `
+Use these structured signals as evidence:
+- baseMeaning: {baseMeaning}
+- contextMeaning: {contextMeaning}
+- semanticTags: {semanticTags}
+- tagRules: {tagRules}
+- cardRules: {cardRules}
+- emotionVector: {emotionVector}
+- positionWeights: {positionWeights}
+`.trim();
+
+export const buildSystemPrompt = (
+  profile: Partial<PersonalizedInterpretationProfile> = {},
+  rawContext: string,
+) => {
+  const merged = { ...DEFAULT_PERSONALIZED_PROFILE, ...profile };
+  const context = normalizeInterpretationContext(rawContext);
+  const guide = CONTEXT_SPECIFIC_TONE_GUIDE[context];
+
+  const styleLine =
+    SYSTEM_PROMPT_STYLE_RULES.toneGuide[merged.tone] ??
+    SYSTEM_PROMPT_STYLE_RULES.toneGuide.balanced;
+
+  return [
+    SYSTEM_PROMPT_BASE,
+    `Tone: ${merged.tone}`,
+    `Style rule: ${styleLine}`,
+    `Directness: ${merged.directness.toFixed(2)}`,
+    `Empathy: ${merged.empathy.toFixed(2)}`,
+    `Practicality: ${merged.practicality.toFixed(2)}`,
+    `Detail level: ${merged.detailLevel}`,
+    `Context focus: ${guide.focus.join(", ")}`,
+    `Avoid patterns: ${[...guide.avoid, ...merged.disallowedPatterns].join(", ")}`,
+  ].join("\n");
+};
+
+

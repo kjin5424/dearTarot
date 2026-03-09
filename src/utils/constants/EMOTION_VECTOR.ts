@@ -1,22 +1,8 @@
-// Valence (V): -1 ~ +1 (부정 ↔ 긍정)
-// Arousal (A): 0 ~ 1 (차분 ↔ 각성/긴장)
-// Dominance (D): 0 ~ 1 (무력 ↔ 통제/권력)
-
-// Minor Arcana의 정서 진행 패턴
-// - Ace–3: 상승
-// - 4–6: 안정/균형
-// - 7–10: 긴장/충돌/붕괴
-// - Court: 인격 에너지
-
-// A. 역방향 연산 로직 (Functional Alternative)
-// 역방향 카드가 나왔을 때 데이터를 새로 만드는 대신, 간단한 연산 함수를 구현해보세요.
-// - 보통의 역방향: Valence는 반전(0.8 -> 0.2), Arousal은 유지 또는 소폭 상승, Dominance는 하락하는 경향이 있습니다. 이를 코드로 처리하면 데이터 양을 절반으로 줄일 수 있습니다.
-
-// B. 레이더 차트 UI 활용
-// 이 VAD 수치는 사용자에게 숫자로 보여주기보다 레이더 차트(Radar Chart) 형태로 시각화해 주면 앱의 전문성이 확 살아납니다. "현재 당신의 에너지 상태" 같은 지표로 활용하기 좋습니다.
-
+﻿/**
+ * 카드별 감정 벡터(VAD)와 전역 카드 ID 매핑을 정의합니다.
+ */
 export const EMOTION_VECTOR = [
-  // Major
+  // 메이저 아르카나
   { id: 0, card: "Fool", valence: 0.6, arousal: 0.65, dominance: 0.4 },
   { id: 1, card: "Magician", valence: 0.75, arousal: 0.7, dominance: 0.85 },
   { id: 2, card: "High Priestess", valence: 0.2, arousal: 0.2, dominance: 0.6 },
@@ -45,8 +31,8 @@ export const EMOTION_VECTOR = [
   { id: 19, card: "Sun", valence: 0.95, arousal: 0.8, dominance: 0.7 },
   { id: 20, card: "Judgement", valence: 0.5, arousal: 0.7, dominance: 0.75 },
   { id: 21, card: "World", valence: 0.85, arousal: 0.55, dominance: 0.9 },
-  // Minor
-  // WANDS
+  // 마이너 아르카나
+  // 완드
   { id: 0, card: "Ace of Wands", valence: 0.8, arousal: 0.9, dominance: 0.7 },
   { id: 1, card: "Two of Wands", valence: 0.6, arousal: 0.6, dominance: 0.65 },
   {
@@ -110,7 +96,7 @@ export const EMOTION_VECTOR = [
     dominance: 0.95,
   },
 
-  // CUPS
+  // 컵
   { id: 14, card: "Ace of Cups", valence: 0.9, arousal: 0.6, dominance: 0.5 },
   { id: 15, card: "Two of Cups", valence: 0.95, arousal: 0.65, dominance: 0.6 },
   {
@@ -174,7 +160,7 @@ export const EMOTION_VECTOR = [
     dominance: 0.85,
   },
 
-  // SWORDS
+  // 소드
   {
     id: 28,
     card: "Ace of Swords",
@@ -267,7 +253,7 @@ export const EMOTION_VECTOR = [
     arousal: 0.55,
     dominance: 0.95,
   },
-  // PENTACLES
+  // 펜타클
   {
     id: 42,
     card: "Ace of Pentacles",
@@ -367,3 +353,21 @@ export const EMOTION_VECTOR = [
     dominance: 0.95,
   },
 ];
+
+const MAJOR_ARCANA_COUNT = 22;
+
+const toGlobalCardId = (legacyId: number, index: number): number => {
+  // 메이저 아르카나는 전역 ID(0~21)를 그대로 사용합니다.
+  if (index < MAJOR_ARCANA_COUNT) return legacyId;
+  // 마이너 아르카나의 레거시 ID(0~55)를 전역 ID(22~77)로 변환합니다.
+  return legacyId + MAJOR_ARCANA_COUNT;
+};
+
+export const EMOTION_VECTOR_BY_CARD_ID = EMOTION_VECTOR.map((entry, index) => ({
+  ...entry,
+  cardId: toGlobalCardId(entry.id, index),
+  legacyId: entry.id,
+}));
+
+
+

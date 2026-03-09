@@ -1,18 +1,6 @@
-// invert: 정방향 의미의 반전(정반대 방향으로 해석)
-// weaken: 의미가 반대로 바뀌기보다는 지연·막힘·약화
-
-// 1. 데이터 일관성 체크 (Card ID)
-// MAJOR_REVERSED_LOGIC과 CARD_REVERSED_OVERRIDE의 ID 체계가 일치하는지 확인이 필요합니다.
-
-// 2. weaken 로직의 정량화
-// 앞서 만든 EMOTION_VECTOR(VAD)와 연동할 때 weaken을 어떻게 처리할지 정의하면 좋습니다.
-// - 제안: weaken일 경우 Arousal을 30% 감소시키고, Dominance를 20% 낮추는 식의 연산 함수를 만들면 AI가 "기운이 빠진, 지연되는" 톤으로 말하게 유도할 수 있습니다.
-
-// 3. invert 로직의 정량화
-// - 제안: invert일 경우 Valence의 부호를 반전시키거나(v * -1), 1.0 - v 형태의 연산을 적용하여 긍/부정을 교체할 수 있습니다.
-
-// 제안: advice 항목이 대부분 invert인 것을 활용해, "역방향은 틀린 게 아니라, 잠시 멈춰서 다르게 생각해보라는 신호예요"라는 식의 Healing Bridge Phrase를 생성 로직에 포함하면 서비스의 색깔이 더 분명해질 것 같습니다.
-
+﻿/**
+ * 역방향 카드 해석 정책(invert/weaken)과 예외를 정의합니다.
+ */
 export const MAJOR_REVERSED_LOGIC = [
   {
     cardId: 0,
@@ -274,7 +262,7 @@ export const MINOR_REVERSED_PATTERN = {
   },
 };
 export const CARD_REVERSED_OVERRIDE = {
-  /* Major Arcana */
+  /* 메이저 아르카나 */
   4: { love: "invert", personal: "invert" }, // Emperor
   5: { love: "invert", career: "invert", personal: "invert" }, // Hierophant
   6: { love: "invert", personal: "invert" }, // Lovers
@@ -305,7 +293,7 @@ export const CARD_REVERSED_OVERRIDE = {
     spiritual: "invert",
   }, // Moon
 
-  /* Wands */
+  /* 완드 */
   23: { career: "invert", personal: "invert" }, // 2 Wands
   24: { career: "invert", personal: "invert" }, // 3 Wands
   27: { career: "invert", personal: "invert" }, // 6 Wands
@@ -313,7 +301,7 @@ export const CARD_REVERSED_OVERRIDE = {
   29: { health: "invert", personal: "invert" }, // 8 Wands
   31: { health: "invert", personal: "invert" }, // 10 Wands
 
-  /* Cups */
+  /* 컵 */
   36: { love: "invert", spiritual: "invert", personal: "invert" }, // Ace Cups
   38: { love: "invert", personal: "invert" }, // 3 Cups
   39: { love: "invert", personal: "invert" }, // 4 Cups
@@ -321,7 +309,7 @@ export const CARD_REVERSED_OVERRIDE = {
   42: { love: "invert", personal: "invert" }, // 7 Cups
   43: { love: "invert", personal: "invert" }, // 8 Cups
 
-  /* Swords */
+  /* 소드 */
   50: { personal: "invert", spiritual: "invert" }, // Ace Swords
   52: { love: "invert", personal: "invert" }, // 3 Swords
   54: { personal: "invert", health: "invert" }, // 5 Swords
@@ -330,7 +318,7 @@ export const CARD_REVERSED_OVERRIDE = {
   58: { health: "invert", personal: "invert" }, // 9 Swords
   59: { health: "invert", personal: "invert" }, // 10 Swords
 
-  /* Pentacles */
+  /* 펜타클 */
   65: { finance: "invert", career: "invert" }, // 2 Pentacles
   66: { career: "invert", finance: "invert" }, // 3 Pentacles
   68: { finance: "invert", career: "invert" }, // 5 Pentacles
@@ -339,3 +327,6 @@ export const CARD_REVERSED_OVERRIDE = {
   71: { career: "invert", finance: "invert" }, // 8 Pentacles
   72: { finance: "invert", personal: "invert" }, // 9 Pentacles
 };
+
+
+

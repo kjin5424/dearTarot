@@ -1,27 +1,8 @@
-// 1. lifeAreas는 0~1 가중치
-//    - 질문 도메인 relevance 계산용
-// 2. themes는 의미 그래프 노드
-//    - 카드 조합 해석
-//    - semantic similarity 계산
-// 3. emotions는 감정 해석 엔진 입력
-//    - emotion vector와 연결됨
-// 4. polarity
-//    - 긍정(+1) ↔ 부정(-1) 축
-//    - 0~1 또는 -1~1 둘 중 하나로 통일해야 함
-
-// 1. polarity 범위 통일 제안
-// 코드 주석에 고민하신 것처럼, 0 ~ 1 범위로 통일하는 것을 추천합니다.
-// - 이유: VAD 모델이나 lifeAreas 가중치 등 현재 시스템의 다른 수치들이 대부분 양수(Positive range)를 기반으로 하고 있습니다.
-// - 중립점: 0.5를 중립으로 두고, 0.5 미만은 부정, 초과는 긍정으로 처리하면 연산이 훨씬 직관적입니다. (이미 데이터도 그렇게 작성하신 것 같습니다.)
-
-// 2. cardId 시퀀스 점검
-
-// 3. themes의 활용 (Semantic Similarity)
-// 현재 단어 리스트로 되어 있는 themes를 나중에 Vector Embedding화 하시면, 사용자의 질문(자연어)과 가장 유사한 테마를 가진 카드를 검색하거나 매칭하는 고도화된 기능을 구현할 수 있습니다.
-
-// 4. 데이터 누락 채우기: 아직 비어 있는 Cups와 Pentacles의 ID 36~49, 78~91 구간 완성하기.
+﻿/**
+ * 카드별 의미 태그 코퍼스와 정규화 export를 정의합니다.
+ */
 export const SEMENTIG_TAG = [
-  // Major
+  // 메이저 아르카나
   {
     cardId: 0,
     name: "The Fool",
@@ -386,8 +367,8 @@ export const SEMENTIG_TAG = [
     },
     polarity: 0.9,
   },
-  // Minor
-  // wands
+  // 마이너 아르카나
+  // 완드
   {
     cardId: 22,
     name: "Ace of Wands",
@@ -612,7 +593,7 @@ export const SEMENTIG_TAG = [
     },
     polarity: 0.9,
   },
-  // swords
+  // 소드
   {
     cardId: 50,
     name: "Ace of Swords",
@@ -1071,7 +1052,7 @@ export const SEMENTIG_TAG = [
     },
     polarity: 0.85,
   },
-  // pentacles
+  // 펜타클
   {
     cardId: 78,
     name: "Ace of Pentacles",
@@ -1302,3 +1283,26 @@ export const SEMENTIG_TAG = [
     polarity: 0.95,
   },
 ];
+
+// 하위 호환을 위해 레거시 export를 유지하고 정규화 별칭을 제공합니다.
+const normalizeSemanticCardId = (legacyCardId: number): number => {
+  // 레거시 파일은 컵(64~77), 펜타클(78~91) ID가 밀려 있어 정규화가 필요합니다.
+  if (legacyCardId >= 78) return legacyCardId - 14; // 78~91 -> 64~77
+  if (legacyCardId >= 64 && legacyCardId <= 77) return legacyCardId - 28; // 64~77 -> 36~49
+  return legacyCardId;
+};
+
+export const SEMANTIC_TAGS = SEMENTIG_TAG.map((entry) => ({
+  ...entry,
+  cardId: normalizeSemanticCardId(entry.cardId),
+  legacyCardId: entry.cardId,
+}));
+
+// 자주 발생하는 오타 호환 별칭을 함께 제공합니다.
+export const SEMENTIC_TAG = SEMANTIC_TAGS;
+export const SEMANTIC_TAG = SEMANTIC_TAGS;
+
+
+
+
+
