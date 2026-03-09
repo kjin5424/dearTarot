@@ -41,6 +41,12 @@
 - [ ] CONSTANTS_VALIDATOR로 ID 범위/중복/누락 검증
 - [ ] 78장 전체 cardId 연속성 확인 (0-77)
 
+### ~~5-1-X. constants/ 디렉토리 구조 개편~~
+- [x] ✅ 5개 서브디렉토리 분리: tarot/(10) spread/(5) interpretation/(9) scoring/(7) visual/(5)
+- [x] ✅ INTERPRETATION_ENGINE → src/utils/helpers/interpretationEngine.ts
+- [x] ✅ CONSTANTS_VALIDATOR → src/utils/helpers/constantsValidator.ts
+- [x] ✅ 배럴 진입점: src/types/tarot.ts, 모든 내부 import 경로 수정 완료
+
 ## Phase 5-2: 통합 & 데이터 연결
 
 ### 5-2-A. 카드 헬퍼 구현 (cardHelpers.ts)

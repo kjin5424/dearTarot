@@ -20,14 +20,15 @@
 - [x] TAROT_CONTEXT_MEANINGS.ts: 동적 생성으로 78장 × 7컨텍스트 구조 완성 (품질은 템플릿 수준)
 - [x] TAROT_MEANINGS.ts: 동적 생성으로 78장 커버 (품질은 SEMANTIC_TAGS 복사 수준)
 
-**미완료 (Opus 확인):**
-- [x] **5-1-A CRITICAL**: SEMENTIC_TAG.ts → SEMANTIC_TAG.ts 파일명 변경 + 원본 데이터 ID 직접 수정 완료
-  - Cups 36-49, Pentacles 64-77, normalizer 제거, SEMANTIC_TAGS 직접 export
-- ⏳ **5-1-D**: TAROT_CONTEXT_MEANINGS 해석 품질 — 템플릿 1줄 (Phase 6에서 AI 생성 필요)
-- ⏳ **5-1-F**: TAROT_MEANINGS 키워드 품질 — light/shadow 구분 불명확 (Phase 6에서 보강)
+**이번 세션 완료:**
+- [x] **5-1-A CRITICAL**: SEMANTIC_TAG.ts 파일명 변경 + Cups(36-49)/Pentacles(64-77) ID 직접 수정, normalizer 제거
+- [x] **5-1-H**: CARD_DATA.ts 샘플 const 제거, 인터페이스 스키마만 보존 (Phase 7 활용)
+- [x] **5-1-I**: CONTEXT_TAGS 한글 키 → 영어 통일 (priority/themeBias/emotionBias/energyBias)
+
+**Phase 6 이후 (품질 보강):**
+- ⏳ **5-1-D**: TAROT_CONTEXT_MEANINGS 해석 품질 — 템플릿 1줄 (AI 생성 필요)
+- ⏳ **5-1-F**: TAROT_MEANINGS 키워드 품질 — light/shadow 구분 불명확
 - ⏳ **5-1-G**: CARD_COMBINATION_RULE Minor 조합 규칙 없음 (Major만 200+개)
-- ⏳ **5-1-H**: CARD_DATA.ts(샘플 1장) vs TAROT_CARDS.ts(78장 정본) 역할 정리
-- ⏳ **5-1-I**: CONTEXT_TAGS.ts 한글 키 (우선순위/theme편향) → 영어로 통일 필요
 
 ### Phase 5 구조 정리 완료 (2026-03-09)
 
@@ -39,10 +40,10 @@
 
 ### 다음 할 일
 
-- [ ] **즉시**: 5-1-A (파일명 변경 + 원본 데이터 수정) — CRITICAL
-- [ ] **즉시**: 5-1-I (CONTEXT_TAGS 한글 키 통일) — 간단
-- [ ] **Phase 5-2**: 통합 & 데이터 연결 (cardHelpers, mock API, localStorage 등)
-- [ ] **Phase 6 이후**: 5-1-D, 5-1-F 해석 품질 보강 (AI 생성)
+- [ ] **즉시**: Phase 5-2-A — cardHelpers.ts 구현 (shuffleArray, drawRandomCards, getCardById)
+- [ ] **즉시**: Phase 5-2-B — tarotApi.ts getMockInterpretation (TAROT_MEANINGS 기반)
+- [ ] **이후**: 5-2-C~F (localStorage, karmaApi, useSceneTransition, pixiHelpers)
+- [ ] **Phase 6 이후**: 5-1-D, 5-1-F, 5-1-G 품질 보강
 
 ## 핵심 결정 사항
 
