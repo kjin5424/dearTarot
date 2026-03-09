@@ -1,33 +1,70 @@
-// === 로컬 세션 저장소 ===
-// 타로 세션 데이터를 localStorage에 저장/복원
+import { nanoid } from "nanoid";
+import type { DrawnCard, SpreadType, KarmaOption } from "@types/index";
 
-// --- 타입 ---
-// interface TarotSession {
-//   id: string;           // nanoid
-//   question: string;
-//   spreadType: SpreadType;
-//   drawnCards: DrawnCard[];
-//   interpretation: string[];
-//   karmaOption: KarmaOption;
-//   createdAt: string;    // ISO date
-// }
+const SESSION_PREFIX = "tarot_session_";
+const DIARY_PREFIX = "diary_";
 
-// === saveSession(session: Omit<TarotSession, "id" | "createdAt">): void ===
-// 1. nanoid()로 세션 ID 생성
-// 2. createdAt = new Date().toISOString()
-// 3. localStorage.setItem(`tarot_session_${id}`, JSON.stringify({ id, createdAt, ...session }))
+export interface TarotSession {
+  id: string;
+  question: string;
+  spreadType: SpreadType;
+  drawnCards: DrawnCard[];
+  interpretation: string[];
+  karmaOption: KarmaOption;
+  createdAt: string;
+}
 
-// === getRecentSessions(limit = 5): TarotSession[] ===
-// 1. localStorage에서 tarot_session_ 접두사 키 전부 조회
-// 2. createdAt 기준 최신순 정렬
-// 3. limit만큼 slice 반환
+export function saveSession(session: Omit<TarotSession, "id" | "createdAt">): void {
+  const id = nanoid();
+  const createdAt = new Date().toISOString();
+  localStorage.setItem(`${SESSION_PREFIX}${id}`, JSON.stringify({ id, createdAt, ...session }));
+}
 
-// === clearOldSessions(daysOld = 30): void ===
-// 30일 이상 된 세션 자동 삭제
+export function getRecentSessions(limit = 5): TarotSession[] {
+  const sessions: TarotSession[] = [];
 
-// === saveDiaryEntry(text: string): void ===
-// 카르마 DIARY 옵션 선택 시 감사 일기 저장
-// localStorage.setItem(`diary_${YYYY-MM-DD}`, text)
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key?.startsWith(SESSION_PREFIX)) continue;
+    const raw = localStorage.getItem(key);
+    if (raw) sessions.push(JSON.parse(raw) as TarotSession);
+  }
 
-// === getDiaryEntries(): { date: string, text: string }[] ===
-// 전체 일기 이력 조회
+  return sessions
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, limit);
+}
+
+export function clearOldSessions(daysOld = 30): void {
+  const cutoff = Date.now() - daysOld * 24 * 60 * 60 * 1000;
+  const keysToRemove: string[] = [];
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key?.startsWith(SESSION_PREFIX)) continue;
+    const raw = localStorage.getItem(key);
+    if (!raw) continue;
+    const session = JSON.parse(raw) as TarotSession;
+    if (new Date(session.createdAt).getTime() < cutoff) keysToRemove.push(key);
+  }
+
+  keysToRemove.forEach((k) => localStorage.removeItem(k));
+}
+
+export function saveDiaryEntry(text: string): void {
+  const date = new Date().toISOString().slice(0, 10);
+  localStorage.setItem(`${DIARY_PREFIX}${date}`, text);
+}
+
+export function getDiaryEntries(): { date: string; text: string }[] {
+  const entries: { date: string; text: string }[] = [];
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key?.startsWith(DIARY_PREFIX)) continue;
+    const text = localStorage.getItem(key);
+    if (text) entries.push({ date: key.replace(DIARY_PREFIX, ""), text });
+  }
+
+  return entries.sort((a, b) => b.date.localeCompare(a.date));
+}
