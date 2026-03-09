@@ -38,12 +38,26 @@
 - 배럴 export: src/types/tarot.ts (중앙 진입점)
 - CONSTANTS_VALIDATION_RULES.ts — constants/ 루트에 잔류
 
+### Phase 5-2: 통합 & 데이터 연결 — 완료 (2026-03-09)
+
+- [x] **5-2-A**: cardHelpers.ts — shuffleArray, drawRandomCards, getCardById, getPositionLabel
+- [x] **5-2-B**: tarotApi.ts — getMockInterpretation (TAROT_MEANINGS + REVERSED_MEANINGS 기반)
+- [x] **5-2-C**: localStorage.ts — saveSession, getRecentSessions, clearOldSessions, saveDiaryEntry, getDiaryEntries
+- [x] **5-2-D**: karmaApi.ts — processKarma(DIARY/DONATION/AD), hasCompletedKarma, getKarmaHistory
+- [x] **5-2-E**: useSceneTransition.ts — transitionTo + isTransitioning, App.vue store.goTo() 전체 교체
+- [x] **5-2-F**: pixiHelpers.ts + pixiLoader.ts — createRect/Circle/centerObject/fadeIn/fadeOut/pulseEffect, preloadAll/getTexture
+
+### 추가 변경 (Phase 5-2 과정)
+
+- SpreadType 3개 → 8개 확장 (FOUR_CARD, FIVE_CARD, RELATIONSHIP_SPREAD, HORSESHOE_SPREAD, MAGIC_SEVEN)
+- DrawScene.ts: SPREAD_COUNTS 제거 → SPREAD_DEFINITIONS 단일 진실 공급원 사용
+- InsightPanel.vue: spreadLabel map 8개 완비, getMockInterpretation 연결
+
 ### 다음 할 일
 
-- [ ] **즉시**: Phase 5-2-A — cardHelpers.ts 구현 (shuffleArray, drawRandomCards, getCardById)
-- [ ] **즉시**: Phase 5-2-B — tarotApi.ts getMockInterpretation (TAROT_MEANINGS 기반)
-- [ ] **이후**: 5-2-C~F (localStorage, karmaApi, useSceneTransition, pixiHelpers)
+- [ ] **Phase 6**: AI 해석 연동 (tarotApi requestInterpretation 실제 API 호출)
 - [ ] **Phase 6 이후**: 5-1-D, 5-1-F, 5-1-G 품질 보강
+- [ ] **Phase 7**: 에셋 확보 및 pixiLoader ASSET_MANIFEST 실제 경로 교체
 
 ## 핵심 결정 사항
 

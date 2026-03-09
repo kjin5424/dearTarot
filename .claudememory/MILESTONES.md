@@ -1,5 +1,11 @@
 # MILESTONES
 
+## 2026-03-09 (Phase 5-2: 통합 & 데이터 연결 완료)
+
+- SpreadType 3→8개 확장, cardHelpers/tarotApi/localStorage/karmaApi 6개 서비스 파일 구현 완료
+- useSceneTransition 훅으로 App.vue 씬 전환 페이드 적용, store.goTo() 완전 교체
+- pixiHelpers(createRect/fadeIn/pulse) + pixiLoader(bundle 프리로드/fallback) 구현 — Phase 5 전체 완료
+
 ## 2026-03-09 (Phase 5-1 데이터 정규화 + constants/ 구조 개편)
 
 - SEMANTIC_TAG cardId 정규화 완료: Cups(36-49)/Pentacles(64-77) 원본 수정, normalizer 제거 + CONTEXT_TAGS 한글 키 영어 통일, CARD_DATA 샘플 const 제거
