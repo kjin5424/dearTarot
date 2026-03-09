@@ -4,41 +4,41 @@
 import {
   AI_INTERPRETATION_ENGINE_CONFIG,
   AI_INTERPRETATION_WEIGHT,
-} from "./AI_INTERPRETATION_PIPELINE";
-import { CARD_COMBINATION_RULES } from "./CARD_COMBINATION_RULE";
-import { getColorPaletteAnalysis } from "./COLOR_PALETTE_ANALYSIS";
-import { CONTEXT_TAGS } from "./CONTEXT_TAGS";
-import { EMOTION_VECTOR_BY_CARD_ID } from "./EMOTION_VECTOR";
-import { resolveGazeFlow } from "./GAZE_DIRECTION_RULES";
+} from "../constants/interpretation/AI_INTERPRETATION_PIPELINE";
+import { CARD_COMBINATION_RULES } from "../constants/scoring/CARD_COMBINATION_RULE";
+import { getColorPaletteAnalysis } from "../constants/visual/COLOR_PALETTE_ANALYSIS";
+import { CONTEXT_TAGS } from "../constants/scoring/CONTEXT_TAGS";
+import { EMOTION_VECTOR_BY_CARD_ID } from "../constants/tarot/EMOTION_VECTOR";
+import { resolveGazeFlow } from "../constants/visual/GAZE_DIRECTION_RULES";
 import {
   getHealingAffirmation,
   type HealingPolarity,
-} from "./HEALING_AFFIRMATIONS";
-import { INTERPRETATION_CONFLICT_RULES } from "./INTERPRETATION_CONFLICT_RULES";
+} from "../constants/interpretation/HEALING_AFFIRMATIONS";
+import { INTERPRETATION_CONFLICT_RULES } from "../constants/interpretation/INTERPRETATION_CONFLICT_RULES";
 import {
   normalizeInterpretationContext,
   type CanonicalInterpretationContext,
-} from "./INTERPRETATION_CONTEXT_SCHEMA";
-import { buildSystemPrompt } from "./PROMPT";
-import type { PersonalizedInterpretationProfile } from "./PERSONALIZED_INTERPRETATION_PROFILE";
+} from "../constants/interpretation/INTERPRETATION_CONTEXT_SCHEMA";
+import { buildSystemPrompt } from "../constants/interpretation/PROMPT";
+import type { PersonalizedInterpretationProfile } from "../constants/interpretation/PERSONALIZED_INTERPRETATION_PROFILE";
 import {
   MAJOR_REVERSED_LOGIC,
   MINOR_REVERSED_PATTERN,
   CARD_REVERSED_OVERRIDE,
-} from "./REVERSED_MEANINGS";
-import { SCORING_STRUCTURE } from "./SCORING_STRUCTURE";
-import { SEMANTIC_TAGS } from "./SEMANTIC_TAG";
-import { SPREAD_POSITION_WEIGHTS } from "./POSITION_WEIGHT";
-import { SPREAD_POSITION_MEANINGS } from "./SPREAD_POSITION_MEANING";
+} from "../constants/tarot/REVERSED_MEANINGS";
+import { SCORING_STRUCTURE } from "../constants/scoring/SCORING_STRUCTURE";
+import { SEMANTIC_TAGS } from "../constants/tarot/SEMANTIC_TAG";
+import { SPREAD_POSITION_WEIGHTS } from "../constants/scoring/POSITION_WEIGHT";
+import { SPREAD_POSITION_MEANINGS } from "../constants/spread/SPREAD_POSITION_MEANING";
 import {
   positionToSpatialZone,
   resolveSpatialPsychology,
-} from "./SPATIAL_PSYCHOLOGY_RULES";
-import { getSymbolCoordinatesByCardId } from "./SYMBOL_COORDINATES";
-import { TAG_COMBINATION_RULES } from "./TAG_COMBINATION_RULES";
-import { TAROT_CARDS } from "./TAROT_CARDS";
-import { TAROT_CONTEXT_MEANINGS } from "./TAROT_CONTEXT_MEANINGS";
-import { TAROT_MEANINGS } from "./TAROT_MEANINGS";
+} from "../constants/visual/SPATIAL_PSYCHOLOGY_RULES";
+import { getSymbolCoordinatesByCardId } from "../constants/visual/SYMBOL_COORDINATES";
+import { TAG_COMBINATION_RULES } from "../constants/tarot/TAG_COMBINATION_RULES";
+import { TAROT_CARDS } from "../constants/tarot/TAROT_CARDS";
+import { TAROT_CONTEXT_MEANINGS } from "../constants/tarot/TAROT_CONTEXT_MEANINGS";
+import { TAROT_MEANINGS } from "../constants/tarot/TAROT_MEANINGS";
 
 type CardInput = {
   cardId: number;

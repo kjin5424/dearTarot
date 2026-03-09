@@ -81,5 +81,3 @@ export const buildSystemPrompt = (
     `Avoid patterns: ${[...guide.avoid, ...merged.disallowedPatterns].join(", ")}`,
   ].join("\n");
 };
-
-

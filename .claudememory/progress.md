@@ -29,6 +29,14 @@
 - ⏳ **5-1-H**: CARD_DATA.ts(샘플 1장) vs TAROT_CARDS.ts(78장 정본) 역할 정리
 - ⏳ **5-1-I**: CONTEXT_TAGS.ts 한글 키 (우선순위/theme편향) → 영어로 통일 필요
 
+### Phase 5 구조 정리 완료 (2026-03-09)
+
+- constants/ → 5개 서브디렉토리 분리 (tarot/10, spread/5, interpretation/9, scoring/7, visual/5)
+- INTERPRETATION_ENGINE → utils/helpers/interpretationEngine.ts
+- CONSTANTS_VALIDATOR → utils/helpers/constantsValidator.ts
+- 배럴 export: src/types/tarot.ts (중앙 진입점)
+- CONSTANTS_VALIDATION_RULES.ts — constants/ 루트에 잔류
+
 ### 다음 할 일
 
 - [ ] **즉시**: 5-1-A (파일명 변경 + 원본 데이터 수정) — CRITICAL

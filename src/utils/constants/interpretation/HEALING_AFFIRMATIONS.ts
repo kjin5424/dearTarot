@@ -2,7 +2,7 @@
  * 카드/극성/컨텍스트 조합별 1:1 치유 확언 문구를 정의합니다.
  * - key 형식: `${cardId}:${polarity}:${context}`
  */
-import { TAROT_CARDS } from "./TAROT_CARDS";
+import { TAROT_CARDS } from "../tarot/TAROT_CARDS";
 import type { CanonicalInterpretationContext } from "./INTERPRETATION_CONTEXT_SCHEMA";
 
 export type HealingPolarity = "light" | "shadow";
@@ -50,12 +50,14 @@ export const buildHealingAffirmationKey = (
 export const HEALING_AFFIRMATIONS: Record<string, string> = Object.fromEntries(
   TAROT_CARDS.flatMap((card) =>
     (["light", "shadow"] as const).flatMap((polarity) =>
-      (Object.keys(CONTEXT_LINE) as CanonicalInterpretationContext[]).map((context) => {
-        const key = buildHealingAffirmationKey(card.id, polarity, context);
-        const sentence = CONTEXT_LINE[context][polarity];
-        const value = `${card.name}의 메시지: ${sentence}`;
-        return [key, value] as const;
-      }),
+      (Object.keys(CONTEXT_LINE) as CanonicalInterpretationContext[]).map(
+        (context) => {
+          const key = buildHealingAffirmationKey(card.id, polarity, context);
+          const sentence = CONTEXT_LINE[context][polarity];
+          const value = `${card.name}의 메시지: ${sentence}`;
+          return [key, value] as const;
+        },
+      ),
     ),
   ),
 );

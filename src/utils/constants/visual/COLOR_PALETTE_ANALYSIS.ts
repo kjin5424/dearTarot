@@ -1,8 +1,8 @@
 ﻿/**
  * 카드 색채 심리 상수와 컨텍스트별 색채 해석 규칙을 정의합니다.
  */
-import { TAROT_CARDS } from "./TAROT_CARDS";
-import type { CanonicalInterpretationContext } from "./INTERPRETATION_CONTEXT_SCHEMA";
+import { TAROT_CARDS } from "../tarot/TAROT_CARDS";
+import type { CanonicalInterpretationContext } from "../interpretation/INTERPRETATION_CONTEXT_SCHEMA";
 
 export type ColorPolarity = "light" | "shadow";
 
@@ -54,33 +54,39 @@ const toContextMeaning = (
   spiritual: `${color} 계열은 내면 해석의 깊이를 조절하라는 신호입니다.`,
 });
 
-export const COLOR_PALETTE_ANALYSIS: Record<number, ColorSignal> = Object.fromEntries(
-  TAROT_CARDS.map((card) => {
-    const palette =
-      MAJOR_PALETTE_OVERRIDES[card.id] ??
-      (card.suit ? SUIT_PALETTE[card.suit] : ["white", "gray", "gold"]);
-    const dominant = palette[0] ?? "white";
+export const COLOR_PALETTE_ANALYSIS: Record<number, ColorSignal> =
+  Object.fromEntries(
+    TAROT_CARDS.map((card) => {
+      const palette =
+        MAJOR_PALETTE_OVERRIDES[card.id] ??
+        (card.suit ? SUIT_PALETTE[card.suit] : ["white", "gray", "gold"]);
+      const dominant = palette[0] ?? "white";
 
-    const psychologicalMeaning =
-      COLOR_PSYCHOLOGY[dominant]?.light ?? "상황을 선명하게 보는 시점";
+      const psychologicalMeaning =
+        COLOR_PSYCHOLOGY[dominant]?.light ?? "상황을 선명하게 보는 시점";
 
-    return [
-      card.id,
-      {
-        dominant,
-        palette,
-        psychologicalMeaning,
-        contextMeaning: toContextMeaning(dominant),
-      } satisfies ColorSignal,
-    ];
-  }),
-);
+      return [
+        card.id,
+        {
+          dominant,
+          palette,
+          psychologicalMeaning,
+          contextMeaning: toContextMeaning(dominant),
+        } satisfies ColorSignal,
+      ];
+    }),
+  );
 
 export const getColorPaletteAnalysis = (
   cardId: number,
   context: CanonicalInterpretationContext,
   polarity: ColorPolarity,
-): { dominant: string; palette: string[]; meaning: string; contextHint: string } => {
+): {
+  dominant: string;
+  palette: string[];
+  meaning: string;
+  contextHint: string;
+} => {
   const signal = COLOR_PALETTE_ANALYSIS[cardId] ?? {
     dominant: "white",
     palette: ["white", "gray"],
@@ -89,7 +95,8 @@ export const getColorPaletteAnalysis = (
   };
 
   const polarityMeaning =
-    COLOR_PSYCHOLOGY[signal.dominant]?.[polarity] ?? signal.psychologicalMeaning;
+    COLOR_PSYCHOLOGY[signal.dominant]?.[polarity] ??
+    signal.psychologicalMeaning;
 
   return {
     dominant: signal.dominant,

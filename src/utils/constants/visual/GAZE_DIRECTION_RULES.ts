@@ -3,8 +3,8 @@
  * - direction은 인물/에너지의 주 흐름 방향입니다.
  * - contextModifier는 컨텍스트별 해석 보정 문구입니다.
  */
-import { TAROT_CARDS } from "./TAROT_CARDS";
-import type { CanonicalInterpretationContext } from "./INTERPRETATION_CONTEXT_SCHEMA";
+import { TAROT_CARDS } from "../tarot/TAROT_CARDS";
+import type { CanonicalInterpretationContext } from "../interpretation/INTERPRETATION_CONTEXT_SCHEMA";
 
 export type GazeDirection = "left" | "right" | "up" | "down" | "center";
 
@@ -73,21 +73,22 @@ const DIRECTION_CONTEXT_MODIFIER: Record<
   },
 };
 
-export const GAZE_DIRECTION_RULES: Record<number, GazeRule> = Object.fromEntries(
-  TAROT_CARDS.map((card) => {
-    const direction =
-      MAJOR_GAZE_OVERRIDES[card.id] ??
-      (card.suit ? SUIT_GAZE_DEFAULT[card.suit] : "center");
+export const GAZE_DIRECTION_RULES: Record<number, GazeRule> =
+  Object.fromEntries(
+    TAROT_CARDS.map((card) => {
+      const direction =
+        MAJOR_GAZE_OVERRIDES[card.id] ??
+        (card.suit ? SUIT_GAZE_DEFAULT[card.suit] : "center");
 
-    const rule: GazeRule = {
-      direction,
-      flowMeaning: DIRECTION_BASE_MEANING[direction],
-      contextModifier: DIRECTION_CONTEXT_MODIFIER[direction],
-    };
+      const rule: GazeRule = {
+        direction,
+        flowMeaning: DIRECTION_BASE_MEANING[direction],
+        contextModifier: DIRECTION_CONTEXT_MODIFIER[direction],
+      };
 
-    return [card.id, rule];
-  }),
-);
+      return [card.id, rule];
+    }),
+  );
 
 export const resolveGazeFlow = (
   cardId: number,
