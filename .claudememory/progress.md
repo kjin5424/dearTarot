@@ -21,9 +21,8 @@
 - [x] TAROT_MEANINGS.ts: 동적 생성으로 78장 커버 (품질은 SEMANTIC_TAGS 복사 수준)
 
 **미완료 (Opus 확인):**
-- ⏳ **5-1-A CRITICAL**: SEMENTIC_TAG.ts 파일명 미변경 (export 호환만 추가), 원본 데이터 ID 미수정
-  - 원본 export명 `SEMENTIG_TAG` (추가 T→G 오타 발견)
-  - Cups/Pentacles cardId 원본 밀림 상태 유지 → normalizer로 런타임 변환 중
+- [x] **5-1-A CRITICAL**: SEMENTIC_TAG.ts → SEMANTIC_TAG.ts 파일명 변경 + 원본 데이터 ID 직접 수정 완료
+  - Cups 36-49, Pentacles 64-77, normalizer 제거, SEMANTIC_TAGS 직접 export
 - ⏳ **5-1-D**: TAROT_CONTEXT_MEANINGS 해석 품질 — 템플릿 1줄 (Phase 6에서 AI 생성 필요)
 - ⏳ **5-1-F**: TAROT_MEANINGS 키워드 품질 — light/shadow 구분 불명확 (Phase 6에서 보강)
 - ⏳ **5-1-G**: CARD_COMBINATION_RULE Minor 조합 규칙 없음 (Major만 200+개)

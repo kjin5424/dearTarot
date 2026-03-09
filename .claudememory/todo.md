@@ -2,13 +2,8 @@
 
 ## Phase 5-1: 타로 상수 데이터 정제 (2026-03-09)
 
-### 5-1-A. CRITICAL: SEMENTIC_TAG.ts → SEMANTIC_TAG.ts 파일명/데이터 정규화
-- [ ] 파일명: `SEMENTIC_TAG.ts` → `SEMANTIC_TAG.ts` 변경
-- [ ] 원본 배열 `SEMENTIG_TAG` (T→G 오타) → `SEMANTIC_TAG_RAW` 또는 직접 수정
-- [ ] 원본 데이터의 Cups cardId 64-77 → **36-49**, Pentacles 78-91 → **64-77**로 직접 수정
-- [ ] normalizeSemanticCardId 함수와 legacyCardId 필드 제거 (원본 수정 후 불필요)
-- [ ] index.ts export 경로 `./SEMENTIC_TAG` → `./SEMANTIC_TAG` 변경
-- [ ] 관련 import 경로 전체 교체 (TAROT_CONTEXT_MEANINGS.ts, TAROT_MEANINGS.ts 등)
+### ~~5-1-A. CRITICAL: SEMENTIC_TAG.ts → SEMANTIC_TAG.ts 파일명/데이터 정규화~~
+- [x] ✅ 파일명 변경, SEMANTIC_TAGS 직접 export, Cups(36-49)/Pentacles(64-77) ID 수정, normalizer 제거
 
 ### 5-1-B. ~~CRITICAL: EMOTION_VECTOR.ts Minor Arcana ID 체계 통합~~
 - [x] ✅ haiku가 `toGlobalCardId` + `EMOTION_VECTOR_BY_CARD_ID` export 추가로 해결

@@ -1,7 +1,4 @@
-﻿/**
- * constants 모듈의 배럴 export를 정의합니다.
- */
-export * from "./AI_INTERPRETATION_PIPELINE";
+﻿export * from "./AI_INTERPRETATION_PIPELINE";
 export * from "./CARD_COMBINATION_RULE";
 export * from "./CARD_DATA";
 export * from "./COLOR_PALETTE_ANALYSIS";
@@ -25,7 +22,7 @@ export * from "./QUESTION_TYPE_INFERENCE_RULES";
 export * from "./QUESTION_TYPE_MERGE_RULES";
 export * from "./REVERSED_MEANINGS";
 export * from "./SCORING_STRUCTURE";
-export * from "./SEMENTIC_TAG";
+export * from "./SEMANTIC_TAG";
 export * from "./SHUFFLE_TYPES";
 export * from "./SITUATION_WEIGHT";
 export * from "./SPREAD_INTERPRETATION_RULES";
