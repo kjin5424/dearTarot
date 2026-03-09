@@ -1,5 +1,11 @@
 # MILESTONES
 
+## 2026-03-09 (메모리 정리 및 Phase 5-1 계획 수립)
+
+- research.md 내용 분석 완료: CRITICAL 3건(파일명 오타, ID 체계 2건), HIGH 4건, MEDIUM 3건 미반영 이슈 발견 → todo.md에 Phase 5-1로 신규 추가
+- .claudememory/todo.md/progress.md 업데이트 완료: Phase 5-1(타로 상수 정제)과 Phase 5-2(통합&연결) 분리 재구성
+- HISTORY.md에 리서치 결과 백업 후 research.md 삭제 완료, src/utils/constants/md 파일도 아카이브
+
 ## 2026-03-09 (Phase 5 준비: 파일 정리 + 타로 상수 전수 검토)
 
 - 불필요 파일 10개 삭제 + Phase 5용 stub 파일 8개에 주석 가이드 작성 (cardHelpers/tarotApi/karmaApi/localStorage/prompts/pixiHelpers/pixiLoader/useSceneTransition)

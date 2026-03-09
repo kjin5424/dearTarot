@@ -22,14 +22,27 @@
   - `src/pixi/utils/pixiLoader.ts` — 에셋 로더
   - `src/hooks/ui/useSceneTransition.ts` — 씬 전환 훅
 
-### 미완료 (Phase 5 작업 대기)
+### 미완료 (Phase 5-1: 타로 상수 정제 중)
 
-- [ ] 5-A: cardHelpers 구현 → DrawScene 연결
-- [ ] 5-B: mock 해석 고도화 → InsightPanel 연결
-- [ ] 5-C: localStorage 구현
-- [ ] 5-D: karmaApi 구현 → KarmaOptions 연결
-- [ ] 5-E: useSceneTransition 구현 → App.vue 교체
-- [ ] 5-F: pixiHelpers/pixiLoader 구현
+**발견된 이슈** (research.md 검토 결과):
+- ⏳ SEMENTIC_TAG.ts 파일명 오타 미수정 (→ SEMANTIC_TAG.ts 필요)
+- ⏳ EMOTION_VECTOR.ts Minor ID 체계 미통합 (자체 0-55 ID 사용 중, 전역 22-77로 변환 필요)
+- ⏳ SPREAD_TYPES.ts 5개 스프레드 일부만 정의됨
+- ⏳ TAROT_CONTEXT_MEANINGS.ts 컨텍스트 0-63 미완성 (64-77 Pentacles만 완성)
+- ⏳ GRID_INTERPRETATIONS.ts 6개 셀 미정의 (3/9만 완성)
+- ⏳ TAROT_MEANINGS.ts Minor 키워드 부족 (1-2개, 3-4개로 확대 필요)
+- ⏳ CARD_COMBINATION_RULE.ts Minor 조합 규칙 없음 (Major만 200+개)
+
+**완료 항목** (src/utils/constants/todo.md 기준):
+- ✅ INTERPRETATION_ENGINE.ts (실제 해석 엔진)
+- ✅ CONSTANTS_VALIDATOR.ts (검증기)
+- ✅ SYMBOL_COORDINATES.ts, GAZE_DIRECTION_RULES.ts, COLOR_PALETTE_ANALYSIS.ts (시각 심리 3개)
+- ✅ HEALING_AFFIRMATIONS.ts, SPATIAL_PSYCHOLOGY_RULES.ts (확언/공간 2개)
+
+### 다음 할 일 (Phase 5-1 & 5-2)
+
+- [ ] 5-1-A~I: 타로 상수 정제 (CRITICAL/HIGH 우선순위)
+- [ ] 5-2-A~F: 통합 & 데이터 연결 (cardHelpers, mock API, localStorage 등)
 
 ## 핵심 결정 사항
 
