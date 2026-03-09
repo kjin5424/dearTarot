@@ -1,5 +1,11 @@
 # MILESTONES
 
+## 2026-03-09 (Phase 5-1 데이터 정규화 + constants/ 구조 개편)
+
+- SEMANTIC_TAG cardId 정규화 완료: Cups(36-49)/Pentacles(64-77) 원본 수정, normalizer 제거 + CONTEXT_TAGS 한글 키 영어 통일, CARD_DATA 샘플 const 제거
+- constants/ 5개 서브디렉토리(tarot/spread/interpretation/scoring/visual)로 분리, INTERPRETATION_ENGINE→helpers/interpretationEngine.ts, CONSTANTS_VALIDATOR→helpers/constantsValidator.ts 이동
+- 배럴 진입점: src/types/tarot.ts 로 통합, 모든 import 경로 수정 완료 (기존 타입 오류는 pre-existing)
+
 ## 2026-03-09 (Opus 전수 검토: haiku 작업 검증 + API 전략 수립)
 
 - haiku 작업 전수 검토: 5-1-B/C/E 완료 확인, 5-1-A CRITICAL(파일명/원본ID) 미처리 + SEMENTIG_TAG T→G 추가 오타 발견, CONTEXT_TAGS 한글 키 비일관성 신규 발견
