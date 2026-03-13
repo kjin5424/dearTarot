@@ -2683,6 +2683,442 @@ export const CARD_COMBINATION_RULES = [
     },
     aiModifier: { destiny: 0.99 },
   },
+
+  // ===== SUIT PATTERNS (r301-r308) — 같은 슈트 3장/4장 원소 에너지 =====
+  {
+    ruleId: "r301",
+    priority: 40,
+    condition: { suitPattern: "wands", minCount: 3 },
+    effect: {
+      themeAdd: ["fire_energy", "passion_drive"],
+      meaningModifier: "elemental_fire_surge",
+    },
+    aiModifier: { opportunity: 0.7 },
+  },
+  {
+    ruleId: "r302",
+    priority: 55,
+    condition: { suitPattern: "wands", minCount: 4 },
+    effect: {
+      themeAdd: ["fire_dominance", "overwhelming_action"],
+      meaningModifier: "elemental_fire_overflow",
+    },
+    aiModifier: { opportunity: 0.85 },
+  },
+  {
+    ruleId: "r303",
+    priority: 40,
+    condition: { suitPattern: "cups", minCount: 3 },
+    effect: {
+      themeAdd: ["water_energy", "emotional_depth"],
+      meaningModifier: "elemental_water_surge",
+    },
+    aiModifier: { relationship: 0.7 },
+  },
+  {
+    ruleId: "r304",
+    priority: 55,
+    condition: { suitPattern: "cups", minCount: 4 },
+    effect: {
+      themeAdd: ["water_dominance", "emotional_overflow"],
+      meaningModifier: "elemental_water_overflow",
+    },
+    aiModifier: { relationship: 0.85 },
+  },
+  {
+    ruleId: "r305",
+    priority: 40,
+    condition: { suitPattern: "swords", minCount: 3 },
+    effect: {
+      themeAdd: ["air_energy", "mental_intensity"],
+      meaningModifier: "elemental_air_surge",
+    },
+    aiModifier: { clarity: 0.6, risk: 0.4 },
+  },
+  {
+    ruleId: "r306",
+    priority: 55,
+    condition: { suitPattern: "swords", minCount: 4 },
+    effect: {
+      themeAdd: ["air_dominance", "mental_crisis"],
+      meaningModifier: "elemental_air_overflow",
+    },
+    aiModifier: { risk: 0.75 },
+  },
+  {
+    ruleId: "r307",
+    priority: 40,
+    condition: { suitPattern: "pentacles", minCount: 3 },
+    effect: {
+      themeAdd: ["earth_energy", "material_focus"],
+      meaningModifier: "elemental_earth_surge",
+    },
+    aiModifier: { stability: 0.7 },
+  },
+  {
+    ruleId: "r308",
+    priority: 55,
+    condition: { suitPattern: "pentacles", minCount: 4 },
+    effect: {
+      themeAdd: ["earth_dominance", "material_abundance"],
+      meaningModifier: "elemental_earth_overflow",
+    },
+    aiModifier: { stability: 0.85 },
+  },
+
+  // ===== NUMBER PATTERNS (r309-r326) — 같은 숫자 조합 =====
+  {
+    ruleId: "r309",
+    priority: 50,
+    condition: { numberPattern: 1, minCount: 2 },
+    effect: {
+      themeAdd: ["dual_new_beginning", "amplified_potential"],
+      meaningModifier: "double_genesis",
+    },
+    aiModifier: { opportunity: 0.8 },
+  },
+  {
+    ruleId: "r310",
+    priority: 65,
+    condition: { numberPattern: 1, minCount: 3 },
+    effect: {
+      themeAdd: ["triple_new_beginning", "life_reset"],
+      meaningModifier: "massive_fresh_start",
+    },
+    aiModifier: { opportunity: 0.92 },
+  },
+  {
+    ruleId: "r311",
+    priority: 35,
+    condition: { numberPattern: 2, minCount: 2 },
+    effect: {
+      themeAdd: ["duality", "multiple_choices"],
+      meaningModifier: "crossroads_amplified",
+    },
+    aiModifier: { clarity: 0.6 },
+  },
+  {
+    ruleId: "r312",
+    priority: 35,
+    condition: { numberPattern: 3, minCount: 2 },
+    effect: {
+      themeAdd: ["collaboration", "creative_growth"],
+      meaningModifier: "synergy_expansion",
+    },
+    aiModifier: { opportunity: 0.65 },
+  },
+  {
+    ruleId: "r313",
+    priority: 35,
+    condition: { numberPattern: 4, minCount: 2 },
+    effect: {
+      themeAdd: ["rigid_structure", "stagnation_risk"],
+      meaningModifier: "over_stabilization",
+    },
+    aiModifier: { stability: 0.7, risk: 0.3 },
+  },
+  {
+    ruleId: "r314",
+    priority: 45,
+    condition: { numberPattern: 5, minCount: 2 },
+    effect: {
+      themeAdd: ["conflict", "upheaval"],
+      meaningModifier: "turbulence_wave",
+    },
+    aiModifier: { risk: 0.7 },
+  },
+  {
+    ruleId: "r315",
+    priority: 70,
+    condition: { numberPattern: 5, minCount: 3 },
+    effect: {
+      themeAdd: ["extreme_conflict", "crisis_peak"],
+      meaningModifier: "triple_upheaval",
+    },
+    aiModifier: { risk: 0.9 },
+  },
+  {
+    ruleId: "r316",
+    priority: 35,
+    condition: { numberPattern: 6, minCount: 2 },
+    effect: {
+      themeAdd: ["harmony", "healing_balance"],
+      meaningModifier: "equilibrium_restored",
+    },
+    aiModifier: { stability: 0.7, hope: 0.6 },
+  },
+  {
+    ruleId: "r317",
+    priority: 40,
+    condition: { numberPattern: 7, minCount: 2 },
+    effect: {
+      themeAdd: ["inner_search", "deep_reflection"],
+      meaningModifier: "introspection_amplified",
+    },
+    aiModifier: { clarity: 0.65 },
+  },
+  {
+    ruleId: "r318",
+    priority: 40,
+    condition: { numberPattern: 8, minCount: 2 },
+    effect: {
+      themeAdd: ["rapid_movement", "power_shift"],
+      meaningModifier: "momentum_surge",
+    },
+    aiModifier: { opportunity: 0.7 },
+  },
+  {
+    ruleId: "r319",
+    priority: 45,
+    condition: { numberPattern: 9, minCount: 2 },
+    effect: {
+      themeAdd: ["near_completion", "culmination"],
+      meaningModifier: "threshold_moment",
+    },
+    aiModifier: { success: 0.7 },
+  },
+  {
+    ruleId: "r320",
+    priority: 45,
+    condition: { numberPattern: 10, minCount: 2 },
+    effect: {
+      themeAdd: ["cycle_ending", "major_transition"],
+      meaningModifier: "chapter_closing",
+    },
+    aiModifier: { success: 0.6, uncertainty: 0.4 },
+  },
+  {
+    ruleId: "r321",
+    priority: 65,
+    condition: { numberPattern: 10, minCount: 3 },
+    effect: {
+      themeAdd: ["life_chapter_end", "total_transformation"],
+      meaningModifier: "grand_transition",
+    },
+    aiModifier: { success: 0.75, uncertainty: 0.5 },
+  },
+  {
+    ruleId: "r322",
+    priority: 35,
+    condition: { numberPattern: 11, minCount: 2 },
+    effect: {
+      themeAdd: ["messages", "youthful_energy"],
+      meaningModifier: "news_incoming",
+    },
+    aiModifier: { opportunity: 0.55 },
+  },
+  {
+    ruleId: "r323",
+    priority: 35,
+    condition: { numberPattern: 12, minCount: 2 },
+    effect: {
+      themeAdd: ["rapid_action", "pursuit"],
+      meaningModifier: "charging_forward",
+    },
+    aiModifier: { opportunity: 0.65 },
+  },
+  {
+    ruleId: "r324",
+    priority: 40,
+    condition: { numberPattern: 13, minCount: 2 },
+    effect: {
+      themeAdd: ["nurturing_power", "emotional_mastery"],
+      meaningModifier: "receptive_authority",
+    },
+    aiModifier: { stability: 0.7 },
+  },
+  {
+    ruleId: "r325",
+    priority: 40,
+    condition: { numberPattern: 14, minCount: 2 },
+    effect: {
+      themeAdd: ["authority", "worldly_mastery"],
+      meaningModifier: "commanding_presence",
+    },
+    aiModifier: { stability: 0.75 },
+  },
+  {
+    ruleId: "r326",
+    priority: 55,
+    condition: { numberPattern: 14, minCount: 3 },
+    effect: {
+      themeAdd: ["supreme_authority", "absolute_command"],
+      meaningModifier: "council_of_kings",
+    },
+    aiModifier: { stability: 0.9 },
+  },
+
+  // ===== MAJOR + MINOR CROSS (r327-r343) — 메이저-마이너 크로스 조합 =====
+  {
+    ruleId: "r327",
+    priority: 45,
+    condition: { cards: [1, 22], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["creative_manifestation"],
+      meaningModifier: "magician_ignites_wands",
+    },
+    aiModifier: { opportunity: 0.82 },
+  },
+  {
+    ruleId: "r328",
+    priority: 45,
+    condition: { cards: [1, 36], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["emotional_manifestation"],
+      meaningModifier: "magician_opens_heart",
+    },
+    aiModifier: { relationship: 0.8 },
+  },
+  {
+    ruleId: "r329",
+    priority: 45,
+    condition: { cards: [1, 50], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["intellectual_breakthrough"],
+      meaningModifier: "magician_sharpens_mind",
+    },
+    aiModifier: { clarity: 0.82 },
+  },
+  {
+    ruleId: "r330",
+    priority: 45,
+    condition: { cards: [1, 64], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["material_manifestation"],
+      meaningModifier: "magician_builds_fortune",
+    },
+    aiModifier: { stability: 0.82 },
+  },
+  {
+    ruleId: "r331",
+    priority: 50,
+    condition: { cards: [6, 36], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["deep_love", "soul_connection"],
+      meaningModifier: "lovers_cup_overflow",
+    },
+    aiModifier: { relationship: 0.9 },
+  },
+  {
+    ruleId: "r332",
+    priority: 50,
+    condition: { cards: [13, 22], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["rebirth", "phoenix_rising"],
+      meaningModifier: "death_into_new_fire",
+    },
+    aiModifier: { opportunity: 0.75, risk: 0.3 },
+  },
+  {
+    ruleId: "r333",
+    priority: 60,
+    condition: { cards: [16, 54], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["devastating_conflict", "total_defeat"],
+      meaningModifier: "tower_sword_devastation",
+    },
+    aiModifier: { risk: 0.92 },
+  },
+  {
+    ruleId: "r334",
+    priority: 45,
+    condition: { cards: [17, 36], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["emotional_healing", "renewed_hope"],
+      meaningModifier: "star_fills_cup",
+    },
+    aiModifier: { hope: 0.88 },
+  },
+  {
+    ruleId: "r335",
+    priority: 45,
+    condition: { cards: [4, 77], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["absolute_authority", "empire_builder"],
+      meaningModifier: "emperor_king_dominion",
+    },
+    aiModifier: { stability: 0.88 },
+  },
+  {
+    ruleId: "r336",
+    priority: 45,
+    condition: { cards: [2, 47], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["peak_intuition", "psychic_depth"],
+      meaningModifier: "priestess_queen_oracle",
+    },
+    aiModifier: { clarity: 0.85 },
+  },
+  {
+    ruleId: "r337",
+    priority: 40,
+    condition: { cards: [8, 30], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["ultimate_perseverance", "unbreakable_will"],
+      meaningModifier: "strength_endures_all",
+    },
+    aiModifier: { stability: 0.82 },
+  },
+  {
+    ruleId: "r338",
+    priority: 40,
+    condition: { cards: [9, 53], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["deep_retreat", "sacred_rest"],
+      meaningModifier: "hermit_rests_sword",
+    },
+    aiModifier: { clarity: 0.7, stability: 0.6 },
+  },
+  {
+    ruleId: "r339",
+    priority: 45,
+    condition: { cards: [11, 51], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["difficult_decision", "moral_dilemma"],
+      meaningModifier: "justice_weighs_swords",
+    },
+    aiModifier: { clarity: 0.6, uncertainty: 0.5 },
+  },
+  {
+    ruleId: "r340",
+    priority: 45,
+    condition: { cards: [18, 42], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["deep_illusion", "fantasy_trap"],
+      meaningModifier: "moon_cups_mirage",
+    },
+    aiModifier: { uncertainty: 0.8, risk: 0.6 },
+  },
+  {
+    ruleId: "r341",
+    priority: 50,
+    condition: { cards: [10, 31], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["fate_cycle", "karmic_completion"],
+      meaningModifier: "wheel_turns_full",
+    },
+    aiModifier: { success: 0.7, uncertainty: 0.4 },
+  },
+  {
+    ruleId: "r342",
+    priority: 45,
+    condition: { cards: [19, 22], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["joyful_creation", "radiant_start"],
+      meaningModifier: "sun_ignites_wand",
+    },
+    aiModifier: { success: 0.85, hope: 0.8 },
+  },
+  {
+    ruleId: "r343",
+    priority: 50,
+    condition: { cards: [15, 54], order: "any", reversedAllowed: true },
+    effect: {
+      themeAdd: ["toxic_conflict", "destructive_power"],
+      meaningModifier: "devil_sharpens_sword",
+    },
+    aiModifier: { risk: 0.88 },
+  },
 ];
 
 
