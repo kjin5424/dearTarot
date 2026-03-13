@@ -67,16 +67,18 @@
 
 ### 7-A. 타로 상수 품질 보강
 
-#### 7-A1. TAROT_MEANINGS.ts — 메이저 22장 고유 데이터 (5-1-F 해소)
-- [ ] 동적 생성 → 정적 데이터로 전환
-- [ ] 메이저 22장: 카드별 고유 light_keywords / shadow_keywords
-- [ ] 메이저 22장: love/career/finance/health/spiritual/advice 컨텍스트별 고유 해석
-- 파일: `src/utils/constants/tarot/TAROT_MEANINGS.ts`
+#### ~~7-A1. TAROT_MEANINGS.ts — 메이저 22장 고유 데이터 (5-1-F 해소)~~
+- [x] ✅ 동적 생성 → `MAJOR_MEANINGS.ts` 정적 데이터 분리
+- [x] ✅ 메이저 22장: 카드별 고유 light_keywords / shadow_keywords (RWS 전통 해석 기반)
+- [x] ✅ 메이저 22장: love/career/finance/health/spiritual/advice 한국어 고유 해석 (2문장씩)
+- [x] ✅ `TAROT_MEANINGS.ts`: MAJOR_MEANINGS + MINOR(동적생성) 합성 구조
+- 파일: `MAJOR_MEANINGS.ts` (신규), `TAROT_MEANINGS.ts` (수정)
 
-#### 7-A2. TAROT_MEANINGS.ts — 마이너 56장 고유 데이터 (5-1-F 해소)
-- [ ] 마이너 56장: 슈트/숫자 특성 반영한 고유 light_keywords / shadow_keywords
-- [ ] 마이너 56장: 6개 컨텍스트별 고유 해석
-- 파일: `src/utils/constants/tarot/TAROT_MEANINGS.ts`
+#### ~~7-A2. MINOR_MEANINGS.ts — 마이너 56장 고유 데이터 (5-1-F 해소)~~
+- [x] ✅ MINOR_MEANINGS.ts 신규: 56장 정적 데이터 (RWS 전통 해석 기반)
+- [x] ✅ 슈트별 고유 light/shadow keywords + 6컨텍스트 한국어 해석 2문장씩
+- [x] ✅ TAROT_MEANINGS.ts: 동적 생성 → 정적 import 교체
+- 파일: `MINOR_MEANINGS.ts` (신규), `TAROT_MEANINGS.ts` (수정)
 
 #### 7-A3. TAROT_CONTEXT_MEANINGS.ts — 78장 × 7 컨텍스트 고유 해석 (5-1-D 해소)
 - [ ] 템플릿 1줄 → 카드별/컨텍스트별 고유 themes/interpretations/advice

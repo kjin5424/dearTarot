@@ -1,6 +1,11 @@
 # Progress (현재 진행 상황)
 
-## 현재 단계: Phase 5 — 타로 상수 정제 + 통합 연결
+## 현재 단계: Phase 7 — 타로 상수 품질 보강 + 카드 UX
+
+### Phase 7-A1 완료 (2026-03-13)
+- [x] MAJOR_MEANINGS.ts 신규: 메이저 22장 정적 데이터 (light/shadow keywords + 6컨텍스트 한국어 해석)
+- [x] TAROT_MEANINGS.ts 구조 변경: MAJOR(정적) + MINOR(동적) 합성
+- [x] Phase 7 전체 계획 수립 → todo.md 기록 (A1~A4 상수품질 + B1~B3 카드UX)
 
 ### 완료 (Phase 1~4, 2026-03-09)
 
@@ -60,10 +65,16 @@
 - [x] `tarotApi.ts`: requestInterpretation 실제 API 호출 + 7일 캐싱 + mock fallback
 - [x] `api-strategy.md` 섹션 5: 파인튜닝 ToS 비교 + 로드맵 기록
 
+### Phase 7-A2 완료 (2026-03-13)
+- [x] MINOR_MEANINGS.ts 신규: 마이너 56장 정적 데이터 (RWS 전통 해석 기반)
+- [x] 슈트별 고유 light_keywords / shadow_keywords 4개씩
+- [x] 56장 × 6컨텍스트(love/career/finance/health/spiritual/advice) 한국어 고유 해석 2문장씩
+- [x] TAROT_MEANINGS.ts: 동적 MINOR_MEANINGS 생성 → 정적 import로 교체, SEMANTIC_TAGS/TAROT_CARDS 의존 제거
+
 ### 다음 할 일 (Phase 7: 타로 상수 품질 보강 + 카드 UX, 2026-03-13~)
 
-- [ ] **7-A1**: TAROT_MEANINGS 메이저 22장 고유 light/shadow keywords + 컨텍스트 해석
-- [ ] **7-A2**: TAROT_MEANINGS 마이너 56장 고유 키워드 + 해석
+- [x] **7-A1**: TAROT_MEANINGS 메이저 22장 고유 light/shadow keywords + 컨텍스트 해석
+- [x] **7-A2**: TAROT_MEANINGS 마이너 56장 고유 키워드 + 해석
 - [ ] **7-A3**: TAROT_CONTEXT_MEANINGS 78장 × 7컨텍스트 고유 해석
 - [ ] **7-A4**: CARD_COMBINATION_RULE Minor 조합 규칙
 - [ ] **7-B1**: DrawScene 클릭 카드 = 실제 뽑힌 카드 연결
