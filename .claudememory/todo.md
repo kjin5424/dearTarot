@@ -63,13 +63,52 @@
 - [x] `tarotApi.ts` — requestInterpretation 실제 Gemini API 호출 + 7일 캐싱 + mock fallback
 - [ ] 프록시 서버 or Edge Function (API 키 보호) → Phase 후반
 
-## Phase 6 이후: 품질 보강 (대기)
+## Phase 7: 타로 상수 품질 보강 + 카드 UX (2026-03-13)
 
-- [ ] **5-1-D**: TAROT_CONTEXT_MEANINGS 카드별 고유 해석 AI 생성
-- [ ] **5-1-F**: TAROT_MEANINGS Minor 키워드 light/shadow 보강
-- [ ] **5-1-G**: CARD_COMBINATION_RULE Minor 조합 규칙 추가
+### 7-A. 타로 상수 품질 보강
 
-## Phase 7: 에셋 & 폴리시 (대기)
+#### 7-A1. TAROT_MEANINGS.ts — 메이저 22장 고유 데이터 (5-1-F 해소)
+- [ ] 동적 생성 → 정적 데이터로 전환
+- [ ] 메이저 22장: 카드별 고유 light_keywords / shadow_keywords
+- [ ] 메이저 22장: love/career/finance/health/spiritual/advice 컨텍스트별 고유 해석
+- 파일: `src/utils/constants/tarot/TAROT_MEANINGS.ts`
+
+#### 7-A2. TAROT_MEANINGS.ts — 마이너 56장 고유 데이터 (5-1-F 해소)
+- [ ] 마이너 56장: 슈트/숫자 특성 반영한 고유 light_keywords / shadow_keywords
+- [ ] 마이너 56장: 6개 컨텍스트별 고유 해석
+- 파일: `src/utils/constants/tarot/TAROT_MEANINGS.ts`
+
+#### 7-A3. TAROT_CONTEXT_MEANINGS.ts — 78장 × 7 컨텍스트 고유 해석 (5-1-D 해소)
+- [ ] 템플릿 1줄 → 카드별/컨텍스트별 고유 themes/interpretations/advice
+- 파일: `src/utils/constants/tarot/TAROT_CONTEXT_MEANINGS.ts`
+
+#### 7-A4. CARD_COMBINATION_RULE.ts — Minor 조합 규칙 (5-1-G 해소)
+- [ ] 같은 슈트 3장 이상 원소 에너지 강화 규칙
+- [ ] 같은 숫자 조합 (예: 5가 3장 = 극심한 갈등)
+- [ ] Major + Minor 크로스 조합
+- 파일: `src/utils/constants/scoring/CARD_COMBINATION_RULE.ts`
+
+### 7-B. 카드 뽑기/뒤집기 UX
+
+#### 7-B1. DrawScene — 클릭 카드 = 실제 뽑힌 카드 연결
+- [ ] 현재 문제: 카드 flip 후 drawRandomCards()로 랜덤 재추출 → 클릭과 무관
+- [ ] 수정: CardSprite에 cardId 연결, 클릭한 카드 정보를 drawnCards에 반영
+- [ ] shuffleArray로 덱 섞은 후 fan한 카드가 곧 선택 대상
+- 파일: `DrawScene.ts`, `cardHelpers.ts`, `CardSprite.ts`, `CardDeck.ts`
+
+#### 7-B2. ReadingScene — 원카드 직접 뒤집기
+- [ ] 카드 1장 뒤집어진 채(face-down) 표시
+- [ ] 유저 클릭 → flip 애니메이션 → InsightPanel 해석 표시
+- 파일: `ReadingScene.ts`, `InsightPanel.vue`
+
+#### 7-B3. ReadingScene — 다카드 자동 순차 뒤집기 + 해석
+- [ ] 스프레드 레이아웃에 맞게 카드 배치 (face-down)
+- [ ] 순서대로 자동 flip → 각 카드 해석 표시 (InsightPanel 동기화)
+- [ ] 모든 카드 뒤집힌 후 → 종합(synthesis) 해석 표시
+- [ ] InsightPanel: 자동 모드 (카드 뒤집기 이벤트 수신) vs 수동 prev/next 제거
+- 파일: `ReadingScene.ts`, `InsightPanel.vue`, `useTarotStore.ts`
+
+## Phase 8: 에셋 & 폴리시 (대기)
 
 - [ ] 타로 카드 이미지 확보 (metabismuth/tarot-json RWS 350x600px) → webp 변환
 - [ ] 픽셀아트 스프라이트시트 제작 (소녀, 숲)
