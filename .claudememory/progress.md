@@ -71,6 +71,12 @@
 - [x] 56장 × 6컨텍스트(love/career/finance/health/spiritual/advice) 한국어 고유 해석 2문장씩
 - [x] TAROT_MEANINGS.ts: 동적 MINOR_MEANINGS 생성 → 정적 import로 교체, SEMANTIC_TAGS/TAROT_CARDS 의존 제거
 
+### Phase 7-P0 완료 (2026-03-13) — 해석 엔진 연결
+- [x] interpretTarotReading()을 tarotApi.ts에서 실제 호출
+- [x] 엔진 결과를 Gemini 프롬프트에 structured evidence로 주입
+- [x] Mock 해석: 영어 키워드 → 엔진의 한국어 해석 직접 사용
+- [x] context 하드코딩("personal") 제거, spreadType/context 파라미터 추가
+
 ### Phase 7-A4 완료 (2026-03-13)
 - [x] CARD_COMBINATION_RULE: 슈트 패턴 8개 + 숫자 패턴 18개 + Major-Minor 크로스 17개 (r301-r343)
 - [x] interpretationEngine: suitPattern/numberPattern 조건 매칭 로직 추가
@@ -80,6 +86,12 @@
 - [x] TAROT_CONTEXT_MEANINGS: 영어 템플릿 → MAJOR/MINOR_MEANINGS 한국어 고유 해석 연결
 - [x] interpretations(첫 문장) + advice(둘째 문장) 분리, personal→spiritual 매핑
 - [x] TAROT_CARDS 의존 제거, 타입 체크 통과
+
+### Phase 7-P3 완료 (2026-03-13) — 역방향 전용 해석 텍스트
+- [x] MAJOR_REVERSED_CONTEXT.ts: 메이저 22장 × 6컨텍스트 역방향 고유 한국어 해석
+- [x] MINOR_REVERSED_CONTEXT.ts: 마이너 56장 × 6컨텍스트 역방향 고유 한국어 해석
+- [x] TAROT_CONTEXT_MEANINGS.ts: reversedContexts 블록 추가 (정방향/역방향 분리)
+- [x] interpretationEngine.ts: draw.reversed 시 reversedContexts 자동 선택
 
 ### 다음 할 일 (Phase 7: 타로 상수 품질 보강 + 카드 UX, 2026-03-13~)
 
