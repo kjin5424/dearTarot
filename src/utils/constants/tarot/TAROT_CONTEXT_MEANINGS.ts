@@ -1,43 +1,48 @@
-﻿/**
- * 카드별 컨텍스트 해석 블록을 정의합니다.
- */
+import { MAJOR_MEANINGS } from "./MAJOR_MEANINGS";
+import { MINOR_MEANINGS } from "./MINOR_MEANINGS";
 import { SEMANTIC_TAGS } from "./SEMANTIC_TAG";
-import { TAROT_CARDS } from "./TAROT_CARDS";
 
-const makeContextBlock = (
-  cardName: string,
+type ContextKey = "love" | "career" | "finance" | "health" | "spiritual" | "advice";
+
+type MeaningEntry = {
+  id: number;
+  love: string[];
+  career: string[];
+  finance: string[];
+  health: string[];
+  spiritual: string[];
+  advice: string[];
+};
+
+const ALL_MEANINGS: MeaningEntry[] = [
+  ...MAJOR_MEANINGS,
+  ...MINOR_MEANINGS,
+];
+
+const CONTEXT_KEYS: ContextKey[] = [
+  "love", "career", "finance", "health", "spiritual", "advice",
+];
+
+const buildContextBlock = (
+  sentences: string[],
   themes: string[],
-  context: string,
-  polarity: number,
 ) => ({
   themes: themes.slice(0, 3),
-  interpretations: [
-    polarity >= 0.5
-      ? `${cardName} indicates supportive momentum in ${context}.`
-      : `${cardName} indicates friction and caution in ${context}.`,
-  ],
-  advice: [
-    polarity >= 0.5
-      ? `Strengthen what is already working in ${context}.`
-      : `Stabilize risk first, then act in ${context}.`,
-  ],
+  interpretations: [sentences[0] ?? ""],
+  advice: [sentences[1] ?? ""],
 });
 
-export const TAROT_CONTEXT_MEANINGS = TAROT_CARDS.map((card) => {
+export const TAROT_CONTEXT_MEANINGS = ALL_MEANINGS.map((card) => {
   const semantic = SEMANTIC_TAGS.find((s) => s.cardId === card.id);
   const themes = semantic?.themes ?? ["awareness", "choice", "adjustment"];
-  const polarity = semantic?.polarity ?? 0.5;
 
-  return {
-    cardId: card.id,
-    contexts: {
-      love: makeContextBlock(card.name, themes, "love", polarity),
-      career: makeContextBlock(card.name, themes, "career", polarity),
-      finance: makeContextBlock(card.name, themes, "finance", polarity),
-      health: makeContextBlock(card.name, themes, "health", polarity),
-      spiritual: makeContextBlock(card.name, themes, "spiritual", polarity),
-      personal: makeContextBlock(card.name, themes, "personal", polarity),
-      advice: makeContextBlock(card.name, themes, "decision making", polarity),
-    },
-  };
+  const contexts: Record<string, ReturnType<typeof buildContextBlock>> = {};
+
+  for (const key of CONTEXT_KEYS) {
+    contexts[key] = buildContextBlock(card[key], themes);
+  }
+
+  contexts.personal = buildContextBlock(card.spiritual, themes);
+
+  return { cardId: card.id, contexts };
 });
