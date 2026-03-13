@@ -83,7 +83,11 @@ const spreadLabel = computed(() => {
 })
 
 onMounted(async () => {
-  result.value = await requestInterpretation(props.question, props.drawnCards)
+  result.value = await requestInterpretation(
+    props.question,
+    props.drawnCards,
+    props.spreadType,
+  )
   isLoading.value = false
   isTypingActive.value = true
 })

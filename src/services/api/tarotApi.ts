@@ -1,7 +1,11 @@
-import type { DrawnCard } from "@types/index";
-import { TAROT_MEANINGS } from "@utils/constants/tarot/TAROT_MEANINGS";
-import { MAJOR_REVERSED_LOGIC } from "@utils/constants/tarot/REVERSED_MEANINGS";
+import type { DrawnCard, SpreadType } from "@types/index";
+import { SPREAD_POSITION_MEANINGS } from "@utils/constants/spread/SPREAD_POSITION_MEANING";
 import { buildSystemPrompt } from "@utils/constants/interpretation/PROMPT";
+import {
+  interpretTarotReading,
+  type TarotInterpretationInput,
+  type TarotInterpretationResult,
+} from "@utils/helpers/interpretationEngine";
 import { generateText } from "./geminiClient";
 
 const POSITION_LABEL: Record<string, string> = {
@@ -36,6 +40,45 @@ const POSITION_LABEL: Record<string, string> = {
   external_factor: "외부 압력",
   resolution: "해소 방향",
 };
+
+const SPREAD_ID_MAP: Record<SpreadType, keyof typeof SPREAD_POSITION_MEANINGS> = {
+  ONE_CARD: "one_card",
+  THREE_CARD: "three_card",
+  FOUR_CARD: "four_card",
+  FIVE_CARD: "five_card",
+  CELTIC_CROSS: "celtic_cross",
+  RELATIONSHIP_SPREAD: "relationship_spread",
+  HORSESHOE_SPREAD: "horseshoe_spread",
+  MAGIC_SEVEN: "magic_seven",
+};
+
+function roleToPosition(spreadId: keyof typeof SPREAD_POSITION_MEANINGS, role: string): number {
+  const positions = SPREAD_POSITION_MEANINGS[spreadId];
+  const found = positions?.find((p) => p.role === role);
+  return found?.position ?? 1;
+}
+
+function runEngine(
+  question: string,
+  drawnCards: DrawnCard[],
+  spreadType: SpreadType,
+  context: string,
+): TarotInterpretationResult {
+  const spreadId = SPREAD_ID_MAP[spreadType];
+
+  const engineInput: TarotInterpretationInput = {
+    question,
+    context,
+    spreadId,
+    cards: drawnCards.map((dc) => ({
+      cardId: dc.card.id,
+      position: roleToPosition(spreadId, dc.position),
+      reversed: dc.isReversed,
+    })),
+  };
+
+  return interpretTarotReading(engineInput);
+}
 
 interface GeminiInterpretationResponse {
   cardInterpretations: { position: string; lines: string[] }[];
@@ -73,65 +116,50 @@ function loadFromCache(key: string): GeminiInterpretationResponse | null {
 
 function saveToCache(key: string, data: GeminiInterpretationResponse): void {
   try {
-    const expiresAt = Date.now() + 1000 * 60 * 60 * 24 * 7; // 7일
+    const expiresAt = Date.now() + 1000 * 60 * 60 * 24 * 7;
     localStorage.setItem(key, JSON.stringify({ data, expiresAt }));
   } catch {
     // 저장 실패는 무시
   }
 }
 
-export function getMockInterpretation(card: DrawnCard): string[] {
-  const meaning = TAROT_MEANINGS.find((m) => m.id === card.card.id);
-  if (!meaning) {
-    return [
-      `${card.card.nameKr} 카드가 이 자리에 있군요.`,
-      "이 카드는 예언이 아니에요. 숲을 빠져나가기 위한 하나의 조언으로 받아들여 주세요.",
-      "지금 이 순간, 이 카드가 건네는 말을 천천히 들어보세요.",
-    ];
-  }
-
-  const dir = card.isReversed ? "역방향으로 놓인 " : "";
-  const posLabel = POSITION_LABEL[card.position] ?? card.position;
-
-  const keywords = card.isReversed
-    ? meaning.shadow_keywords.slice(0, 2)
-    : meaning.light_keywords.slice(0, 2);
-  const keywordPhrase = keywords.length > 0 ? keywords.join(", ") : meaning.core_keywords[0];
-
-  let line2: string;
-  if (card.isReversed) {
-    const reversedLogic =
-      card.card.arcana === "Major"
-        ? (MAJOR_REVERSED_LOGIC.find((r) => r.cardId === card.card.id)?.advice ?? "weaken")
-        : "weaken";
-    line2 =
-      reversedLogic === "invert"
-        ? `이 에너지가 뒤집혀, ${keywordPhrase}의 반대 방향으로 흐르고 있습니다.`
-        : `${keywordPhrase}의 흐름이 약해지거나 내면으로 숨어드는 시기입니다.`;
-  } else {
-    line2 = `이 자리에서 ${keywordPhrase}의 에너지가 작용하고 있어요.`;
-  }
-
-  return [
-    `${posLabel}에 ${dir}${card.card.nameKr} 카드가 놓였군요.`,
-    line2,
-    meaning.advice[0] ?? "지금 이 순간, 이 카드가 건네는 말을 천천히 들어보세요.",
-  ];
-}
-
-function buildUserPrompt(question: string, cards: DrawnCard[]): string {
-  const cardLines = cards
-    .map((c) => {
-      const pos = POSITION_LABEL[c.position] ?? c.position;
+function buildEnrichedUserPrompt(
+  question: string,
+  drawnCards: DrawnCard[],
+  engine: TarotInterpretationResult,
+): string {
+  const cardSection = drawnCards
+    .map((c, i) => {
+      const posLabel = POSITION_LABEL[c.position] ?? c.position;
       const dir = c.isReversed ? "(역방향)" : "(정방향)";
-      return `- [${pos}] ${c.card.nameKr} ${dir}`;
+      const ei = engine.cardInterpretations[i];
+      const interp = ei?.contextInterpretation?.[0] ?? "";
+      const adv = ei?.advice?.[0] ?? "";
+      return `- [${posLabel}] ${c.card.nameKr} ${dir}
+  해석 근거: ${interp}
+  조언 근거: ${adv}
+  키워드: ${(ei?.keywords ?? []).join(", ")}`;
     })
     .join("\n");
 
+  const themes = engine.spreadSynthesis.dominantThemes.slice(0, 5).join(", ");
+  const emotions = engine.spreadSynthesis.dominantEmotions.slice(0, 4).join(", ");
+  const emo = engine.trace.emotionSummary;
+  const emotionTone =
+    emo.valence > 0.5 ? "긍정적" : emo.valence < -0.2 ? "부정적" : "중립적";
+  const arousalTone = emo.arousal > 0.5 ? "활발한" : "차분한";
+  const confidence = engine.confidence.band === "high" ? "높음" : engine.confidence.band === "medium" ? "중간" : "낮음";
+
   return `질문: ${question}
 
-카드 배치:
-${cardLines}
+카드 배치 및 해석 근거:
+${cardSection}
+
+조합 분석:
+- 핵심 테마: ${themes || "없음"}
+- 감정 톤: ${emotionTone}, ${arousalTone}
+- 해석 신뢰도: ${confidence}
+- 치유 문구: ${engine.healingAffirmation}
 
 응답 형식 (JSON, 반드시 준수):
 {
@@ -144,14 +172,56 @@ ${cardLines}
 
 조건:
 - 각 카드 해석은 3문장 이내
+- 위의 해석 근거와 조언 근거를 반드시 참고하되, 그대로 복사하지 말고 자연스럽게 풀어서 서술
+- 카드 간의 흐름과 이야기를 엮어서 종합 해석 작성
 - 단정하지 말 것 ("~일 것입니다" 금지, "~처럼 보여요" 권장)
 - 한국어로 작성
 - 숲속 마녀의 따뜻하고 신비로운 어조`;
 }
 
+function buildMockFromEngine(
+  drawnCards: DrawnCard[],
+  engine: TarotInterpretationResult,
+): InterpretationResult {
+  const cardLines = drawnCards.map((c, i) => {
+    const posLabel = POSITION_LABEL[c.position] ?? c.position;
+    const dir = c.isReversed ? "역방향으로 놓인 " : "";
+    const ei = engine.cardInterpretations[i];
+
+    const lines: string[] = [
+      `${posLabel}에 ${dir}${c.card.nameKr} 카드가 놓였군요.`,
+    ];
+
+    if (ei?.contextInterpretation?.[0]) {
+      lines.push(ei.contextInterpretation[0]);
+    }
+    if (ei?.advice?.[0]) {
+      lines.push(ei.advice[0]);
+    }
+
+    if (lines.length === 1) {
+      lines.push("지금 이 순간, 이 카드가 건네는 말을 천천히 들어보세요.");
+    }
+
+    return lines;
+  });
+
+  const synthesis = engine.actionPlan.length > 0
+    ? engine.actionPlan.join(" ") + ` ${engine.healingAffirmation}`
+    : engine.healingAffirmation;
+
+  return {
+    cardLines,
+    synthesis,
+    actionSteps: engine.actionPlan,
+  };
+}
+
 export async function requestInterpretation(
   question: string,
   drawnCards: DrawnCard[],
+  spreadType: SpreadType = "ONE_CARD",
+  context: string = "personal",
 ): Promise<InterpretationResult> {
   const cacheKey = buildCacheKey(question, drawnCards);
   const cached = loadFromCache(cacheKey);
@@ -164,9 +234,11 @@ export async function requestInterpretation(
     };
   }
 
+  const engine = runEngine(question, drawnCards, spreadType, context);
+
   try {
-    const systemPrompt = buildSystemPrompt({}, "personal");
-    const userPrompt = buildUserPrompt(question, drawnCards);
+    const systemPrompt = buildSystemPrompt({}, context);
+    const userPrompt = buildEnrichedUserPrompt(question, drawnCards, engine);
     const raw = await generateText(systemPrompt, userPrompt);
 
     const parsed: GeminiInterpretationResponse = JSON.parse(raw);
@@ -178,11 +250,7 @@ export async function requestInterpretation(
       actionSteps: parsed.actionSteps,
     };
   } catch (err) {
-    console.error("[tarotApi] Gemini 호출 실패, mock 사용:", err);
-    return {
-      cardLines: drawnCards.map((card) => getMockInterpretation(card)),
-      synthesis: "",
-      actionSteps: [],
-    };
+    console.error("[tarotApi] Gemini 호출 실패, 엔진 기반 mock 사용:", err);
+    return buildMockFromEngine(drawnCards, engine);
   }
 }
