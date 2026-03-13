@@ -84,11 +84,10 @@
 - [x] ✅ MAJOR/MINOR_MEANINGS 한국어 고유 해석 연결, 템플릿 제거
 - 파일: `src/utils/constants/tarot/TAROT_CONTEXT_MEANINGS.ts`
 
-#### 7-A4. CARD_COMBINATION_RULE.ts — Minor 조합 규칙 (5-1-G 해소)
-- [ ] 같은 슈트 3장 이상 원소 에너지 강화 규칙
-- [ ] 같은 숫자 조합 (예: 5가 3장 = 극심한 갈등)
-- [ ] Major + Minor 크로스 조합
-- 파일: `src/utils/constants/scoring/CARD_COMBINATION_RULE.ts`
+#### ~~7-A4. CARD_COMBINATION_RULE.ts — Minor 조합 규칙 (5-1-G 해소)~~
+- [x] ✅ 슈트 패턴 8개(3장/4장) + 숫자 패턴 18개 + Major-Minor 크로스 17개 (r301-r343)
+- [x] ✅ interpretationEngine suitPattern/numberPattern 매칭 로직 추가
+- 파일: `CARD_COMBINATION_RULE.ts`, `interpretationEngine.ts`
 
 ### 7-B. 카드 뽑기/뒤집기 UX
 

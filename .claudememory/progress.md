@@ -71,6 +71,11 @@
 - [x] 56장 × 6컨텍스트(love/career/finance/health/spiritual/advice) 한국어 고유 해석 2문장씩
 - [x] TAROT_MEANINGS.ts: 동적 MINOR_MEANINGS 생성 → 정적 import로 교체, SEMANTIC_TAGS/TAROT_CARDS 의존 제거
 
+### Phase 7-A4 완료 (2026-03-13)
+- [x] CARD_COMBINATION_RULE: 슈트 패턴 8개 + 숫자 패턴 18개 + Major-Minor 크로스 17개 (r301-r343)
+- [x] interpretationEngine: suitPattern/numberPattern 조건 매칭 로직 추가
+- [x] 기존 300개 규칙 무변경, 총 343개 규칙
+
 ### Phase 7-A3 완료 (2026-03-13)
 - [x] TAROT_CONTEXT_MEANINGS: 영어 템플릿 → MAJOR/MINOR_MEANINGS 한국어 고유 해석 연결
 - [x] interpretations(첫 문장) + advice(둘째 문장) 분리, personal→spiritual 매핑
@@ -81,7 +86,7 @@
 - [x] **7-A1**: TAROT_MEANINGS 메이저 22장 고유 light/shadow keywords + 컨텍스트 해석
 - [x] **7-A2**: TAROT_MEANINGS 마이너 56장 고유 키워드 + 해석
 - [x] **7-A3**: TAROT_CONTEXT_MEANINGS 78장 × 7컨텍스트 고유 해석
-- [ ] **7-A4**: CARD_COMBINATION_RULE Minor 조합 규칙
+- [x] **7-A4**: CARD_COMBINATION_RULE Minor 조합 규칙
 - [ ] **7-B1**: DrawScene 클릭 카드 = 실제 뽑힌 카드 연결
 - [ ] **7-B2**: ReadingScene 원카드 직접 뒤집기 UX
 - [ ] **7-B3**: ReadingScene 다카드 자동 순차 뒤집기 + 해석 동기화

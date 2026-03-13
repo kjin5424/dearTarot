@@ -335,10 +335,39 @@ export const interpretTarotReading = (
     }
   }
 
+  const SUIT_RANGES: Record<string, [number, number]> = {
+    wands: [22, 35],
+    cups: [36, 49],
+    swords: [50, 63],
+    pentacles: [64, 77],
+  };
+
+  const getMinorNumber = (id: number): number | null => {
+    for (const [, [lo, hi]] of Object.entries(SUIT_RANGES)) {
+      if (id >= lo && id <= hi) return id - lo + 1;
+    }
+    return null;
+  };
+
+  const cardIds = [...cardSet];
+
   for (const rule of CARD_COMBINATION_RULES as Array<Record<string, any>>) {
-    const cards = (rule.condition?.cards ?? []) as number[];
-    if (!cards.length) continue;
-    if (!cards.every((id) => cardSet.has(id))) continue;
+    const cond = rule.condition ?? {};
+
+    if (cond.suitPattern) {
+      const range = SUIT_RANGES[cond.suitPattern as string];
+      if (!range) continue;
+      const count = cardIds.filter((id) => id >= range[0] && id <= range[1]).length;
+      if (count < (cond.minCount ?? 3)) continue;
+    } else if (cond.numberPattern) {
+      const target = cond.numberPattern as number;
+      const count = cardIds.filter((id) => getMinorNumber(id) === target).length;
+      if (count < (cond.minCount ?? 2)) continue;
+    } else {
+      const cards = (cond.cards ?? []) as number[];
+      if (!cards.length) continue;
+      if (!cards.every((id: number) => cardSet.has(id))) continue;
+    }
 
     appliedCardRules.push(rule.ruleId);
 
