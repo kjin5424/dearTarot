@@ -80,8 +80,8 @@
 - [x] ✅ TAROT_MEANINGS.ts: 동적 생성 → 정적 import 교체
 - 파일: `MINOR_MEANINGS.ts` (신규), `TAROT_MEANINGS.ts` (수정)
 
-#### 7-A3. TAROT_CONTEXT_MEANINGS.ts — 78장 × 7 컨텍스트 고유 해석 (5-1-D 해소)
-- [ ] 템플릿 1줄 → 카드별/컨텍스트별 고유 themes/interpretations/advice
+#### ~~7-A3. TAROT_CONTEXT_MEANINGS.ts — 78장 × 7 컨텍스트 고유 해석 (5-1-D 해소)~~
+- [x] ✅ MAJOR/MINOR_MEANINGS 한국어 고유 해석 연결, 템플릿 제거
 - 파일: `src/utils/constants/tarot/TAROT_CONTEXT_MEANINGS.ts`
 
 #### 7-A4. CARD_COMBINATION_RULE.ts — Minor 조합 규칙 (5-1-G 해소)

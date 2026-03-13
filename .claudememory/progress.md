@@ -71,11 +71,16 @@
 - [x] 56장 × 6컨텍스트(love/career/finance/health/spiritual/advice) 한국어 고유 해석 2문장씩
 - [x] TAROT_MEANINGS.ts: 동적 MINOR_MEANINGS 생성 → 정적 import로 교체, SEMANTIC_TAGS/TAROT_CARDS 의존 제거
 
+### Phase 7-A3 완료 (2026-03-13)
+- [x] TAROT_CONTEXT_MEANINGS: 영어 템플릿 → MAJOR/MINOR_MEANINGS 한국어 고유 해석 연결
+- [x] interpretations(첫 문장) + advice(둘째 문장) 분리, personal→spiritual 매핑
+- [x] TAROT_CARDS 의존 제거, 타입 체크 통과
+
 ### 다음 할 일 (Phase 7: 타로 상수 품질 보강 + 카드 UX, 2026-03-13~)
 
 - [x] **7-A1**: TAROT_MEANINGS 메이저 22장 고유 light/shadow keywords + 컨텍스트 해석
 - [x] **7-A2**: TAROT_MEANINGS 마이너 56장 고유 키워드 + 해석
-- [ ] **7-A3**: TAROT_CONTEXT_MEANINGS 78장 × 7컨텍스트 고유 해석
+- [x] **7-A3**: TAROT_CONTEXT_MEANINGS 78장 × 7컨텍스트 고유 해석
 - [ ] **7-A4**: CARD_COMBINATION_RULE Minor 조합 규칙
 - [ ] **7-B1**: DrawScene 클릭 카드 = 실제 뽑힌 카드 연결
 - [ ] **7-B2**: ReadingScene 원카드 직접 뒤집기 UX
