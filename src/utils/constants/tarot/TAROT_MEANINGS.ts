@@ -1,6 +1,4 @@
-﻿/**
- * 카드별 기본 해석 데이터셋을 정의합니다.
- */
+import { MAJOR_MEANINGS } from "./MAJOR_MEANINGS";
 import { SEMANTIC_TAGS } from "./SEMANTIC_TAG";
 import { TAROT_CARDS } from "./TAROT_CARDS";
 
@@ -13,7 +11,7 @@ const DEFAULT_CONTEXT_LINE = (
     ? `${cardName} suggests constructive movement in ${area}.`
     : `${cardName} highlights caution and unresolved tension in ${area}.`;
 
-export const TAROT_MEANINGS = TAROT_CARDS.map((card) => {
+const MINOR_MEANINGS = TAROT_CARDS.filter((card) => card.arcana === "Minor").map((card) => {
   const semantic = SEMANTIC_TAGS.find((s) => s.cardId === card.id);
   const polarity = semantic?.polarity ?? 0.5;
   const core = semantic?.themes?.slice(0, 4) ?? [
@@ -27,7 +25,7 @@ export const TAROT_MEANINGS = TAROT_CARDS.map((card) => {
   return {
     id: card.id,
     name: card.name,
-    arcana: card.arcana === "Major" ? "major" : "minor",
+    arcana: "minor" as const,
     number: card.number,
     core_keywords: core,
     light_keywords: polarity >= 0.5 ? core : core.slice(0, 2),
@@ -44,3 +42,5 @@ export const TAROT_MEANINGS = TAROT_CARDS.map((card) => {
     ],
   };
 });
+
+export const TAROT_MEANINGS = [...MAJOR_MEANINGS, ...MINOR_MEANINGS];
