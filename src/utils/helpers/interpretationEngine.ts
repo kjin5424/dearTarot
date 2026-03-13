@@ -224,9 +224,12 @@ export const interpretTarotReading = (
     const cardMeta = TAROT_CARDS.find((c) => c.id === draw.cardId);
     const basic = TAROT_MEANINGS.find((m) => m.id === draw.cardId);
     const semantic = SEMANTIC_TAGS.find((s) => s.cardId === draw.cardId);
-    const contextBlock = TAROT_CONTEXT_MEANINGS.find(
+    const contextEntry = TAROT_CONTEXT_MEANINGS.find(
       (c) => c.cardId === draw.cardId,
-    )?.contexts?.[normalizedContext];
+    );
+    const contextBlock = draw.reversed
+      ? contextEntry?.reversedContexts?.[normalizedContext]
+      : contextEntry?.contexts?.[normalizedContext];
     const emotion = EMOTION_VECTOR_BY_CARD_ID.find(
       (v) => v.cardId === draw.cardId,
     );

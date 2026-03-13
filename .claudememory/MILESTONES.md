@@ -1,5 +1,11 @@
 # MILESTONES
 
+## 2026-03-13 (Phase 7-P3: 역방향 전용 해석 텍스트)
+
+- MAJOR/MINOR_REVERSED_CONTEXT.ts 신규: 78장 × 6컨텍스트 역방향 고유 한국어 해석 (정방향과 완전 분리된 RWS 기반 역방향 해석)
+- TAROT_CONTEXT_MEANINGS.ts: reversedContexts 필드 추가 — 정방향/역방향 컨텍스트 블록 이중 구조
+- interpretationEngine.ts: draw.reversed 상태에 따라 자동으로 역방향 해석 텍스트 선택 (RESEARCH.md P3 해소)
+
 ## 2026-03-13 (Phase 7-A2: 마이너 56장 고유 해석 데이터)
 
 - MINOR_MEANINGS.ts 신규 생성: 마이너 56장 × 고유 light/shadow keywords + 6개 컨텍스트 한국어 해석 (카드당 2문장, RWS 전통 기반)
