@@ -60,10 +60,16 @@
 - [x] `tarotApi.ts`: requestInterpretation 실제 API 호출 + 7일 캐싱 + mock fallback
 - [x] `api-strategy.md` 섹션 5: 파인튜닝 ToS 비교 + 로드맵 기록
 
-### 다음 할 일
+### 다음 할 일 (Phase 7: 타로 상수 품질 보강 + 카드 UX, 2026-03-13~)
 
-- [ ] **Phase 6 이후**: 5-1-D, 5-1-F, 5-1-G 타로 상수 품질 보강 (AI 생성)
-- [ ] **Phase 7**: 에셋 확보 및 pixiLoader ASSET_MANIFEST 실제 경로 교체
+- [ ] **7-A1**: TAROT_MEANINGS 메이저 22장 고유 light/shadow keywords + 컨텍스트 해석
+- [ ] **7-A2**: TAROT_MEANINGS 마이너 56장 고유 키워드 + 해석
+- [ ] **7-A3**: TAROT_CONTEXT_MEANINGS 78장 × 7컨텍스트 고유 해석
+- [ ] **7-A4**: CARD_COMBINATION_RULE Minor 조합 규칙
+- [ ] **7-B1**: DrawScene 클릭 카드 = 실제 뽑힌 카드 연결
+- [ ] **7-B2**: ReadingScene 원카드 직접 뒤집기 UX
+- [ ] **7-B3**: ReadingScene 다카드 자동 순차 뒤집기 + 해석 동기화
+- [ ] **Phase 8**: 에셋 확보 및 pixiLoader ASSET_MANIFEST 실제 경로 교체
 - [ ] **Phase 후반**: API 키 보호 프록시 서버 or Edge Function 도입
 
 ## 핵심 결정 사항
