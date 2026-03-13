@@ -43,6 +43,12 @@ interface GeminiInterpretationResponse {
   actionSteps: string[];
 }
 
+export interface InterpretationResult {
+  cardLines: string[][];
+  synthesis: string;
+  actionSteps: string[];
+}
+
 function buildCacheKey(question: string, cards: DrawnCard[]): string {
   const cardSig = cards
     .map((c) => `${c.card.id}-${c.isReversed ? "r" : "u"}-${c.position}`)
@@ -146,12 +152,16 @@ ${cardLines}
 export async function requestInterpretation(
   question: string,
   drawnCards: DrawnCard[],
-): Promise<string[][]> {
+): Promise<InterpretationResult> {
   const cacheKey = buildCacheKey(question, drawnCards);
   const cached = loadFromCache(cacheKey);
 
   if (cached) {
-    return cached.cardInterpretations.map((c) => c.lines);
+    return {
+      cardLines: cached.cardInterpretations.map((c) => c.lines),
+      synthesis: cached.synthesis,
+      actionSteps: cached.actionSteps,
+    };
   }
 
   try {
@@ -162,9 +172,17 @@ export async function requestInterpretation(
     const parsed: GeminiInterpretationResponse = JSON.parse(raw);
     saveToCache(cacheKey, parsed);
 
-    return parsed.cardInterpretations.map((c) => c.lines);
+    return {
+      cardLines: parsed.cardInterpretations.map((c) => c.lines),
+      synthesis: parsed.synthesis,
+      actionSteps: parsed.actionSteps,
+    };
   } catch (err) {
     console.error("[tarotApi] Gemini 호출 실패, mock 사용:", err);
-    return drawnCards.map((card) => getMockInterpretation(card));
+    return {
+      cardLines: drawnCards.map((card) => getMockInterpretation(card)),
+      synthesis: "",
+      actionSteps: [],
+    };
   }
 }

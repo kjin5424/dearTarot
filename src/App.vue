@@ -28,6 +28,7 @@
         v-if="scene === 'READING' && store.drawnCards.length > 0"
         :drawn-cards="store.drawnCards"
         :spread-type="store.spreadType!"
+        :question="store.question"
         @done="transitionTo('RETURN')"
       />
 

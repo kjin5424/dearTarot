@@ -2,42 +2,58 @@
   <div class="insight-panel">
     <div class="panel-header">
       <span class="spread-label">{{ spreadLabel }}</span>
-      <span class="page-indicator">{{ currentIndex + 1 }} / {{ drawnCards.length }}</span>
+      <span class="page-indicator" v-if="!isLoading">{{ currentIndex + 1 }} / {{ drawnCards.length }}</span>
     </div>
 
-    <div class="card-reading" v-if="current">
-      <div class="card-meta">
-        <span class="position-label">{{ current.position }}</span>
-        <span class="card-name">{{ current.card.nameKr }}</span>
-        <span class="reversed-badge" v-if="current.isReversed">역방향</span>
-      </div>
-      <div class="insight-text">
-        <DialogBox
-          :lines="getMockInterpretation(current)"
-          speaker="숲의 목소리"
-          :speed="30"
-          @done="onLineDone"
-        />
-      </div>
+    <div class="loading-state" v-if="isLoading">
+      <span class="loading-dots">숲의 목소리가 카드를 읽고 있어요</span>
     </div>
 
-    <div class="panel-nav" v-if="!isTypingActive">
-      <button class="nav-btn" v-if="currentIndex > 0" @click="prev">◀ 이전</button>
-      <button class="nav-btn primary" v-if="currentIndex < drawnCards.length - 1" @click="next">다음 ▶</button>
-      <button class="nav-btn primary" v-else @click="emit('done')">숲을 나서겠습니다 ▶</button>
-    </div>
+    <template v-else-if="result">
+      <div class="card-reading" v-if="current">
+        <div class="card-meta">
+          <span class="position-label">{{ current.position }}</span>
+          <span class="card-name">{{ current.card.nameKr }}</span>
+          <span class="reversed-badge" v-if="current.isReversed">역방향</span>
+        </div>
+        <div class="insight-text">
+          <DialogBox
+            :lines="result.cardLines[currentIndex] ?? []"
+            speaker="숲의 목소리"
+            :speed="30"
+            @done="onLineDone"
+          />
+        </div>
+      </div>
+
+      <div class="synthesis-section" v-if="isSynthesisView">
+        <div class="section-title">전체 흐름</div>
+        <p class="synthesis-text">{{ result.synthesis }}</p>
+        <ul class="action-steps" v-if="result.actionSteps.length">
+          <li v-for="(step, i) in result.actionSteps" :key="i">{{ step }}</li>
+        </ul>
+      </div>
+
+      <div class="panel-nav" v-if="!isTypingActive">
+        <button class="nav-btn" v-if="currentIndex > 0 || isSynthesisView" @click="prev">◀ 이전</button>
+        <button class="nav-btn primary" v-if="!isSynthesisView && currentIndex < drawnCards.length - 1" @click="next">다음 ▶</button>
+        <button class="nav-btn primary" v-else-if="!isSynthesisView && result.synthesis" @click="showSynthesis">전체 흐름 ▶</button>
+        <button class="nav-btn primary" v-else-if="isSynthesisView || !result.synthesis" @click="emit('done')">숲을 나서겠습니다 ▶</button>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import type { DrawnCard, SpreadType } from '@types/index'
 import DialogBox from '@components/common/DialogBox.vue'
-import { getMockInterpretation } from '@services/api/tarotApi'
+import { requestInterpretation, type InterpretationResult } from '@services/api/tarotApi'
 
 const props = defineProps<{
   drawnCards: DrawnCard[]
   spreadType: SpreadType
+  question: string
 }>()
 
 const emit = defineEmits<{
@@ -45,7 +61,10 @@ const emit = defineEmits<{
 }>()
 
 const currentIndex = ref(0)
-const isTypingActive = ref(true)
+const isTypingActive = ref(false)
+const isSynthesisView = ref(false)
+const isLoading = ref(true)
+const result = ref<InterpretationResult | null>(null)
 
 const current = computed(() => props.drawnCards[currentIndex.value])
 
@@ -63,6 +82,12 @@ const spreadLabel = computed(() => {
   return map[props.spreadType]
 })
 
+onMounted(async () => {
+  result.value = await requestInterpretation(props.question, props.drawnCards)
+  isLoading.value = false
+  isTypingActive.value = true
+})
+
 function onLineDone() {
   isTypingActive.value = false
 }
@@ -73,8 +98,18 @@ function next() {
 }
 
 function prev() {
-  currentIndex.value--
-  isTypingActive.value = true
+  if (isSynthesisView.value) {
+    isSynthesisView.value = false
+    isTypingActive.value = false
+  } else {
+    currentIndex.value--
+    isTypingActive.value = true
+  }
+}
+
+function showSynthesis() {
+  isSynthesisView.value = true
+  isTypingActive.value = false
 }
 </script>
 
@@ -113,6 +148,26 @@ function prev() {
   font-family: monospace;
   font-size: 10px;
   color: $Fog-Atmosphere-3-hex;
+}
+
+.loading-state {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 14px;
+}
+
+.loading-dots {
+  font-family: monospace;
+  font-size: 11px;
+  color: $Fog-Atmosphere-3-hex;
+  animation: blink 1.2s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
 .card-meta {
@@ -155,6 +210,51 @@ function prev() {
     width: 100%;
     bottom: auto;
     left: auto;
+  }
+}
+
+.synthesis-section {
+  padding-bottom: 4px;
+}
+
+.section-title {
+  font-family: monospace;
+  font-size: 10px;
+  color: $Accent-witch-magic-4-hex;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid $Ground-Soil-4-hex;
+}
+
+.synthesis-text {
+  font-family: monospace;
+  font-size: 12px;
+  color: $Fog-Atmosphere-5-hex;
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+
+.action-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+    font-family: monospace;
+    font-size: 11px;
+    color: $Fog-Atmosphere-4-hex;
+    padding: 4px 0 4px 14px;
+    position: relative;
+    line-height: 1.5;
+
+    &::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: $Accent-witch-magic-3-hex;
+    }
   }
 }
 
