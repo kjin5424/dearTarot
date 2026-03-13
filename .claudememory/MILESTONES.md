@@ -1,5 +1,17 @@
 # MILESTONES
 
+## 2026-03-13 (Phase 7-A2: 마이너 56장 고유 해석 데이터)
+
+- MINOR_MEANINGS.ts 신규 생성: 마이너 56장 × 고유 light/shadow keywords + 6개 컨텍스트 한국어 해석 (카드당 2문장, RWS 전통 기반)
+- TAROT_MEANINGS.ts 완전 정적화: MAJOR_MEANINGS + MINOR_MEANINGS import, 동적 생성 코드 및 SEMANTIC_TAGS/TAROT_CARDS 의존성 제거
+- 78장 전체 타로 해석 데이터 정적 완성 (5-1-F 이슈 해소)
+
+## 2026-03-13 (Phase 7-A1: 메이저 22장 고유 해석 데이터)
+
+- MAJOR_MEANINGS.ts 신규 생성: 메이저 22장 × 고유 light/shadow keywords + 6개 컨텍스트 한국어 해석 (카드당 2문장, RWS 전통 기반)
+- TAROT_MEANINGS.ts 구조 변경: 동적 생성 단일 배열 → MAJOR(정적) + MINOR(동적) 합성 구조
+- Phase 7 작업 계획 수립: 타로 상수 품질 보강(A1~A4) + 카드 뽑기/뒤집기 UX(B1~B3) todo.md에 기록
+
 ## 2026-03-09 (Phase 6: Gemini AI 해석 연동 완료)
 
 - `@google/generative-ai` 설치 + `.env` VITE_GOOGLE_API_KEY 세팅, `.gitignore`에 .env 추가
